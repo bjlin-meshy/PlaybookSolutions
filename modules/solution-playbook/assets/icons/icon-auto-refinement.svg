@@ -1,0 +1,93 @@
+<!-- —!ê¨¾î / Blockout Auto-Refinement -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="refine-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFB800"/>
+      <stop offset="100%" stop-color="#FF9500"/>
+    </linearGradient>
+    
+    <linearGradient id="diamond-shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE580"/>
+      <stop offset="50%" stop-color="#FFB800"/>
+      <stop offset="100%" stop-color="#CC9200"/>
+    </linearGradient>
+    
+    <filter id="refine-glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <style>
+      @keyframes polish {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+      }
+      @keyframes upgrade {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+      }
+      @keyframes shine {
+        0% { transform: translateX(-20px) rotate(45deg); opacity: 0; }
+        50% { opacity: 0.8; }
+        100% { transform: translateX(40px) rotate(45deg); opacity: 0; }
+      }
+      .polish { animation: polish 2s ease-in-out infinite; }
+      .upgrade { animation: upgrade 1.5s ease-in-out infinite; }
+      .shine { animation: shine 3s ease-in-out infinite; }
+    </style>
+  </defs>
+  
+  <!-- —Ù¹Wæ§ - ŸË¶	 -->
+  <g opacity="0.5">
+    <rect x="8" y="28" width="14" height="14" fill="#FFB800" opacity="0.4"/>
+    <!-- —Ù¹ -->
+    <path d="M8 28L10 26L12 28L14 27L16 28L18 26L20 28L22 27L22 28" stroke="#FFB800" stroke-width="1" fill="none" opacity="0.6"/>
+    <path d="M8 42L10 44L14 42L18 44L22 42" stroke="#FFB800" stroke-width="1" fill="none" opacity="0.6"/>
+  </g>
+  
+  <!-- lb­4 -->
+  <g class="upgrade" filter="url(#refine-glow)">
+    <path d="M26 35L32 35M29 32L32 35L29 38" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+    <path d="M32 28L32 20L36 24" stroke="#FFB800" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+  </g>
+  
+  <!-- ¾î„»óó§	 -->
+  <g filter="url(#refine-glow)" class="upgrade">
+    <!-- »ó;S -->
+    <path d="M48 18L56 26L48 50L40 26L48 18Z" fill="url(#diamond-shine)"/>
+    <!-- »óvèb -->
+    <path d="M48 18L56 26L48 30L40 26L48 18Z" fill="#FFE580"/>
+    <!-- »óæb -->
+    <path d="M40 26L48 30L48 50L40 26Z" fill="#CC9200" opacity="0.8"/>
+    <!-- »ó…èb¿ -->
+    <line x1="44" y1="26" x2="48" y2="50" stroke="#FFD060" stroke-width="0.5" opacity="0.5"/>
+    <line x1="52" y1="26" x2="48" y2="50" stroke="#FFD060" stroke-width="0.5" opacity="0.5"/>
+  </g>
+  
+  <!-- I¿kÇHœ -->
+  <g class="shine" clip-path="url(#diamond-clip)">
+    <rect x="36" y="16" width="4" height="40" fill="white" opacity="0.3" transform="rotate(45 48 36)"/>
+  </g>
+  
+  <!-- ¾îI¹ -->
+  <g class="polish">
+    <circle cx="48" cy="22" r="2" fill="white" opacity="0.8"/>
+    <circle cx="44" cy="28" r="1.5" fill="white" opacity="0.6"/>
+    <circle cx="52" cy="30" r="1" fill="white" opacity="0.5"/>
+  </g>
+  
+  <!-- AI Æ -->
+  <g filter="url(#refine-glow)" opacity="0.8">
+    <rect x="6" y="48" width="20" height="10" rx="2" fill="#FFB800" opacity="0.2"/>
+    <text x="16" y="56" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#FFB800" text-anchor="middle">AUTO</text>
+  </g>
+  
+  <!-- Á(ÐG­4 -->
+  <g opacity="0.6">
+    <path d="M56 44L60 40L56 36" stroke="#FFB800" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M58 48L62 44L58 40" stroke="#FFB800" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+  </g>
+</svg>

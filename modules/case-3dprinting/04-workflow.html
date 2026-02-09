@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+<style>
+html { background: #080808; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #080808; font-family: 'Inter', Arial, sans-serif;
+}
+.content { padding: 15pt 30pt; }
+.header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6pt; }
+.header-left { display: flex; align-items: center; gap: 8pt; }
+.pulse-dot { width: 6pt; height: 6pt; background: #CCFF00; border-radius: 50%; }
+.section-tag { color: #CCFF00; font-size: 8pt; font-weight: 600; letter-spacing: 1pt; margin: 0; }
+.slide-num { color: #333333; font-size: 8pt; margin: 0; }
+h1 { color: #FFFFFF; font-size: 22pt; margin: 0 0 4pt 0; }
+.subtitle { color: #666666; font-size: 9pt; margin: 0 0 18pt 0; }
+.workflow-row { display: flex; align-items: stretch; gap: 6pt; justify-content: center; }
+.step-card { background: #0D0D0D; border: 1pt solid #1A1A1A; padding: 15pt 12pt; text-align: center; width: 130pt; position: relative; }
+.step-card.active { border-color: #CCFF00; }
+.step-glow { position: absolute; top: -1pt; left: 0; right: 0; height: 2pt; background: #CCFF00; }
+.step-num { color: #333333; font-size: 7pt; margin: 0 0 6pt 0; font-weight: 700; letter-spacing: 1pt; }
+.step-card.active .step-num { color: #CCFF00; }
+.step-icon { color: #444444; font-size: 20pt; margin-bottom: 8pt; }
+.step-card.active .step-icon { color: #CCFF00; }
+.step-title { color: #FFFFFF; font-size: 10pt; margin: 0 0 4pt 0; font-weight: 600; }
+.step-desc { color: #555555; font-size: 8pt; margin: 0; }
+.arrow-connector { display: flex; align-items: center; justify-content: center; }
+.arrow-line { width: 15pt; height: 1pt; background: #333333; }
+.arrow-head { color: #333333; font-size: 10pt; }
+.timeline-section { margin-top: 18pt; }
+.timeline-bar { display: flex; height: 3pt; background: #111111; margin-bottom: 6pt; }
+.timeline-fill { width: 70%; background: #CCFF00; }
+.timeline-labels { display: flex; justify-content: space-between; }
+.time-label { color: #555555; font-size: 7pt; }
+.time-label.active { color: #CCFF00; font-weight: 600; }
+.total-badge { display: inline-block; background: #CCFF00; padding: 5pt 15pt; margin-top: 10pt; }
+.total-text { color: #080808; font-size: 9pt; margin: 0; font-weight: 700; }
+.footer { display: flex; justify-content: flex-end; margin-top: 10pt; }
+.footer-tag { color: #333333; font-size: 7pt; }
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="header-row">
+    <div class="header-left">
+      <div class="pulse-dot"></div>
+      <p class="section-tag">WORKFLOW DEMO</p>
+    </div>
+    <p class="slide-num">04</p>
+  </div>
+  <h1>Custom Figurine Production Pipeline</h1>
+  <p class="subtitle">From customer request to print-ready file</p>
+  <div class="workflow-row">
+    <div class="step-card">
+      <p class="step-num">STEP 01</p>
+      <p class="step-icon">[IN]</p>
+      <p class="step-title">Customer Input</p>
+      <p class="step-desc">Text / Image / Ref</p>
+    </div>
+    <div class="arrow-connector">
+      <div class="arrow-line"></div>
+      <p class="arrow-head">></p>
+    </div>
+    <div class="step-card active">
+      <div class="step-glow"></div>
+      <p class="step-num">STEP 02</p>
+      <p class="step-icon">[AI]</p>
+      <p class="step-title">Meshy Generate</p>
+      <p class="step-desc">AI creates 3D</p>
+    </div>
+    <div class="arrow-connector">
+      <div class="arrow-line"></div>
+      <p class="arrow-head">></p>
+    </div>
+    <div class="step-card">
+      <p class="step-num">STEP 03</p>
+      <p class="step-icon">[ZB]</p>
+      <p class="step-title">ZBrush Polish</p>
+      <p class="step-desc">Optional refine</p>
+    </div>
+    <div class="arrow-connector">
+      <div class="arrow-line"></div>
+      <p class="arrow-head">></p>
+    </div>
+    <div class="step-card">
+      <p class="step-num">STEP 04</p>
+      <p class="step-icon">[3D]</p>
+      <p class="step-title">Print and Ship</p>
+      <p class="step-desc">Full-color output</p>
+    </div>
+  </div>
+  <div class="timeline-section">
+    <div class="timeline-bar"><div class="timeline-fill"></div></div>
+    <div class="timeline-labels">
+      <p class="time-label active">0 min</p>
+      <p class="time-label">10 min</p>
+      <p class="time-label">20 min</p>
+      <p class="time-label active">30 min</p>
+    </div>
+    <div class="total-badge"><p class="total-text">TOTAL: UNDER 30 MINUTES</p></div>
+  </div>
+  <div class="footer">
+    <p class="footer-tag">04 // WORKFLOW OVERVIEW</p>
+  </div>
+</div>
+</body>
+</html>

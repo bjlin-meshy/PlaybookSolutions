@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+<style>
+html { background: #080808; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #080808; font-family: 'Inter', Arial, sans-serif;
+}
+.content { padding: 10pt 25pt; position: relative; }
+.glow-corner { position: absolute; bottom: -30pt; right: 0pt; width: 100pt; height: 100pt; background: #CCFF00; opacity: 0.05; border-radius: 50%; }
+.progress-nav { display: flex; align-items: center; justify-content: center; gap: 5pt; margin-bottom: 10pt; background: #CCFF00; padding: 6pt 15pt; }
+.nav-step { display: flex; flex-direction: column; align-items: center; gap: 2pt; }
+.nav-num { width: 16pt; height: 16pt; background: #080808; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.nav-num-text { color: #CCFF00; font-size: 6pt; margin: 0; font-weight: 700; }
+.nav-label { color: #080808; font-size: 6pt; margin: 0; font-weight: 600; }
+.nav-line { width: 20pt; height: 1pt; background: #080808; opacity: 0.3; }
+.step-header { margin-bottom: 10pt; }
+.final-badge { display: inline-block; background: #CCFF00; padding: 3pt 12pt; margin-bottom: 6pt; }
+.final-badge-text { color: #080808; font-size: 7pt; margin: 0; font-weight: 700; letter-spacing: 1pt; }
+h1 { color: #FFFFFF; font-size: 20pt; margin: 0; }
+.results-row { display: flex; gap: 12pt; margin-bottom: 10pt; }
+.result-card { flex: 1; background: #0D0D0D; border: 1pt solid #1A1A1A; padding: 12pt; text-align: center; position: relative; }
+.result-glow { position: absolute; top: -1pt; left: 25%; right: 25%; height: 1pt; background: #CCFF00; }
+.result-preview { background: #111111; height: 70pt; display: flex; align-items: center; justify-content: center; margin-bottom: 8pt; }
+.result-icon { color: #333333; font-size: 24pt; }
+.result-title { color: #FFFFFF; font-size: 10pt; margin: 0 0 3pt 0; font-weight: 600; }
+.result-desc { color: #555555; font-size: 7pt; margin: 0; }
+.success-bar { height: 2pt; background: #CCFF00; margin-bottom: 10pt; }
+.summary-row { display: flex; gap: 10pt; }
+.summary-card { flex: 1; background: #0D0D0D; border: 1pt solid #1A1A1A; padding: 8pt; text-align: center; }
+.summary-value { color: #CCFF00; font-size: 14pt; margin: 0 0 2pt 0; font-weight: 700; }
+.summary-label { color: #555555; font-size: 7pt; margin: 0; }
+.footer { display: flex; justify-content: flex-end; margin-top: 8pt; }
+.footer-tag { color: #333333; font-size: 7pt; }
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="glow-corner"></div>
+  <div class="progress-nav">
+    <div class="nav-step">
+      <div class="nav-num"><p class="nav-num-text">OK</p></div>
+      <p class="nav-label">Input</p>
+    </div>
+    <div class="nav-line"></div>
+    <div class="nav-step">
+      <div class="nav-num"><p class="nav-num-text">OK</p></div>
+      <p class="nav-label">Generate</p>
+    </div>
+    <div class="nav-line"></div>
+    <div class="nav-step">
+      <div class="nav-num"><p class="nav-num-text">OK</p></div>
+      <p class="nav-label">Polish</p>
+    </div>
+    <div class="nav-line"></div>
+    <div class="nav-step">
+      <div class="nav-num"><p class="nav-num-text">OK</p></div>
+      <p class="nav-label">Print</p>
+    </div>
+  </div>
+  <div class="step-header">
+    <div class="final-badge"><p class="final-badge-text">WORKFLOW COMPLETE</p></div>
+    <h1>Full-Color 3D Printed Miniatures</h1>
+  </div>
+  <div class="results-row">
+    <div class="result-card">
+      <div class="result-glow"></div>
+      <div class="result-preview"><p class="result-icon">[360]</p></div>
+      <p class="result-title">360 Turntable Render</p>
+      <p class="result-desc">Single object rotation showcase</p>
+    </div>
+    <div class="result-card">
+      <div class="result-glow"></div>
+      <div class="result-preview"><p class="result-icon">[3D]</p></div>
+      <p class="result-title">Scene Render</p>
+      <p class="result-desc">Multiple miniatures in context</p>
+    </div>
+  </div>
+  <div class="success-bar"></div>
+  <div class="summary-row">
+    <div class="summary-card">
+      <p class="summary-value">30 min</p>
+      <p class="summary-label">Total Time</p>
+    </div>
+    <div class="summary-card">
+      <p class="summary-value">$0</p>
+      <p class="summary-label">Paint Cost</p>
+    </div>
+    <div class="summary-card">
+      <p class="summary-value">3MF</p>
+      <p class="summary-label">Output Format</p>
+    </div>
+    <div class="summary-card">
+      <p class="summary-value">FULL</p>
+      <p class="summary-label">Color Ready</p>
+    </div>
+  </div>
+  <div class="footer">
+    <p class="footer-tag">08 // FINAL RESULT</p>
+  </div>
+</div>
+</body>
+</html>

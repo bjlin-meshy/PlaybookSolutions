@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态图标预览 - Meshy Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, #C8FF00, #FFB800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 48px;
+        }
+        
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .icon-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .icon-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(200, 255, 0, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .icon-card.gold:hover {
+            border-color: rgba(255, 184, 0, 0.3);
+        }
+        
+        .icon-wrapper {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent, rgba(200, 255, 0, 0.2), transparent);
+            animation: rotate-bg 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .icon-card:hover .icon-wrapper::before {
+            opacity: 1;
+        }
+        
+        .icon-card.gold .icon-wrapper::before {
+            background: conic-gradient(from 0deg, transparent, rgba(255, 184, 0, 0.2), transparent);
+        }
+        
+        @keyframes rotate-bg {
+            to { transform: rotate(360deg); }
+        }
+        
+        .icon-wrapper img,
+        .icon-wrapper object {
+            width: 64px;
+            height: 64px;
+        }
+        
+        .icon-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .icon-title-en {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        
+        .icon-file {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 11px;
+            color: #C8FF00;
+            background: rgba(200, 255, 0, 0.1);
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .icon-card.gold .icon-file {
+            color: #FFB800;
+            background: rgba(255, 184, 0, 0.1);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 48px 0 32px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+        }
+        
+        .section-title span {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            padding: 8px 24px;
+            border-radius: 20px;
+        }
+        
+        .features {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .feature-tag {
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #888;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>动态图标库</h1>
+    <p class="subtitle">Meshy Solutions - 7 个动态 SVG 图标，含 CSS 动画效果</p>
+    
+    <p class="section-title"><span>荧光绿主题 #C8FF00</span></p>
+    
+    <div class="icon-grid">
+        <!-- 资产起型加速 -->
+        <div class="icon-card">
+            <div class="icon-wrapper">
+                <object type="image/svg+xml" data="icon-asset-blockout.svg"></object>
+            </div>
+            <h3 class="icon-title">资产起型加速</h3>
+            <p class="icon-title-en">Asset Blockout Acceleration</p>
+            <code class="icon-file">icon-asset-blockout.svg</code>
+            <div class="features">
+                <span class="feature-tag">脉冲动画</span>
+                <span class="feature-tag">浮动效果</span>
+                <span class="feature-tag">闪电元素</span>
+            </div>
+        </div>
+        
+        <!-- 风格化资产量产 -->
+        <div class="icon-card">
+            <div class="icon-wrapper">
+                <object type="image/svg+xml" data="icon-stylized-production.svg"></object>
+            </div>
+            <h3 class="icon-title">特定风格化资产量产</h3>
+            <p class="icon-title-en">Stylized Asset Mass Production</p>
+            <code class="icon-file">icon-stylized-production.svg</code>
+            <div class="features">
+                <span class="feature-tag">复制动画</span>
+                <span class="feature-tag">调色板</span>
+                <span class="feature-tag">AI 标识</span>
+            </div>
+        </div>
+        
+        <!-- 风格化道具设计 -->
+        <div class="icon-card">
+            <div class="icon-wrapper">
+                <object type="image/svg+xml" data="icon-stylized-props.svg"></object>
+            </div>
+            <h3 class="icon-title">风格化道具设计</h3>
+            <p class="icon-title-en">Stylized Prop Design</p>
+            <code class="icon-file">icon-stylized-props.svg</code>
+            <div class="features">
+                <span class="feature-tag">轨道动画</span>
+                <span class="feature-tag">魔法权杖</span>
+                <span class="feature-tag">星光闪烁</span>
+            </div>
+        </div>
+        
+        <!-- 影视预演加速 -->
+        <div class="icon-card">
+            <div class="icon-wrapper">
+                <object type="image/svg+xml" data="icon-film-previz.svg"></object>
+            </div>
+            <h3 class="icon-title">影视预演加速</h3>
+            <p class="icon-title-en">Film Pre-visualization Acceleration</p>
+            <code class="icon-file">icon-film-previz.svg</code>
+            <div class="features">
+                <span class="feature-tag">录制闪烁</span>
+                <span class="feature-tag">快进符号</span>
+                <span class="feature-tag">摄像机</span>
+            </div>
+        </div>
+        
+        <!-- 概念设计辅助 -->
+        <div class="icon-card">
+            <div class="icon-wrapper">
+                <object type="image/svg+xml" data="icon-concept-assist.svg"></object>
+            </div>
+            <h3 class="icon-title">概念设计辅助</h3>
+            <p class="icon-title-en">Concept Design Assistance</p>
+            <code class="icon-file">icon-concept-assist.svg</code>
+            <div class="features">
+                <span class="feature-tag">灵感爆发</span>
+                <span class="feature-tag">形状旋转</span>
+                <span class="feature-tag">灯泡浮动</span>
+            </div>
+        </div>
+    </div>
+    
+    <p class="section-title"><span>金色主题 #FFB800</span></p>
+    
+    <div class="icon-grid">
+        <!-- 从概念图到3D -->
+        <div class="icon-card gold">
+            <div class="icon-wrapper">
+                <object type="image/svg+xml" data="icon-concept-to-3d.svg"></object>
+            </div>
+            <h3 class="icon-title">从概念图到 3D</h3>
+            <p class="icon-title-en">Concept to 3D</p>
+            <code class="icon-file">icon-concept-to-3d.svg</code>
+            <div class="features">
+                <span class="feature-tag">箭头脉冲</span>
+                <span class="feature-tag">魔法旋转</span>
+                <span class="feature-tag">2D→3D</span>
+            </div>
+        </div>
+        
+        <!-- 粗模自动化精修 -->
+        <div class="icon-card gold">
+            <div class="icon-wrapper">
+                <object type="image/svg+xml" data="icon-auto-refinement.svg"></object>
+            </div>
+            <h3 class="icon-title">粗模自动化精修</h3>
+            <p class="icon-title-en">Blockout Auto-Refinement</p>
+            <code class="icon-file">icon-auto-refinement.svg</code>
+            <div class="features">
+                <span class="feature-tag">抛光动画</span>
+                <span class="feature-tag">升级效果</span>
+                <span class="feature-tag">钻石闪光</span>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>生成于 2026-01-31 | 基于 Lucide 图标设计理念 | 包含 CSS 内联动画</p>
+    </footer>
+</body>
+</html>

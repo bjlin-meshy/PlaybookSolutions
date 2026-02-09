@@ -1,0 +1,79 @@
+<!-- qÆ„  / Film Pre-visualization Acceleration -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="film-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C8FF00"/>
+      <stop offset="100%" stop-color="#9ACC00"/>
+    </linearGradient>
+    
+    <filter id="film-glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <style>
+      @keyframes film-roll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-12px); }
+      }
+      @keyframes rec-blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+      @keyframes fast-forward {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(3px); }
+      }
+      .film-roll { animation: film-roll 1s linear infinite; }
+      .rec { animation: rec-blink 1s ease-in-out infinite; }
+      .fast { animation: fast-forward 0.5s ease-in-out infinite; }
+    </style>
+  </defs>
+  
+  <!-- DÏ:;S -->
+  <g filter="url(#film-glow)">
+    <!-- DÏ::« -->
+    <rect x="14" y="24" width="28" height="20" rx="3" fill="url(#film-gradient)"/>
+    <!-- \4 -->
+    <circle cx="28" cy="34" r="8" fill="#1a1a1a"/>
+    <circle cx="28" cy="34" r="5" fill="#333"/>
+    <circle cx="28" cy="34" r="2" fill="#C8FF00" opacity="0.5"/>
+    <!-- Öoh -->
+    <rect x="36" y="26" width="4" height="6" rx="1" fill="#A8D900"/>
+  </g>
+  
+  <!-- DÏ:\4R -->
+  <g filter="url(#film-glow)">
+    <path d="M44 28L54 22V46L44 40V28Z" fill="url(#film-gradient)" opacity="0.9"/>
+  </g>
+  
+  <!-- ê5 &÷ -->
+  <g filter="url(#film-glow)" class="rec">
+    <path d="M8 14L4 22H8L5 28L12 20H8L11 14H8Z" fill="#C8FF00"/>
+  </g>
+  
+  <!-- ëÛ&÷ -->
+  <g class="fast" filter="url(#film-glow)">
+    <path d="M48 50L54 54L48 58V50Z" fill="#C8FF00"/>
+    <path d="M54 50L60 54L54 58V50Z" fill="#C8FF00" opacity="0.7"/>
+  </g>
+  
+  <!-- U6:o -->
+  <circle cx="18" cy="28" r="2" fill="#FF4444" class="rec"/>
+  
+  <!-- öGaÅp -->
+  <g opacity="0.5">
+    <rect x="10" y="48" width="4" height="6" rx="1" fill="#C8FF00"/>
+    <rect x="16" y="48" width="4" height="6" rx="1" fill="#C8FF00"/>
+    <rect x="22" y="48" width="4" height="6" rx="1" fill="#C8FF00"/>
+    <rect x="28" y="48" width="4" height="6" rx="1" fill="#C8FF00"/>
+    <rect x="34" y="48" width="4" height="6" rx="1" fill="#C8FF00"/>
+  </g>
+  
+  <!-- öô¿ -->
+  <line x1="8" y1="58" x2="56" y2="58" stroke="#C8FF00" stroke-width="2" opacity="0.4"/>
+  <circle cx="40" cy="58" r="3" fill="#C8FF00" opacity="0.8"/>
+</svg>

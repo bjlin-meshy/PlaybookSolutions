@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gaming">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏行业解决方案 | Meshy Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">`n    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+    <style>
+        :root {
+            --bg: #080808;
+            --accent: #CCFF00;
+            --red: #FF3333;
+            --text: #f0f0f0;
+            --sub: #888888;
+            --border: #333333;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            color: var(--text);
+        }
+
+        .cn { display: inline; }
+        .en { display: none; }
+        body.lang-en .cn { display: none !important; }
+        body.lang-en .en { display: inline !important; }
+        body.lang-en div.en, body.lang-en p.en { display: block !important; }
+
+        #deck {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            padding: 45px 60px;
+            background: var(--bg);
+            opacity: 0;
+            visibility: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        /* Animated backgrounds */
+        @keyframes dotFlow { 0% { background-position: 0 0; } 100% { background-position: 20px 20px; } }
+        @keyframes glowPulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            width: 130%; height: 130%;
+            pointer-events: none;
+            z-index: 0;
+            animation: glowPulse 6s ease-in-out infinite;
+        }
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(204,255,0,0.1) 1.5px, transparent 1.5px);
+            background-size: 20px 20px;
+            animation: dotFlow 4s linear infinite;
+        }
+
+        .slide:nth-child(4n+1)::before { top: -40%; left: -40%; background: radial-gradient(ellipse at 0% 0%, rgba(204,255,0,0.18) 0%, transparent 50%); }
+        .slide:nth-child(4n+1)::after { mask-image: linear-gradient(135deg, black 0%, transparent 40%); -webkit-mask-image: linear-gradient(135deg, black 0%, transparent 40%); }
+        .slide:nth-child(4n+2)::before { top: -40%; right: -40%; left: auto; background: radial-gradient(ellipse at 100% 0%, rgba(204,255,0,0.18) 0%, transparent 50%); }
+        .slide:nth-child(4n+2)::after { mask-image: linear-gradient(225deg, black 0%, transparent 40%); -webkit-mask-image: linear-gradient(225deg, black 0%, transparent 40%); }
+        .slide:nth-child(4n+3)::before { bottom: -40%; right: -40%; top: auto; left: auto; background: radial-gradient(ellipse at 100% 100%, rgba(204,255,0,0.18) 0%, transparent 50%); }
+        .slide:nth-child(4n+3)::after { mask-image: linear-gradient(315deg, black 0%, transparent 40%); -webkit-mask-image: linear-gradient(315deg, black 0%, transparent 40%); }
+        .slide:nth-child(4n)::before { bottom: -40%; left: -40%; top: auto; background: radial-gradient(ellipse at 0% 100%, rgba(204,255,0,0.18) 0%, transparent 50%); }
+        .slide:nth-child(4n)::after { mask-image: linear-gradient(45deg, black 0%, transparent 40%); -webkit-mask-image: linear-gradient(45deg, black 0%, transparent 40%); }
+
+        .slide > * { position: relative; z-index: 1; }
+
+        /* === COMMON === */
+        .cover { justify-content: center; align-items: center; text-align: center; }
+        .icon-lg { width: 90px; height: 90px; border-radius: 45px; background: rgba(204,255,0,0.08); border: 1px solid rgba(204,255,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 20px; }
+        .title-xl { font-size: 48px; font-weight: 800; margin-bottom: 10px; }
+        .subtitle { font-size: 18px; color: var(--sub); margin-bottom: 30px; }
+        .tag { background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.3); padding: 8px 20px; border-radius: 20px; color: var(--accent); font-weight: 600; font-size: 12px; }
+
+        .section-divider { justify-content: center; align-items: center; text-align: center; }
+        .section-number { font-size: 72px; font-weight: 900; color: var(--accent); opacity: 0.25; margin-bottom: 5px; }
+        .section-name { font-size: 36px; font-weight: 700; }
+
+        /* Page header */
+        .page-header { margin-bottom: 20px; }
+        .page-tag { font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .page-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .page-subtitle { font-size: 14px; color: var(--sub); }
+        .page-desc { font-size: 13px; color: var(--sub); line-height: 1.5; margin-top: 8px; }
+
+        /* Section block */
+        .section-block { background: rgba(0,0,0,0.4); border: 1px solid #222; border-radius: 10px; padding: 18px 22px; margin-bottom: 15px; }
+        .section-block-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .section-block-title .num { color: var(--accent); }
+
+        /* Two columns */
+        .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .col-header { font-weight: 700; margin-bottom: 10px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+        .pain-header { color: var(--red); background: rgba(255,51,51,0.1); padding: 6px 12px; border-radius: 4px; }
+        .sol-header { color: var(--accent); background: rgba(204,255,0,0.1); padding: 6px 12px; border-radius: 4px; }
+
+        .point-list { font-size: 12px; line-height: 1.7; color: #bbb; }
+        .point-list li { margin-bottom: 6px; }
+        .point-list strong { color: #fff; }
+
+        /* Metrics row */
+        .metrics-row { display: flex; gap: 15px; }
+        .metric-box { flex: 1; background: #111; border: 1px solid #333; border-radius: 10px; padding: 20px 15px; text-align: center; }
+        .metric-box:hover { border-color: var(--accent); }
+        .metric-val { font-size: 36px; font-weight: 800; color: var(--accent); margin-bottom: 6px; }
+        .metric-label { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+        .metric-sub { font-size: 10px; color: #666; }
+
+        /* Workflow steps */
+        .workflow-row { display: flex; align-items: center; gap: 8px; }
+        .wf-step { background: #111; border: 1px solid #333; border-radius: 8px; padding: 12px 14px; text-align: center; min-width: 130px; }
+        .wf-step.meshy { border-color: var(--accent); background: rgba(204,255,0,0.05); }
+        .wf-step-num { font-size: 9px; color: #666; margin-bottom: 4px; }
+        .wf-step-title { font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+        .wf-step-desc { font-size: 9px; color: #888; }
+        .wf-step .meshy-badge { display: inline-block; background: var(--accent); color: #000; font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-bottom: 4px; }
+        .wf-arrow { color: var(--accent); font-size: 16px; }
+
+        /* Case evidence */
+        .case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; flex: 1; }
+        .case-card { background: #111; border: 1px solid #333; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+        .case-card-img { height: 180px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; color: #444; font-size: 13px; border-bottom: 1px solid #333; }
+        .case-card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .case-card-label { padding: 10px 14px; font-size: 11px; color: #888; text-align: center; }
+
+        .case-single { background: #111; border: 1px solid #333; border-radius: 10px; overflow: hidden; flex: 1; display: flex; flex-direction: column; }
+        .case-single-img { flex: 1; background: #1a1a1a; display: flex; align-items: center; justify-content: center; color: #444; font-size: 14px; min-height: 300px; }
+        .case-single-img img { width: 100%; height: 100%; object-fit: contain; }
+        .case-single-label { padding: 12px 16px; font-size: 12px; color: #888; text-align: center; border-top: 1px solid #333; }
+
+        /* Variation grid */
+        .var-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .var-item { background: #111; border: 1px solid #333; border-radius: 8px; overflow: hidden; }
+        .var-item-img { height: 120px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; color: #555; font-size: 11px; }
+        .var-item-img img { width: 100%; height: 100%; object-fit: cover; }
+        .var-item-label { padding: 8px; font-size: 10px; color: #888; text-align: center; }
+
+        /* Flow diagram */
+        .flow-diagram { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
+        .flow-node { background: #111; border: 1px solid #333; border-radius: 8px; padding: 10px 15px; text-align: center; min-width: 100px; }
+        .flow-node.source { border-color: rgba(204,255,0,0.3); }
+        .flow-node-img { width: 60px; height: 60px; background: #1a1a1a; border-radius: 6px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: #444; font-size: 10px; }
+        .flow-node-label { font-size: 10px; color: #888; }
+        .flow-arrow { color: var(--accent); font-size: 18px; }
+
+        /* Progress & Controls */
+        .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--accent); transition: width 0.3s; z-index: 100; }
+        .controls { position: fixed; bottom: 18px; left: 25px; z-index: 100; display: flex; gap: 8px; }
+        .ctrl-btn { background: rgba(0,0,0,0.85); border: 1px solid #444; color: #fff; padding: 6px 12px; border-radius: 16px; cursor: pointer; font-size: 11px; opacity: 0.7; transition: all 0.2s; }
+        .ctrl-btn:hover { opacity: 1; border-color: var(--accent); }
+        .slide-counter { position: fixed; bottom: 18px; right: 25px; font-size: 11px; color: #555; z-index: 100; }
+
+        /* Placeholder style */
+        .placeholder { background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 2px dashed #333; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; }
+        .placeholder i { font-size: 24px; color: #444; }
+        .placeholder span { font-size: 11px; color: #555; }
+    </style>
+</head>
+<body class="lang-cn">
+    <div class="progress" id="progress"></div>
+    <div class="controls">
+        <button class="ctrl-btn" onclick="event.stopPropagation(); toggleLang()"><i class="fa-solid fa-globe"></i> <span class="cn">EN</span><span class="en">中</span></button>
+    </div>
+    <div class="slide-counter" id="counter">1 / 24</div>
+
+    <div id="deck">
+
+        <!-- ==================== MAIN COVER ==================== -->
+        <div class="slide cover active">
+            <div class="icon-lg">🎮</div>
+            <h1 class="title-xl"><span class="cn">游戏行业解决方案</span><span class="en">Gaming Industry Solutions</span></h1>
+            <p class="subtitle"><span class="cn">Gaming Industry Solution · Props & Environment Pipeline</span><span class="en">Gaming Industry Solution · Props & Environment Pipeline</span></p>
+            <div class="tag"><span class="cn">MESHY 3D AI</span><span class="en">MESHY 3D AI</span></div>
+        </div>
+
+        <!-- ==================== SOLUTION 1: 资产起型加速 ==================== -->
+        <div class="slide section-divider">
+            <div class="section-number">01</div>
+            <div class="section-name"><span class="cn">资产起型加速</span><span class="en">Asset Blockout</span></div>
+            <p class="subtitle"><span class="cn">Model Asset Production Acceleration</span><span class="en">Model Asset Production Acceleration</span></p>
+        </div>
+
+        <!-- S1: The Challenge -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="num">1.</span> <span class="cn">行业痛点</span><span class="en">The Challenge</span></div>
+                <h2 class="page-title"><span class="cn">资产起型加速 (Asset Blockout)</span><span class="en">Asset Blockout</span></h2>
+                <p class="page-subtitle">Gaming Industry Solution · Props & Environment Pipeline</p>
+            </div>
+
+            <div class="section-block">
+                <div class="cols-2">
+                    <div>
+                        <div class="col-header pain-header">🔴 <span class="cn">传统困境 (Pain Points)</span><span class="en">Traditional Pain Points</span></div>
+                        <ul class="point-list">
+                            <li><strong><span class="cn">从 0 到型耗时长：</span><span class="en">Slow Start: </span></strong><span class="cn">美术师需要花数小时从球体或立方体"推顶点"以获得基础形状，这是重复且低价值的劳动</span><span class="en">Artists spend hours "pushing verts" from a sphere or cube just to get the basic shape. It's repetitive and low-value labor.</span></li>
+                            <li><strong><span class="cn">人力资源错配：</span><span class="en">Misallocated Talent: </span></strong><span class="cn">让顶级资深美术师花时间在初始起型而非高级美学抛光上，是对稀缺才华的巨大浪费</span><span class="en">Senior artists waste their skills on basic props instead of focusing on high-level aesthetic polish.</span></li>
+                            <li><strong><span class="cn">2D 转 3D 鸿沟：</span><span class="en">2D to 3D Gap: </span></strong><span class="cn">仅凭单张面和拓扑构想实际的3D实体，容易导致后续返工修改</span><span class="en">Interpreting volume from a single 2D concept often leads to structural errors and rework.</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="col-header sol-header">🟢 Meshy <span class="cn">破局点 (Our Solution)</span><span class="en">Solution</span></div>
+                        <ul class="point-list">
+                            <li><strong><span class="cn">AI 揽走 "Dirty Work"：</span><span class="en">AI Handles the "Dirty Work": </span></strong><span class="cn">Meshy 负责完成从 0 到 60% 的基础形态阶段，交付一个带丰富表面细节的高模 (Base Sculpt)，省去最耗时的起型环节</span><span class="en">Meshy automates the 80% blockout phase, delivering a base sculpt with rich surface details instantly.</span></li>
+                            <li><strong><span class="cn">专攻打磨：</span><span class="en">Focus on Polish: </span></strong><span class="cn">释放宝贵的资深美术去做更有价值的美学抛光工作，转化为 AI 自动化生成，仅需配置极低成本的初级员工监督</span><span class="en">Artists skip the boring setup and go straight into refinement and style unification.</span></li>
+                            <li><strong><span class="cn">所见即所得：</span><span class="en">Instant Visualization: </span></strong><span class="cn">秒获 2D 概念转化的 3D 实体，消除结构层级的视觉误差</span><span class="en">Quickly turn 2D concepts into 3D forms with accurate volume and scale.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-block-title"><span class="num">2.</span> <span class="cn">商业价值 (Business Value)</span><span class="en">Business Value</span></div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <div class="metric-val">+70%</div>
+                        <div class="metric-label"><span class="cn">雕刻效率提升</span><span class="en">Sculpting Efficiency</span></div>
+                        <div class="metric-sub"><span class="cn">跳过起型，直接进入精修</span><span class="en">Skip blockout, go straight to polish</span></div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">↓ Cost</div>
+                        <div class="metric-label"><span class="cn">外包成本降低</span><span class="en">Lower Outsourcing Costs</span></div>
+                        <div class="metric-sub"><span class="cn">减少对资深美术外包的依赖</span><span class="en">Reduce reliance on senior external artists</span></div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">4h vs 3d</div>
+                        <div class="metric-label"><span class="cn">单资产制作周期</span><span class="en">Production Time Per Asset</span></div>
+                        <div class="metric-sub"><span class="cn">从数天缩短至数小时</span><span class="en">Slashed from days to hours</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- S1: Workflow Demo -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="num">3.</span> <span class="cn">落地工作流演示 (Case Study: "Project Ruins")</span><span class="en">Workflow Demo (Case Study: "Project Ruins")</span></div>
+                <p class="page-desc"><span class="cn">我们不替代 ZBrush 流程，而是成为进入 ZBrush 之前的"超级加速器"。</span><span class="en">We don't replace ZBrush; we act as a "Super Accelerator" before you open it.</span></p>
+            </div>
+
+            <div class="workflow-row" style="margin: 25px 0;">
+                <div class="wf-step">
+                    <div class="wf-step-num">STEP 01</div>
+                    <div class="wf-step-title"><span class="cn">概念输入</span><span class="en">Concept</span></div>
+                    <div class="wf-step-desc"><span class="cn">输入 2D 草稿/石托概念图</span><span class="en">Input 2D sketch of ruins/props</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="wf-step meshy">
+                    <div class="meshy-badge">⚡ Meshy Core</div>
+                    <div class="wf-step-title"><span class="cn">AI 高模生成</span><span class="en">AI Base Sculpt</span></div>
+                    <div class="wf-step-desc"><span class="cn">Image to 3D 快速生成<br>包含丰富细节的高模<br>(High Poly)</span><span class="en">Image to 3D generates<br>high-poly blockout</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="wf-step">
+                    <div class="wf-step-num">STEP 03</div>
+                    <div class="wf-step-title"><span class="cn">ZBrush 精化</span><span class="en">ZBrush Polish</span></div>
+                    <div class="wf-step-desc"><span class="cn">人工细节调整<br>确保一致风格</span><span class="en">Artist refines style<br>& unifies details</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="wf-step">
+                    <div class="wf-step-num">STEP 04</div>
+                    <div class="wf-step-title"><span class="cn">游戏化处理</span><span class="en">Game Ready</span></div>
+                    <div class="wf-step-desc"><span class="cn">烘焙低模 (Low Poly)<br>贴图走线 (Bake)</span><span class="en">Low Poly & Baking<br>(Traditional pipeline)</span></div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-block-title"><span class="num">4.</span> <span class="cn">案例视觉展示 (Case Evidence)</span><span class="en">Case Evidence</span></div>
+                <div class="case-grid">
+                    <div class="case-card" micro-tilt>
+                        <div class="case-card-img placeholder" micro-tilt id="s1-img1">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Meshy Raw Output (High Poly)</span>
+                        </div>
+                        <div class="case-card-label" micro-tilt><span class="cn">Meshy 生成的高模原文件 (Raw Output)</span><span class="en">Meshy Raw Output (High Poly)</span></div>
+                    </div>
+                    <div class="case-card" micro-tilt>
+                        <div class="case-card-img placeholder" micro-tilt id="s1-img2">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Baked Game Asset (Low Poly)</span>
+                        </div>
+                        <div class="case-card-label" micro-tilt><span class="cn">烘焙后的低模游戏资产 (Game Ready)</span><span class="en">Baked Game Asset (Low Poly)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- S1: Case Evidence Detail -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="cn">案例展示 · ZBrush 优化 + 材质烘焙</span><span class="en">Case Evidence · ZBrush Polish + Baking</span></div>
+            </div>
+
+            <div class="case-grid" style="grid-template-columns: 1fr 1fr; flex: 1;">
+                <div class="case-card" micro-tilt>
+                    <div class="case-card-img placeholder" micro-tilt style="height: 240px;" id="s1-img3">
+                        <i class="fa-solid fa-image"></i>
+                        <span>ZBrush Detail Optimization + Raw Color Optimization</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">ZBrush 细节优化 + 原色优化 (细部刻画优化)</span><span class="en">ZBrush Detail Optimization + Raw Color Optimization</span></div>
+                </div>
+                <div class="case-card" micro-tilt>
+                    <div class="case-card-img placeholder" micro-tilt style="height: 240px;" id="s1-img4">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Substance Painter · All Texture Optimization</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">Substance Painter 全贴图优化 (Stylizance palette调色)</span><span class="en">Substance Painter · All Texture Optimization</span></div>
+                </div>
+            </div>
+
+            <div class="case-grid" style="grid-template-columns: 1fr 1fr; margin-top: 15px;">
+                <div class="case-card" micro-tilt>
+                    <div class="case-card-img placeholder" micro-tilt style="height: 180px;" id="s1-img5">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Low Poly Topology UV (低模拓扑/展UV)</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">低模拓扑/展UV</span><span class="en">Low Poly Topology UV</span></div>
+                </div>
+                <div class="case-card" micro-tilt>
+                    <div class="case-card-img placeholder" micro-tilt style="height: 180px;" id="s1-img6">
+                        <i class="fa-solid fa-image"></i>
+                        <span>High-to-Low Poly Baking (高低模烘焙)</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">高低模烘焙</span><span class="en">High-to-Low Poly Baking</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- S1: Final Result -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="cn">案例展示 · 最终效果</span><span class="en">Case Evidence · Final Result</span></div>
+                <h2 class="page-title"><span class="cn">High-to-Low Poly Baking（高低模烘焙）</span><span class="en">High-to-Low Poly Baking</span></h2>
+            </div>
+
+            <div style="display: flex; gap: 20px; flex: 1;">
+                <div class="case-single" style="flex: 1;">
+                    <div class="case-single-img placeholder" id="s1-img7">
+                        <i class="fa-solid fa-image"></i>
+                        <span>High-to-Low Poly Baking Screenshot</span>
+                    </div>
+                    <div class="case-single-label"><span class="cn">Marmoset 高低模烘焙效果</span><span class="en">Marmoset Baking Result</span></div>
+                </div>
+                <div class="case-single" style="flex: 1;">
+                    <div class="case-single-img placeholder" id="s1-img8">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Final Result (最终效果)</span>
+                    </div>
+                    <div class="case-single-label"><span class="cn">Final Result（最终效果）</span><span class="en">Final Result</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SOLUTION 2: 风格化资产量产 ==================== -->
+        <div class="slide section-divider">
+            <div class="section-number">02</div>
+            <div class="section-name"><span class="cn">风格化资产量产</span><span class="en">Stylized Variations</span></div>
+            <p class="subtitle"><span class="cn">Asset Production & Variations Pipeline</span><span class="en">Asset Production & Variations Pipeline</span></p>
+        </div>
+
+        <!-- S2: The Challenge -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="num">1.</span> <span class="cn">行业痛点 (The Problem)</span><span class="en">The Challenge</span></div>
+                <h2 class="page-title"><span class="cn">风格化资产量产 (Stylized Variations)</span><span class="en">Stylized Variations</span></h2>
+                <p class="page-subtitle">Gaming Industry Solution · Asset Production & Variations Pipeline</p>
+            </div>
+
+            <div class="section-block">
+                <p class="page-desc" style="margin-bottom: 15px;"><span class="cn">针对 RPG/SLG 游戏中的 2.5D 建筑和环境道具，外包生产常导致风格不统一，且手工创建风格变体效率极低。</span><span class="en">For 2.5D buildings and assets in RPG/SLG games, outsourcing often leads to style inconsistencies, and creating manual variations is inefficient.</span></p>
+                <div class="cols-2">
+                    <div>
+                        <div class="col-header pain-header">🔴 <span class="cn">传统困境 (Pain Points)</span><span class="en">Traditional Pain Points</span></div>
+                        <ul class="point-list">
+                            <li><strong><span class="cn">外包风格碎片化：</span><span class="en">Fragmented Art Styles: </span></strong><span class="cn">大量资产外包发给不同供应商，统一风格沟通成本极高</span><span class="en">Heavy outsourcing makes it hard to unify the look. Quality control costs are high.</span></li>
+                            <li><strong><span class="cn">漫长迭代周期：</span><span class="en">Slow Iteration Cycles: </span></strong><span class="cn">传统资产"产出+验收+修改变体(Variations)"流程冗长，从反馈到交付极为拖沓</span><span class="en">Creating style variations ("reskinning") usually takes days, with long feedback loops.</span></li>
+                            <li><strong><span class="cn">重复劳动：</span><span class="en">Repetitive Labor: </span></strong><span class="cn">为同一个资产制作不同层级或状态的变体，需要繁琐的手工重做</span><span class="en">Building different tiers or states for the same building requires tedious manual remodeling.</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="col-header sol-header">🟢 Meshy <span class="cn">破局点 (Our Solution)</span><span class="en">Solution</span></div>
+                        <ul class="point-list">
+                            <li><strong><span class="cn">风格锚定器：</span><span class="en">Style Standardization: </span></strong><span class="cn">上传少于 4 套参考图 (Reference)，建立"风格锚"，AI 风格全程保持 100% 一致性</span><span class="en">Upload a few reference images, and AI locks the style for all subsequent assets to ensure 100% consistency.</span></li>
+                            <li><strong><span class="cn">爆破级产能：</span><span class="en">Exponential Scale: </span></strong><span class="cn">变体生成从"分钟"级而非"天"级，利用"局部重铸 (Local Refine)"功能，秒刷变体从 1 生多种元素版本</span><span class="en">Variations take "minutes" instead of "days." Create multiple versions from a single master model instantly.</span></li>
+                            <li><strong><span class="cn">精准微调：</span><span class="en">Precise Refinement: </span></strong><span class="cn">利用"局部重铸 (Local Refine)"功能，仅对特定细节进行重新绘制，无需重造整体模型</span><span class="en">Use "Local Refine" to fix specific details without re-generating the whole asset.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-block-title"><span class="num">2.</span> <span class="cn">商业价值 (Business Value)</span><span class="en">Business Value</span></div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <div class="metric-val">1 Day = 10+ Vars</div>
+                        <div class="metric-label"><span class="cn">产能爆炸式增长</span><span class="en">Explosive Productivity</span></div>
+                        <div class="metric-sub"><span class="cn">前沿组：1 天制作 1 个资体<br>新沿组：1 天产出 10+ 套风格变体方案</span><span class="en">Before: 1 Day = 1 Variant<br>Now: 1 Day = 10+ High-Quality Sets</span></div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">100%</div>
+                        <div class="metric-label"><span class="cn">风格一致性 (Consistency)</span><span class="en">Style Consistency</span></div>
+                        <div class="metric-sub"><span class="cn">基于参考图 (Reference) 的可量化纯正级风<br>统筹全局统一风格内容输出</span><span class="en">Standardized QC based on Reference.<br>Eliminates outsourcing style drift.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- S2: Workflow Demo -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="num">3.</span> <span class="cn">落地工作流演示 (Case Study: "Project Ruins")</span><span class="en">Workflow Demo (Case Study: "Project Ruins")</span></div>
+                <p class="page-desc"><span class="cn">针对 2.5D 固定视角 RPG 建筑，直接输出终版资产 (Final Assets) 导入引擎。</span><span class="en">For 2.5D fixed-camera RPG buildings, output Final Assets directly to the engine.</span></p>
+            </div>
+
+            <div class="workflow-row" style="margin: 20px 0;">
+                <div class="wf-step">
+                    <div class="wf-step-num">STEP 01</div>
+                    <div class="wf-step-title"><span class="cn">风格定义</span><span class="en">Style Definition</span></div>
+                    <div class="wf-step-desc"><span class="cn">输入参考图 (Reference)<br>锁定美术风格基准</span><span class="en">Input Reference<br>to lock art direction</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="wf-step meshy">
+                    <div class="meshy-badge">⚡ Meshy Core</div>
+                    <div class="wf-step-title"><span class="cn">批量变体生成</span><span class="en">Batch Generation</span></div>
+                    <div class="wf-step-desc"><span class="cn">基于参考图生成多元化 3D<br>资产变体雏型</span><span class="en">Create multiple 3D<br>variants instantly</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="wf-step meshy">
+                    <div class="meshy-badge">⚡ Meshy Core</div>
+                    <div class="wf-step-title"><span class="cn">局部精准重铸</span><span class="en">Local Refine</span></div>
+                    <div class="wf-step-desc"><span class="cn">针对特定细节精准<br>纠正与细化</span><span class="en">Fix specific details<br>via re-painting</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="wf-step">
+                    <div class="wf-step-num">STEP 04</div>
+                    <div class="wf-step-title"><span class="cn">引擎接纳</span><span class="en">Engine Ready</span></div>
+                    <div class="wf-step-desc"><span class="cn">导入 Unity/UE<br>搭建人工场景布局</span><span class="en">Import to Unity/UE<br>Manual layout</span></div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-block-title"><span class="num">4.</span> <span class="cn">案例视觉展示 (Case Evidence)</span><span class="en">Case Evidence</span></div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div class="flow-node source">
+                        <div class="flow-node-img placeholder" id="s2-ref">
+                            <span>Style Ref</span>
+                        </div>
+                        <div class="flow-node-label">Style Ref</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="var-grid" style="flex: 1;">
+                        <div class="var-item">
+                            <div class="var-item-img placeholder" id="s2-var1"><span>Var A</span></div>
+                            <div class="var-item-label">Variant A (Fire)</div>
+                        </div>
+                        <div class="var-item">
+                            <div class="var-item-img placeholder" id="s2-var2"><span>Var B</span></div>
+                            <div class="var-item-label">Variant B (Ice)</div>
+                        </div>
+                        <div class="var-item">
+                            <div class="var-item-img placeholder" id="s2-var3"><span>Var C</span></div>
+                            <div class="var-item-label">Variant C (Arcane)</div>
+                        </div>
+                        <div class="var-item">
+                            <div class="var-item-img placeholder" id="s2-var4"><span>Var D</span></div>
+                            <div class="var-item-label">Variant D (Terra)</div>
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 10px; color: #555; text-align: center; margin-top: 12px;"><span class="cn">*图为示意 - 输出单一参考就定义好统一艺术变体风格矩阵</span><span class="en">*Showcasing: multiple style variants generated from a single reference.</span></p>
+            </div>
+        </div>
+
+        <!-- S2: Case Evidence Detail -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="cn">案例展示 · 风格变体矩阵</span><span class="en">Case Evidence · Style Variant Matrix</span></div>
+            </div>
+
+            <div style="display: flex; gap: 20px; flex: 1; align-items: center;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                    <div class="case-card" micro-tilt style="width: 150px;">
+                        <div class="case-card-img placeholder" micro-tilt style="height: 150px;" id="s2-base">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Base</span>
+                        </div>
+                        <div class="case-card-label" micro-tilt><span class="cn">基础资产</span><span class="en">Base Asset</span></div>
+                    </div>
+                    <div style="font-size: 24px; color: var(--accent);">↓</div>
+                </div>
+
+                <div style="flex: 1;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-sword1"><span>Sword Fire</span></div>
+                            <div class="case-card-label" micro-tilt>Sword - Fire</div>
+                        </div>
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-sword2"><span>Sword Lava</span></div>
+                            <div class="case-card-label" micro-tilt>Sword - Lava</div>
+                        </div>
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-sword3"><span>Sword Poison</span></div>
+                            <div class="case-card-label" micro-tilt>Sword - Poison</div>
+                        </div>
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-axe1"><span>Axe Fire</span></div>
+                            <div class="case-card-label" micro-tilt>Axe - Fire</div>
+                        </div>
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-axe2"><span>Axe Lava</span></div>
+                            <div class="case-card-label" micro-tilt>Axe - Lava</div>
+                        </div>
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-axe3"><span>Axe Poison</span></div>
+                            <div class="case-card-label" micro-tilt>Axe - Poison</div>
+                        </div>
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-shield1"><span>Shield Fire</span></div>
+                            <div class="case-card-label" micro-tilt>Shield - Fire</div>
+                        </div>
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-shield2"><span>Shield Lava</span></div>
+                            <div class="case-card-label" micro-tilt>Shield - Lava</div>
+                        </div>
+                        <div class="case-card" micro-tilt>
+                            <div class="case-card-img placeholder" micro-tilt style="height: 120px;" id="s2-shield3"><span>Shield Poison</span></div>
+                            <div class="case-card-label" micro-tilt>Shield - Poison</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SOLUTION 3: 连续贴图的快速铺设 ==================== -->
+        <div class="slide section-divider">
+            <div class="section-number">03</div>
+            <div class="section-name"><span class="cn">连续贴图的快速铺设</span><span class="en">Seamless PBR Gen</span></div>
+            <p class="subtitle"><span class="cn">Environment & Trim Sheet Pipeline</span><span class="en">Environment & Trim Sheet Pipeline</span></p>
+        </div>
+
+        <!-- S3: The Challenge -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="num">1.</span> <span class="cn">行业痛点 (The Problem)</span><span class="en">The Challenge</span></div>
+                <h2 class="page-title"><span class="cn">连续贴图的快速铺设 (Seamless PBR Gen)</span><span class="en">Seamless PBR Texture Gen</span></h2>
+                <p class="page-subtitle">Gaming Industry Solution · Environment & Trim Sheet Pipeline</p>
+            </div>
+
+            <div class="section-block">
+                <p class="page-desc" style="margin-bottom: 15px;"><span class="cn">针对科幻、工业、地牢等需要大量复杂"硬表面"纹理的场景，传统材质制作成本极高。</span><span class="en">Creating complex "Hard Surface" textures for sci-fi or industrial scenes usually involves expensive modeling work.</span></p>
+                <div class="cols-2">
+                    <div>
+                        <div class="col-header pain-header">🔴 <span class="cn">传统困境 (Pain Points)</span><span class="en">Traditional Pain Points</span></div>
+                        <ul class="point-list">
+                            <li><strong><span class="cn">硬要雕模提细节：</span><span class="en">Tedious High-Poly Modeling: </span></strong><span class="cn">为了制作一张包含凸台、硬边、面板的 Trim Sheet，美术师必须先雕刻一个复杂的高模 (High Poly)</span><span class="en">To make a trim sheet with vents, bolts, and panels, artists must first model a complex High-Poly mesh.</span></li>
+                            <li><strong><span class="cn">视觉设计瓶颈：</span><span class="en">Design Bottleneck: </span></strong><span class="cn">许多 3D 关卡设计师擅长布局但缺乏 2D 插画技能来手绘复杂材质</span><span class="en">Many 3D level artists are great at layout but lack the 2D illustration skills to hand-paint complex textures.</span></li>
+                            <li><strong><span class="cn">修改成本高昂：</span><span class="en">Expensive Revisions: </span></strong><span class="cn">一旦美术总监要求改变"生锈程度"或"科技风格"，往往意味着需要回到建模阶段重做</span><span class="en">Changing the "rust level" or "Tech style" often means going all the way back to the modeling phase.</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="col-header sol-header">🟢 Meshy <span class="cn">破局点 (Our Solution)</span><span class="en">Solution</span></div>
+                        <ul class="point-list">
+                            <li><strong><span class="cn">跳过高模阶段：</span><span class="en">Skip the High Poly: </span></strong><span class="cn">Meshy 为贝塔型生成包含丰富凹凸/法线信息的视觉浓缩，完全省去高模制作与烘焙流程</span><span class="en">Meshy generates visual images with rich height/normal information directly, bypassing modeling and baking completely.</span></li>
+                            <li><strong><span class="cn">AI 辅助设计：</span><span class="en">AI Design Assistant: </span></strong><span class="cn">利用 Image Helper 将简单的关键词迅速化为结构严谨、细节饱满的 Base Color</span><span class="en">Use Image Helper to turn simple keywords into structurally logical, detailed Base Color maps.</span></li>
+                            <li><strong><span class="cn">快速迭代选装：</span><span class="en">Rapid Iteration: </span></strong><span class="cn">10 分钟内生成 4-8 种不同锈蚀程度或风格的方案供快速挑选</span><span class="en">Generate 4-8 different weathering or style variations in minutes for quick selection.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-block-title"><span class="num">2.</span> <span class="cn">商业价值 (Business Value)</span><span class="en">Business Value</span></div>
+                <div class="metrics-row">
+                    <div class="metric-box">
+                        <div class="metric-val">15 Mins</div>
+                        <div class="metric-label"><span class="cn">单张材质生产</span><span class="en">Per Texture Sheet</span></div>
+                        <div class="metric-sub"><span class="cn">原消耗：2 天 (建模+烘焙)<br>新消耗：15 分钟 (生成+转化)</span><span class="en">Before: 2 Days (Model+Bake)<br>Now: 15 Minutes (Generate+Convert)</span></div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">Skip</div>
+                        <div class="metric-label"><span class="cn">跳过高模制作</span><span class="en">Skip High Poly</span></div>
+                        <div class="metric-sub"><span class="cn">直接产出视觉结果<br>消除最耗时的雕刻环节</span><span class="en">Generate visuals directly.<br>Eliminate the slowest step.</span></div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-val">100%</div>
+                        <div class="metric-label"><span class="cn">设计门槛降低</span><span class="en">Lower Barrier</span></div>
+                        <div class="metric-sub"><span class="cn">无需顶级原画能力<br>低阶产出专业级材质设计</span><span class="en">Create pro designs without<br>top-tier concept art skills.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- S3: Workflow Demo -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="num">3.</span> <span class="cn">落地工作流演示 (Case Study: "Sci-Fi Panels")</span><span class="en">Workflow Demo (Case Study: "Sci-Fi Panels")</span></div>
+                <p class="page-desc"><span class="cn">Meshy 与专业 PBR 工具协同，打造极致 Trim Sheet 生产管线。</span><span class="en">Meshy works alongside professional PBR tools for a lightning-fast Trim Sheet pipeline.</span></p>
+            </div>
+
+            <div class="workflow-row" style="margin: 20px 0;">
+                <div class="wf-step meshy">
+                    <div class="meshy-badge">⚡ Meshy</div>
+                    <div class="wf-step-title"><span class="cn">视觉生成</span><span class="en">Visual Gen</span></div>
+                    <div class="wf-step-desc"><span class="cn">Image Helper 辅助<br>生成 4K Base Color</span><span class="en">Image Helper Creates<br>4K Base Color</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="wf-step">
+                    <div class="wf-step-num" style="background: #3B82F6; color: #fff; display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 8px;">Tool: Sampler</div>
+                    <div class="wf-step-title"><span class="cn">PBR 转化</span><span class="en">PBR Convert</span></div>
+                    <div class="wf-step-desc"><span class="cn">导入外部工具<br>生成法线/粗糙度贴图</span><span class="en">External tool generates<br>Normal/Roughness maps</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="wf-step">
+                    <div class="wf-step-num" style="background: #F97316; color: #fff; display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 8px;">Tool: Blender</div>
+                    <div class="wf-step-title"><span class="cn">资产应用</span><span class="en">Apply Asset</span></div>
+                    <div class="wf-step-desc"><span class="cn">UV 映射至低模<br>完成场景摆放</span><span class="en">Map UVs to Low Poly<br>for scene layout</span></div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-block-title"><span class="num">4.</span> <span class="cn">案例视觉展示 (Case Evidence)</span><span class="en">Case Evidence</span></div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div class="case-card" micro-tilt style="flex: 1;">
+                        <div class="case-card-img placeholder" micro-tilt style="height: 160px;" id="s3-basecolor">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Meshy Output: Base Color</span>
+                        </div>
+                        <div class="case-card-label" micro-tilt>Meshy Output: Base Color</div>
+                    </div>
+                    <div style="font-size: 16px; color: #555;">+</div>
+                    <div class="case-card" micro-tilt style="flex: 1;">
+                        <div class="case-card-img placeholder" micro-tilt style="height: 160px;" id="s3-normal">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Normal Map</span>
+                        </div>
+                        <div class="case-card-label" micro-tilt>Normal Map</div>
+                    </div>
+                    <div style="font-size: 16px; color: #555;">+</div>
+                    <div class="case-card" micro-tilt style="flex: 1;">
+                        <div class="case-card-img placeholder" micro-tilt style="height: 160px;" id="s3-roughness">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Roughness Map</span>
+                        </div>
+                        <div class="case-card-label" micro-tilt>Roughness Map</div>
+                    </div>
+                </div>
+                <p style="font-size: 10px; color: #555; text-align: center; margin-top: 12px;"><span class="cn">*展示从 Meshy 生成的视觉设计到完整 PBR 游戏材质的优化结果</span><span class="en">*Showing conversion from Meshy visual design to full PBR game materials.</span></p>
+            </div>
+        </div>
+
+        <!-- S3: Case Evidence Detail 1 -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="cn">案例展示 · Seamless Texture 生成流程</span><span class="en">Case Evidence · Seamless Texture Generation</span></div>
+            </div>
+
+            <div style="display: flex; gap: 20px; flex: 1; align-items: center;">
+                <div class="case-card" micro-tilt style="width: 280px;">
+                    <div class="case-card-img placeholder" micro-tilt style="height: 200px;" id="s3-meshy-output">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Meshy Image Helper</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">使用 meshy 中的 image helper 快速<br>生成连续贴图</span><span class="en">Quickly generate seamless<br>textures using image helper in meshy</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="case-card" micro-tilt style="flex: 1;">
+                    <div class="case-card-img placeholder" micro-tilt style="height: 200px;" id="s3-tile-grid">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Seamless Tile Grid (Base + Normal)</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">四方连续贴图网格 (Base Color + Normal)</span><span class="en">Seamless Tile Grid (Base + Normal)</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="case-card" micro-tilt style="width: 280px;">
+                    <div class="case-card-img placeholder" micro-tilt style="height: 200px;" id="s3-3dsmax">
+                        <i class="fa-solid fa-image"></i>
+                        <span>3ds Max Box UV</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">放进 3dsmax 中创建 box 再分 UV</span><span class="en">Import it into 3ds Max, create a<br>box, and then unwrap the UVs.</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- S3: Case Evidence Detail 2 -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="cn">案例展示 · 材质球制作与场景应用</span><span class="en">Case Evidence · Material Ball & Scene Application</span></div>
+            </div>
+
+            <div style="display: flex; gap: 20px; flex: 1; align-items: center;">
+                <div class="case-card" micro-tilt style="flex: 1;">
+                    <div class="case-card-img placeholder" micro-tilt style="height: 220px;" id="s3-ue-material">
+                        <i class="fa-solid fa-image"></i>
+                        <span>UE Material Ball</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">在游戏引擎中制作材质球<br>Creating a material ball in a game engine</span><span class="en">Creating a material ball in a game engine</span></div>
+                </div>
+                <div class="wf-arrow">→</div>
+                <div class="case-card" micro-tilt style="flex: 1.5;">
+                    <div class="case-card-img placeholder" micro-tilt style="height: 220px;" id="s3-scene-render">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Scene Render Result</span>
+                    </div>
+                    <div class="case-card-label" micro-tilt><span class="cn">可实现在场景中高效更换材质<br>Allows for efficient material swapping in the scene</span><span class="en">Allows for efficient material swapping in the scene</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- S3: Resources -->
+        <div class="slide">
+            <div class="page-header">
+                <div class="page-tag"><span class="cn">相关资源 · Resources</span><span class="en">Resources</span></div>
+                <h2 class="page-title"><span class="cn">meshy 生成四方连续贴图</span><span class="en">Generate seamless square texture with meshy</span></h2>
+            </div>
+
+            <div class="section-block" style="flex: 1;">
+                <div style="display: flex; gap: 20px;">
+                    <div class="case-card" micro-tilt style="flex: 1;">
+                        <div class="case-card-img placeholder" micro-tilt style="height: 250px;" id="s3-workflow-img">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Workflow Overview Image</span>
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <p style="font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 15px;"><span class="cn">视频教程列表：</span><span class="en">Video Tutorials:</span></p>
+                        <ul style="font-size: 12px; color: #888; line-height: 2;">
+                            <li>🎬 B_C.mp4 <span style="color: #555;">(<span class="cn">瓷砖 tile</span><span class="en">Tile</span>)</span></li>
+                            <li>🎬 B_p.mp4 <span style="color: #555;">(<span class="cn">彩瓷 Colored porcelain</span><span class="en">Colored porcelain</span>)</span></li>
+                            <li>🎬 地板A.mp4 <span style="color: #555;">(<span class="cn">地板 floor</span><span class="en">Floor</span>)</span></li>
+                            <li>🎬 3dsmax_UV.mp4 <span style="color: #555;">(<span class="cn">3dsmax 创建 box 分 UV</span><span class="en">Creating UVs for a box in 3ds Max</span>)</span></li>
+                            <li>🎬 UE1.mp4 <span style="color: #555;">(<span class="cn">贴图导入 UE 制作材质球</span><span class="en">Import textures into UE to create materials</span>)</span></li>
+                            <li>🎬 UE2_(1).avi, UE2_(2).avi, UE2_(3).avi <span style="color: #555;">(<span class="cn">三组材质渲染视频</span><span class="en">Rendering video of three sets of materials</span>)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== END SLIDE ==================== -->
+        <div class="slide cover">
+            <div class="icon-lg">🚀</div>
+            <h1 class="title-xl" style="font-size: 40px;"><span class="cn">开始你的 3D AI 之旅</span><span class="en">Start Your 3D AI Journey</span></h1>
+            <p class="subtitle"><span class="cn">联系我们获取定制解决方案</span><span class="en">Contact us for customized solutions</span></p>
+            <div class="tag">meshy.ai</div>
+        </div>
+
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progress = document.getElementById('progress');
+        const counter = document.getElementById('counter');
+        let current = 0;
+        const total = slides.length;
+
+        function update() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === current));
+            progress.style.width = ((current + 1) / total * 100) + '%';
+            counter.textContent = `${current + 1} / ${total}`;
+        }
+
+        function toggleLang() {
+            document.body.classList.toggle('lang-en');
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { current = Math.min(current + 1, total - 1); update(); }
+            if (e.key === 'ArrowLeft') { current = Math.max(current - 1, 0); update(); }
+            if (e.key === 'l' || e.key === 'L') { toggleLang(); }
+        });
+
+        document.getElementById('deck').addEventListener('click', e => {
+            if (e.target.closest('.controls')) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            if (e.clientX - rect.left > rect.width / 2) current = Math.min(current + 1, total - 1);
+            else current = Math.max(current - 1, 0);
+            update();
+        });
+
+        update();
+    </script>
+<script src="../assets/js/mobile-effects.js"></script>`n<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

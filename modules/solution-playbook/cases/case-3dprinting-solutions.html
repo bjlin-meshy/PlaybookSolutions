@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="3dprinting">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Printing Solutions | Meshy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">
+    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <style>
+        :root {
+            --bg-core: #000000;
+            --bg-slide: #050505;
+            --accent-primary: #CCFF00;
+            --text-main: #FFFFFF;
+            --text-sub: #888888;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            background-color: var(--bg-core);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        body.lang-cn { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+        .cn { display: none; }
+        body.lang-cn .en { display: none !important; }
+        body.lang-cn .cn { display: inline; }
+
+        #deck-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            perspective: 2000px;
+        }
+
+        .flip-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: var(--bg-slide);
+            border: 1px solid #222;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ============================================
+           GLITCH ELECTRIC SHOCK EFFECT - 电击故障效果
+           ============================================ */
+
+        /* Flash overlay for electric shock */
+        .glitch-flash {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--accent-primary);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+
+        /* Scanline that zaps through */
+        .glitch-scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 8px;
+            background: linear-gradient(to bottom, 
+                transparent, 
+                rgba(204, 255, 0, 0.9), 
+                rgba(255, 255, 255, 1),
+                rgba(204, 255, 0, 0.9), 
+                transparent);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
+        }
+
+        /* Glitch animation - violent shake + RGB split */
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0) skewX(0deg); filter: none; }
+            10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); }
+            20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); }
+            30% { transform: translate(-4px, 0) skewX(0deg); filter: none; }
+            40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); }
+            50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); }
+            60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); }
+            70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); }
+            80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; }
+            90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); }
+            100% { transform: translate(0, 0) skewX(0deg); filter: none; }
+        }
+
+        /* Multiple flash bursts */
+        @keyframes electricFlash {
+            0% { opacity: 0; }
+            5% { opacity: 0.8; }
+            10% { opacity: 0; }
+            15% { opacity: 0.6; }
+            20% { opacity: 0; }
+            35% { opacity: 0.9; }
+            40% { opacity: 0; }
+            55% { opacity: 0.4; }
+            60% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Scanline zap through screen */
+        @keyframes scanlineZap {
+            0% { top: -10px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* RGB split effect on content */
+        @keyframes rgbSplit {
+            0% { text-shadow: 0 0 0 transparent; }
+            20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); }
+            40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); }
+            60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); }
+            80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+
+        /* Active glitch state */
+        .flip-container.glitching {
+            animation: glitchShake 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .flip-container.glitching .content {
+            animation: rgbSplit 0.3s ease-out;
+        }
+
+        .flip-container.glitching .glitch-flash {
+            animation: electricFlash 0.3s ease-out;
+        }
+
+        .flip-container.glitching .glitch-scanline {
+            animation: scanlineZap 0.15s ease-out;
+        }
+
+        /* Button pulse feedback */
+        .control-lang .btn.zapping {
+            animation: buttonZap 0.3s ease-out;
+        }
+
+        @keyframes buttonZap {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+            30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+        }
+
+        /* Screen shake for extra impact */
+        @keyframes screenPunch {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        #deck-container.punched {
+            animation: screenPunch 0.15s ease-out;
+        }
+
+        .control-back {
+            position: absolute;
+            bottom: 25px;
+            left: 35px;
+            z-index: 100;
+        }
+        .control-lang {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            z-index: 100;
+        }
+        .btn {
+            background: rgba(20,20,20,0.8);
+            border: 1px solid #333;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+            opacity: 0.7;
+            text-decoration: none;
+        }
+        .btn:hover {
+            opacity: 1;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: black;
+        }
+
+        .content {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+        }
+        .section-big-icon {
+            font-size: 72px;
+            color: var(--accent-primary);
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.4));
+        }
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+        }
+        .solutions-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .solutions-row {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+        }
+        .solution-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.4s ease forwards;
+        }
+        .solutions-row:nth-child(1) .solution-item:nth-child(1) { animation-delay: 0.05s; }
+        .solutions-row:nth-child(1) .solution-item:nth-child(2) { animation-delay: 0.1s; }
+        .solutions-row:nth-child(2) .solution-item:nth-child(1) { animation-delay: 0.15s; }
+        .solutions-row:nth-child(2) .solution-item:nth-child(2) { animation-delay: 0.2s; }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .solution-item.wip {
+            animation-name: fadeInUpWip;
+        }
+        @keyframes fadeInUpWip {
+            to { opacity: 0.5; transform: translateY(0); }
+        }
+        .solution-item:hover {
+            border-color: var(--accent-primary);
+            background: rgba(204, 255, 0, 0.1);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(204, 255, 0, 0.18);
+        }
+        .solution-item:active {
+            transform: scale(0.97);
+        }
+        .solution-item i { font-size: 14px; color: var(--text-sub); transition: all 0.3s; }
+        .solution-item:hover i { color: var(--accent-primary); transform: scale(1.1); }
+        .sol-num { font-size: 11px; font-weight: 700; color: var(--text-sub); }
+        .solution-item:hover .sol-num { color: var(--accent-primary); }
+        .solution-item.wip { opacity: 0.5; }
+        .solution-item.wip:hover { opacity: 0.8; }
+        .solution-item.ready { border-color: rgba(204, 255, 0, 0.3); }
+
+        /* Page transition overlay */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-core);
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.35s ease-out;
+        }
+        .page-transition.active {
+            opacity: 1;
+        }
+        .page-transition::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.6), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease 0.1s;
+        }
+        .page-transition.active::after {
+            opacity: 1;
+        }
+
+        /* 案例导航过渡效果 - 滑动缩放 */
+        @keyframes caseSlideIn {
+            0% { 
+                transform: translateX(100%) scale(0.95);
+                opacity: 0;
+            }
+            100% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes contentSlideOut {
+            0% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateX(-30%) scale(0.95);
+                opacity: 0;
+                filter: blur(4px);
+            }
+        }
+
+        .page-transition.case-nav {
+            background: linear-gradient(90deg, transparent 0%, var(--bg-core) 30%, var(--bg-core) 100%);
+        }
+
+        .page-transition.case-nav.active {
+            animation: caseSlideIn 0.35s ease-out forwards;
+        }
+
+        #deck-container.navigating-case {
+            animation: contentSlideOut 0.35s ease-out forwards;
+        }
+
+        .solution-item.clicked-case {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.6);
+            transition: all 0.15s ease-out;
+        }
+
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.85; transform: translateX(-50%) scale(1.02); }
+        }
+        @keyframes horizonPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .halftone-layer-top {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 200px;
+            background-image: radial-gradient(circle, rgba(204, 255, 0, 0.15) 1.5px, transparent 1.5px);
+            background-size: 10px 10px;
+            mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, transparent 70%);
+            pointer-events: none; z-index: 1;
+        }
+        .horizon-glow-top {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(204, 255, 0, 0.2) 20%, rgba(204, 255, 0, 0.5) 50%, rgba(204, 255, 0, 0.2) 80%, transparent 100%);
+            box-shadow: 0 0 40px 15px rgba(204, 255, 0, 0.12);
+            animation: horizonPulse 4s ease-in-out infinite;
+            pointer-events: none; z-index: 3;
+        }
+        .horizon-bloom-top {
+            position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+            width: 700px; height: 120px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(204, 255, 0, 0.15) 0%, rgba(204, 255, 0, 0.05) 40%, transparent 70%);
+            animation: softPulse 5s ease-in-out infinite;
+            pointer-events: none; z-index: 2;
+        }
+        .halftone-layer-bottom {
+            position: absolute; bottom: 0; left: 0;
+            width: 100%; height: 280px;
+            background-image: radial-gradient(circle, #000000 2.5px, transparent 2.5px);
+            background-size: 10px 10px;
+            mask-image: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.15) 50%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.15) 50%, transparent 70%);
+            pointer-events: none; z-index: 1;
+        }
+        .horizon-glow-bottom {
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent 0%, rgba(204, 255, 0, 0.4) 20%, rgba(204, 255, 0, 0.9) 50%, rgba(204, 255, 0, 0.4) 80%, transparent 100%);
+            box-shadow: 0 0 80px 30px rgba(204, 255, 0, 0.25);
+            animation: horizonPulse 3s ease-in-out infinite;
+            pointer-events: none; z-index: 3;
+        }
+        .horizon-bloom-bottom {
+            position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+            width: 900px; height: 200px;
+            background: radial-gradient(ellipse at 50% 100%, rgba(204, 255, 0, 0.3) 0%, rgba(204, 255, 0, 0.12) 35%, transparent 65%);
+            animation: softPulse 4s ease-in-out infinite;
+            pointer-events: none; z-index: 2;
+        }
+        .vignette {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(0,0,0,0.35) 100%);
+            pointer-events: none; z-index: 4;
+        }
+
+        /* ============================================
+           3D PRINTING UNIQUE EFFECTS
+           ============================================ */
+        
+        /* Scanning print line */
+        .print-scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(204, 255, 0, 0.3) 20%, 
+                rgba(204, 255, 0, 0.8) 50%, 
+                rgba(204, 255, 0, 0.3) 80%, 
+                transparent 100%);
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.5), 0 5px 30px rgba(204, 255, 0, 0.3);
+            animation: printScan 4s ease-in-out infinite;
+            pointer-events: none; z-index: 3;
+        }
+        @keyframes printScan {
+            0%, 100% { top: 10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            95% { top: 85%; opacity: 0; }
+        }
+
+        /* Print bed grid */
+        .print-bed {
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%) perspective(500px) rotateX(60deg);
+            width: 600px; height: 200px;
+            background-image: 
+                linear-gradient(rgba(204, 255, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(204, 255, 0, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+            pointer-events: none; z-index: 1;
+        }
+
+        /* Hexagon pattern overlay */
+        .hex-pattern {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath fill='%23CCFF00' fill-opacity='0.04' d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9z'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            pointer-events: none; z-index: 1;
+            animation: hexFloat 20s linear infinite;
+        }
+        @keyframes hexFloat {
+            0% { background-position: 0 0; }
+            100% { background-position: 56px 98px; }
+        }
+
+        /* Rising particles */
+        .particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: rgba(204, 255, 0, 0.6);
+            border-radius: 50%;
+            pointer-events: none; z-index: 2;
+            animation: particleRise 6s ease-out infinite;
+        }
+        .particle-1 { left: 20%; animation-delay: 0s; }
+        .particle-2 { left: 35%; animation-delay: 1s; width: 3px; height: 3px; }
+        .particle-3 { left: 50%; animation-delay: 2s; }
+        .particle-4 { left: 65%; animation-delay: 0.5s; width: 3px; height: 3px; }
+        .particle-5 { left: 80%; animation-delay: 1.5s; }
+        .particle-6 { left: 25%; animation-delay: 3s; width: 2px; height: 2px; }
+        .particle-7 { left: 75%; animation-delay: 4s; width: 2px; height: 2px; }
+        @keyframes particleRise {
+            0% { bottom: 5%; opacity: 0; transform: translateX(0); }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { bottom: 70%; opacity: 0; transform: translateX(20px); }
+        }
+
+        /* Layer buildup effect */
+        .layer-stack {
+            position: absolute;
+            bottom: 60px; left: 50%;
+            transform: translateX(-50%);
+            width: 120px; height: 80px;
+            pointer-events: none; z-index: 2;
+        }
+        .layer-line {
+            position: absolute;
+            left: 0; width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.3), transparent);
+            animation: layerBuild 3s ease-in-out infinite;
+        }
+        .layer-line:nth-child(1) { bottom: 0; animation-delay: 0s; }
+        .layer-line:nth-child(2) { bottom: 8px; animation-delay: 0.2s; }
+        .layer-line:nth-child(3) { bottom: 16px; animation-delay: 0.4s; }
+        .layer-line:nth-child(4) { bottom: 24px; animation-delay: 0.6s; }
+        .layer-line:nth-child(5) { bottom: 32px; animation-delay: 0.8s; }
+        @keyframes layerBuild {
+            0%, 100% { opacity: 0.3; transform: scaleX(0.8); }
+            50% { opacity: 1; transform: scaleX(1); }
+        }
+
+        /* Nozzle indicator */
+        .nozzle {
+            position: absolute;
+            top: 50px; left: 50%;
+            transform: translateX(-50%);
+            width: 30px; height: 40px;
+            border-left: 2px solid rgba(204, 255, 0, 0.3);
+            border-right: 2px solid rgba(204, 255, 0, 0.3);
+            clip-path: polygon(0 0, 100% 0, 70% 100%, 30% 100%);
+            pointer-events: none; z-index: 2;
+        }
+        .nozzle::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 50%;
+            transform: translateX(-50%);
+            width: 6px; height: 6px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: nozzleGlow 1s ease-in-out infinite;
+        }
+        @keyframes nozzleGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(204, 255, 0, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(204, 255, 0, 0.8), 0 0 30px rgba(204, 255, 0, 0.4); }
+        }
+
+        /* Enhanced icon */
+        .section-big-icon {
+            animation: iconBuild 3s ease-in-out infinite;
+            will-change: transform, filter;
+        }
+        @keyframes iconBuild {
+            0%, 100% { 
+                filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.4)); 
+                transform: translateY(0) rotateY(0deg);
+            }
+            50% { 
+                filter: drop-shadow(0 0 50px rgba(204, 255, 0, 0.6)); 
+                transform: translateY(-3px) rotateY(10deg);
+            }
+        }
+
+        /* ============================================
+           PERFORMANCE OPTIMIZATIONS
+           ============================================ */
+        .flip-container,
+        .solution-item,
+        .btn,
+        .print-scanline,
+        .particle,
+        .layer-line {
+            will-change: transform;
+        }
+        
+        .glitch-flash,
+        .glitch-scanline {
+            will-change: opacity, top;
+        }
+
+        /* ============================================
+           ENHANCED LANGUAGE BUTTON VISIBILITY
+           ============================================ */
+        .control-lang .btn {
+            position: relative;
+            animation: langButtonPulse 3s ease-in-out infinite;
+        }
+        
+        .control-lang .btn::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 1px dashed rgba(204, 255, 0, 0.3);
+            border-radius: 50%;
+            animation: langRingPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes langButtonPulse {
+            0%, 100% { box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+            50% { box-shadow: 0 0 15px rgba(204, 255, 0, 0.3); }
+        }
+        
+        @keyframes langRingPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* ============================================
+           RESPONSIVE LAYOUT
+           ============================================ */
+        @media (max-width: 1200px) {
+            h1 { font-size: 44px; }
+            .section-big-icon { font-size: 60px; }
+            .solutions-row { gap: 14px; }
+            .solution-item { padding: 10px 16px; font-size: 14px; }
+        }
+        
+        @media (max-width: 992px) {
+            h1 { font-size: 36px; }
+            .section-big-icon { font-size: 50px; margin-bottom: 20px; }
+            .solutions-list { gap: 12px; }
+            .solutions-row { 
+                flex-direction: column; 
+                gap: 12px;
+                align-items: center;
+            }
+            .solution-item { 
+                width: 100%; 
+                max-width: 320px; 
+                justify-content: center;
+            }
+            .control-back { bottom: 15px; left: 20px; }
+            .control-lang { top: 15px; right: 20px; }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 28px; letter-spacing: 0; }
+            .section-big-icon { font-size: 42px; margin-bottom: 15px; }
+            .solution-item { 
+                padding: 10px 14px; 
+                font-size: 13px;
+                border-radius: 25px;
+            }
+            .sol-num { font-size: 10px; }
+            .btn { width: 36px; height: 36px; font-size: 14px; }
+            
+            /* Hide decorative elements on mobile */
+            .print-bed,
+            .nozzle,
+            .layer-stack,
+            .particle { display: none; }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 24px; }
+            .section-big-icon { font-size: 36px; }
+            .solution-item i { display: none; }
+            .solutions-list { gap: 10px; }
+        }
+
+        /* ============================================
+           REDUCED MOTION PREFERENCE
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+</head>
+<body class="lang-cn">
+
+<div id="deck-container">
+<div class="flip-container" id="flipContainer">
+    <!-- Glitch effect layers -->
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    
+    <!-- Base effects -->
+    <div class="halftone-layer-top"></div>
+    <div class="horizon-bloom-top"></div>
+    <div class="horizon-glow-top"></div>
+    <div class="halftone-layer-bottom"></div>
+    <div class="horizon-bloom-bottom"></div>
+    <div class="horizon-glow-bottom"></div>
+    
+    <!-- 3D Printing specific effects -->
+    <div class="hex-pattern"></div>
+    <div class="print-bed"></div>
+    <div class="print-scanline"></div>
+    <div class="nozzle"></div>
+    
+    <!-- Rising particles -->
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+    <div class="particle particle-6"></div>
+    <div class="particle particle-7"></div>
+    
+    <!-- Layer stack -->
+    <div class="layer-stack">
+        <div class="layer-line"></div>
+        <div class="layer-line"></div>
+        <div class="layer-line"></div>
+        <div class="layer-line"></div>
+        <div class="layer-line"></div>
+    </div>
+    
+    <div class="vignette"></div>
+    
+    <!-- Page transition overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <div class="content">
+        <div class="section-big-icon scroll-reveal-up"><i class="fa-solid fa-cube icon-hover-bounce"></i></div>
+        <h1 class="scroll-reveal-up">
+            <span class="cn">3D 打印全彩工作流</span>
+            <span class="en">Full-Color 3D Print Workflow</span>
+        </h1>
+        <div class="solutions-list scroll-reveal-up">
+            <div class="solutions-row">
+                <a href="case-3dprinting-miniature.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                    <span class="sol-num">01</span>
+                    <i class="fa-solid fa-palette icon-hover-bounce"></i>
+                    <span class="cn">全彩微缩模型定制</span><span class="en">Full-Color Miniatures</span>
+                </a>
+                <a href="case-3dprinting-portrait.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                    <span class="sol-num">02</span>
+                    <i class="fa-solid fa-user icon-hover-bounce"></i>
+                    <span class="cn">3D人像/宠物克隆</span><span class="en">Digital Twin Souvenirs</span>
+                </a>
+            </div>
+            <div class="solutions-row">
+                <a href="case-3dprinting-scan.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                    <span class="sol-num">03</span>
+                    <i class="fa-solid fa-expand icon-hover-bounce"></i>
+                    <span class="cn">扫描数据智能补全</span><span class="en">Scan-to-Print</span>
+                </a>
+                <a href="case-3dprinting-multicolor.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                    <span class="sol-num">04</span>
+                    <i class="fa-solid fa-swatchbook icon-hover-bounce"></i>
+                    <span class="cn">多色打印工作流</span><span class="en">Multi-Color Print Workflow</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-back">
+        <a href="../index.html" class="btn magnetic-btn micro-ripple" title="返回 / Back">
+            <i class="fa-solid fa-arrow-left icon-hover-bounce"></i>
+        </a>
+    </div>
+    <div class="control-lang">
+        <button class="btn magnetic-btn" onclick="toggleLanguage()" title="切换语言 / Toggle Language">
+            <i class="fa-solid fa-globe icon-hover-bounce"></i>
+        </button>
+    </div>
+</div>
+</div>
+
+<script>
+    // Initialize language from localStorage or default to 'cn'
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    let isFlipping = false;
+    
+    // Apply initial language state
+    function applyLanguage() {
+        document.body.classList.remove('lang-cn', 'lang-en');
+        document.body.classList.add('lang-' + lang);
+    }
+    applyLanguage();
+    
+    function toggleLanguage() {
+        if (isFlipping) return; // Prevent spam clicking
+        isFlipping = true;
+        
+        const flipContainer = document.getElementById('flipContainer');
+        const deckContainer = document.getElementById('deck-container');
+        const langBtn = document.querySelector('.control-lang .btn');
+        
+        // Trigger all glitch effects simultaneously
+        flipContainer.classList.add('glitching');
+        deckContainer.classList.add('punched');
+        if (langBtn) langBtn.classList.add('zapping');
+        
+        // Switch language at the peak of the glitch (middle of animation)
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            applyLanguage();
+        }, 150); // Switch at 150ms (middle of 300ms animation)
+        
+        // Clean up after animation completes
+        setTimeout(() => {
+            flipContainer.classList.remove('glitching');
+            deckContainer.classList.remove('punched');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 300);
+    }
+
+    function navigateTo(event, element) {
+        event.preventDefault();
+        const href = element.getAttribute('href');
+        const transition = document.getElementById('pageTransition');
+        const deckContainer = document.getElementById('deck-container');
+        
+        // 添加案例导航过渡效果
+        element.classList.add('clicked-case');
+        deckContainer.classList.add('navigating-case');
+        transition.classList.add('case-nav');
+        
+        setTimeout(() => {
+            transition.classList.add('active');
+        }, 50);
+        
+        setTimeout(() => {
+            window.location.href = href;
+        }, 350);
+    }
+    
+    // 页面显示时清理过渡效果
+    window.addEventListener('pageshow', function(event) {
+        const transition = document.getElementById('pageTransition');
+        const deckContainer = document.getElementById('deck-container');
+        
+        transition.classList.remove('active', 'case-nav');
+        deckContainer.classList.remove('navigating-case');
+        document.querySelectorAll('.solution-item.clicked-case').forEach(item => {
+            item.classList.remove('clicked-case');
+        });
+    });
+
+    document.querySelectorAll('.solution-item').forEach(item => {
+        item.addEventListener('click', (e) => navigateTo(e, item));
+    });
+    
+    document.querySelector('.btn[href]')?.addEventListener('click', function(e) {
+        navigateTo(e, this);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key.toLowerCase() === 'l') toggleLanguage();
+        if(e.key === 'Escape') {
+            const backBtn = document.querySelector('.btn[href]');
+            if(backBtn) navigateTo(new Event('click'), backBtn);
+        }
+        if(e.key >= '1' && e.key <= '4') {
+            const items = document.querySelectorAll('.solution-item');
+            const idx = parseInt(e.key) - 1;
+            if(items[idx]) navigateTo(new Event('click'), items[idx]);
+        }
+    });
+</script>
+
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

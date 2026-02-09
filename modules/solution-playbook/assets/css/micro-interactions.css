@@ -1,0 +1,93 @@
+/* ============================================
+   MICRO INTERACTIONS - CSS
+   ============================================ */
+
+/* Ripple 波纹效果 */
+.micro-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.micro-ripple::after {
+  content: '';
+  position: absolute;
+  top: var(--ripple-y, 50%);
+  left: var(--ripple-x, 50%);
+  width: var(--ripple-size, 0);
+  height: var(--ripple-size, 0);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  opacity: 1;
+}
+
+.micro-ripple.rippling::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+/* 卡片 3D Tilt 效果 */
+.micro-tilt {
+  transform-style: preserve-3d;
+  transition: transform var(--transition-fast, 0.15s) ease-out;
+}
+
+.micro-tilt:hover {
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+}
+
+/* 禁用触摸设备上的 tilt 效果 */
+@media (hover: none) and (pointer: coarse) {
+  .micro-tilt:hover {
+    transform: none;
+  }
+}
+
+/* 图标弹跳效果 */
+.micro-bounce i,
+.micro-bounce .icon {
+  transition: transform var(--transition-normal, 0.3s) var(--ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
+  display: inline-block;
+}
+
+.micro-bounce:hover i,
+.micro-bounce:hover .icon {
+  transform: scale(1.2) translateY(-3px);
+}
+
+/* 数字计数动画类 */
+.micro-counter {
+  display: inline-block;
+}
+
+/* Reduced motion 支持 */
+@media (prefers-reduced-motion: reduce) {
+  .micro-ripple::after {
+    animation: none !important;
+  }
+  
+  .micro-tilt {
+    transition: none !important;
+  }
+  
+  .micro-tilt:hover {
+    transform: none !important;
+  }
+  
+  .micro-bounce i,
+  .micro-bounce .icon {
+    transition: none !important;
+  }
+  
+  .micro-bounce:hover i,
+  .micro-bounce:hover .icon {
+    transform: none !important;
+  }
+}

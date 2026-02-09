@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+<style>
+html { background: #080808; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #080808; font-family: 'Inter', Arial, sans-serif;
+}
+.content { padding: 12pt 30pt; position: relative; }
+.glow-bg { position: absolute; top: 50pt; right: 50pt; width: 120pt; height: 120pt; background: #CCFF00; opacity: 0.03; border-radius: 50%; }
+.progress-nav { display: flex; align-items: center; justify-content: center; gap: 5pt; margin-bottom: 12pt; background: #0A0A0A; padding: 8pt 15pt; border: 1pt solid #1A1A1A; }
+.nav-step { display: flex; flex-direction: column; align-items: center; gap: 3pt; }
+.nav-num { width: 18pt; height: 18pt; background: #111111; border: 1pt solid #222222; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.nav-num-text { color: #444444; font-size: 7pt; margin: 0; font-weight: 600; }
+.nav-num.done { background: #CCFF00; border-color: #CCFF00; }
+.nav-num.done .nav-num-text { color: #080808; }
+.nav-num.active { background: #CCFF00; border-color: #CCFF00; }
+.nav-num.active .nav-num-text { color: #080808; }
+.nav-label { color: #444444; font-size: 6pt; margin: 0; }
+.nav-label.done { color: #CCFF00; }
+.nav-label.active { color: #CCFF00; }
+.nav-line { width: 25pt; height: 1pt; background: #222222; }
+.nav-line.done { background: #CCFF00; }
+.step-header { margin-bottom: 10pt; }
+.step-badge { display: inline-block; background: #111111; border: 1pt solid #CCFF00; padding: 3pt 10pt; margin-bottom: 6pt; }
+.step-badge-text { color: #CCFF00; font-size: 7pt; margin: 0; font-weight: 600; letter-spacing: 1pt; }
+h1 { color: #FFFFFF; font-size: 20pt; margin: 0; }
+.main-section { display: flex; gap: 15pt; }
+.preview-panel { flex: 1.2; background: #0D0D0D; border: 1pt solid #1A1A1A; height: 145pt; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.preview-glow { position: absolute; top: -1pt; left: 20%; right: 20%; height: 2pt; background: #CCFF00; }
+.preview-icon { color: #333333; font-size: 36pt; margin-bottom: 8pt; }
+.preview-label { color: #555555; font-size: 8pt; margin: 0; }
+.features-panel { flex: 0.8; display: flex; flex-direction: column; gap: 8pt; }
+.feature-card { background: #0D0D0D; border: 1pt solid #1A1A1A; padding: 10pt 12pt; }
+.feature-icon { color: #CCFF00; font-size: 7pt; margin: 0 0 4pt 0; font-weight: 700; }
+.feature-title { color: #FFFFFF; font-size: 9pt; margin: 0 0 3pt 0; font-weight: 600; }
+.feature-desc { color: #555555; font-size: 7pt; margin: 0; }
+.footer { display: flex; justify-content: flex-end; margin-top: 10pt; }
+.footer-tag { color: #333333; font-size: 7pt; }
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="glow-bg"></div>
+  <div class="progress-nav">
+    <div class="nav-step">
+      <div class="nav-num done"><p class="nav-num-text">OK</p></div>
+      <p class="nav-label done">Input</p>
+    </div>
+    <div class="nav-line done"></div>
+    <div class="nav-step">
+      <div class="nav-num active"><p class="nav-num-text">02</p></div>
+      <p class="nav-label active">Generate</p>
+    </div>
+    <div class="nav-line"></div>
+    <div class="nav-step">
+      <div class="nav-num"><p class="nav-num-text">03</p></div>
+      <p class="nav-label">Polish</p>
+    </div>
+    <div class="nav-line"></div>
+    <div class="nav-step">
+      <div class="nav-num"><p class="nav-num-text">04</p></div>
+      <p class="nav-label">Print</p>
+    </div>
+  </div>
+  <div class="step-header">
+    <div class="step-badge"><p class="step-badge-text">STEP 02: AI GENERATION</p></div>
+    <h1>Meshy Creates Textured 3D Model</h1>
+  </div>
+  <div class="main-section">
+    <div class="preview-panel">
+      <div class="preview-glow"></div>
+      <p class="preview-icon">[AI]</p>
+      <p class="preview-label">Video Placeholder - AI Generation</p>
+    </div>
+    <div class="features-panel">
+      <div class="feature-card">
+        <p class="feature-icon">// AI-POWERED</p>
+        <p class="feature-title">Complete 3D Model</p>
+        <p class="feature-desc">Full-color textures generated in minutes</p>
+      </div>
+      <div class="feature-card">
+        <p class="feature-icon">// VARIATIONS</p>
+        <p class="feature-title">Multiple Options</p>
+        <p class="feature-desc">Several designs for customer selection</p>
+      </div>
+      <div class="feature-card">
+        <p class="feature-icon">// PRINT-READY</p>
+        <p class="feature-title">3MF Output</p>
+        <p class="feature-desc">Industry-standard format with textures</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p class="footer-tag">06 // STEP 02 - AI GENERATION</p>
+  </div>
+</div>
+</body>
+</html>

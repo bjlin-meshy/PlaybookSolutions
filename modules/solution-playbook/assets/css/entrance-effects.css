@@ -1,0 +1,258 @@
+/**
+ * Entrance Effects - CSS Fallback Animations
+ * Agent 3 - Meshy Solution Playbook
+ * Provides CSS-only animations for browsers without GSAP
+ */
+
+/* Base animation keyframes */
+@keyframes entranceFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes entranceFadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes entranceFadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes entranceZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes entranceScaleRotate {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+@keyframes entranceCardStagger {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes entranceBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility classes for entrance animations */
+.entrance-fade-up {
+  animation: entranceFadeUp 0.6s ease-out forwards;
+}
+
+.entrance-fade-left {
+  animation: entranceFadeLeft 0.6s ease-out forwards;
+}
+
+.entrance-fade-right {
+  animation: entranceFadeRight 0.6s ease-out forwards;
+}
+
+.entrance-zoom-in {
+  animation: entranceZoomIn 0.6s ease-out forwards;
+}
+
+.entrance-scale-rotate {
+  animation: entranceScaleRotate 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.entrance-card-stagger {
+  opacity: 0;
+  animation: entranceCardStagger 0.6s ease-out forwards;
+}
+
+.entrance-bounce {
+  animation: entranceBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Delay utilities */
+.entrance-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.entrance-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.entrance-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.entrance-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.entrance-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.entrance-delay-600 {
+  animation-delay: 0.6s;
+}
+
+.entrance-delay-700 {
+  animation-delay: 0.7s;
+}
+
+/* Scroll reveal base styles */
+.scroll-reveal {
+  opacity: 0;
+}
+
+/* When GSAP is loaded, these will be animated via JS */
+/* CSS fallback will apply animations when JS detects no GSAP */
+.gsap-loaded .scroll-reveal {
+  /* GSAP will handle these */
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .entrance-fade-up,
+  .entrance-fade-left,
+  .entrance-fade-right,
+  .entrance-zoom-in,
+  .entrance-scale-rotate,
+  .entrance-card-stagger,
+  .entrance-bounce {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .scroll-reveal {
+    opacity: 1;
+  }
+}
+
+/* Performance optimization */
+.entrance-fade-up,
+.entrance-fade-left,
+.entrance-fade-right,
+.entrance-zoom-in,
+.entrance-scale-rotate,
+.entrance-card-stagger,
+.entrance-bounce {
+  will-change: transform, opacity;
+}
+
+/* Reset will-change after animation completes */
+.entrance-fade-up,
+.entrance-fade-left,
+.entrance-fade-right,
+.entrance-zoom-in,
+.entrance-scale-rotate,
+.entrance-card-stagger,
+.entrance-bounce {
+  animation-fill-mode: forwards;
+}
+
+/* Ensure elements are hidden initially */
+.hero-section .hero-icon,
+.hero-section .icon,
+[class*="hero"] [class*="icon"] {
+  opacity: 0;
+}
+
+.hero-section h1,
+.hero-section .hero-title,
+[class*="hero"] h1,
+[class*="hero"] [class*="title"] {
+  opacity: 0;
+}
+
+.hero-section .subtitle,
+.hero-section p,
+[class*="hero"] .subtitle,
+[class*="hero"] p {
+  opacity: 0;
+}
+
+.hero-section .credits,
+[class*="hero"] [class*="credit"] {
+  opacity: 0;
+}
+
+/* Card stagger initial state - only hide actual card elements, not entrance-card class */
+.industry-cards .card,
+.cards-grid .card,
+.case-card,
+.showcase-card {
+  opacity: 0;
+}
+/* Industry items will be animated by GSAP, set initial state */
+.industries-list .industry-item {
+  opacity: 0;
+  transform: scale(0.8) translateY(50px);
+  animation: entranceCardStagger 0.6s ease-out forwards;
+}
+
+.industries-list .industry-item:nth-child(1) { animation-delay: 0.1s; }
+.industries-list .industry-item:nth-child(2) { animation-delay: 0.2s; }
+.industries-list .industry-item:nth-child(3) { animation-delay: 0.3s; }
+
+.industries-row:nth-child(2) .industry-item:nth-child(1) { animation-delay: 0.4s; }
+.industries-row:nth-child(2) .industry-item:nth-child(2) { animation-delay: 0.5s; }
+
+/* Reduced motion fallback - show immediately */
+@media (prefers-reduced-motion: reduce) {
+  .industries-list .industry-item {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* Counter animation base */
+[data-count] {
+  font-variant-numeric: tabular-nums;
+}

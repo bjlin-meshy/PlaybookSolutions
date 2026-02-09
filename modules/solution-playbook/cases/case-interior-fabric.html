@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="interior">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interior - Custom Surface & Fabric | Meshy Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">
+    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+    <style>
+        :root { --bg-core: #000; --bg-slide: #080808; --accent-primary: #CCFF00; --accent-red: #FF3333; --text-main: #f0f0f0; --text-sub: #888; --transition-fast: 0.15s; --transition-normal: 0.3s; --transition-slow: 0.5s; --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94); --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); /* 视觉增强变量 - Visual Enhancement */ --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55); --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94); --parallax-slow: 0.3; --parallax-fast: 0.8; --cursor-size: 20px; --cursor-follower-size: 40px; --cursor-color: var(--accent-primary); --animation-duration-fast: 0.2s; --animation-duration-normal: 0.4s; --animation-duration-slow: 0.8s; --particle-count: 30; --particle-size: 4px; --particle-color: var(--accent-primary); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg-core); margin: 0; padding: 0; overflow: hidden; font-family: 'Inter', sans-serif; color: var(--text-main); }
+        body.lang-cn { font-family: 'Noto Sans SC', sans-serif; } .cn { display: none; } body.lang-cn .en { display: none !important; } body.lang-cn .cn { display: inline; } body.lang-cn div.cn, body.lang-cn p.cn { display: block; }
+        #deck-container { width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: var(--bg-slide); border: 1px solid #333; overflow: hidden; }
+        .slide { position: absolute; inset: 0; padding: 60px 80px; opacity: 0; visibility: hidden; transform: scale(1.03) translateY(10px); filter: blur(5px); transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease, visibility 0s 0.4s; display: flex; flex-direction: column; z-index: 1; }
+        .slide.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); filter: blur(0); transition-delay: 0s; z-index: 10; }
+        .slide::before { content: ''; position: absolute; top: -40%; right: -40%; width: 150%; height: 150%; background: radial-gradient(ellipse at 100% 0%, rgba(204,255,0,0.2) 0%, transparent 50%); pointer-events: none; }
+        .slide-content { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
+        .section-big-icon { font-size: 64px; color: var(--accent-primary); margin-bottom: 20px; }
+        .section-tag { display: inline-flex; align-items: center; gap: 10px; background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.3); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--accent-primary); margin-bottom: 20px; width: fit-content; }
+        .slide-desc { font-size: 18px; color: var(--text-sub); line-height: 1.6; max-width: 800px; }
+        .versus-container { display: flex; align-items: stretch; flex: 1; }
+        .versus-side { flex: 1; padding: 25px; border-radius: 12px; display: flex; flex-direction: column; }
+        .pain-side { background: linear-gradient(135deg, rgba(255,51,51,0.08), rgba(255,51,51,0.02)); border: 1px solid rgba(255,51,51,0.2); }
+        .sol-side { background: linear-gradient(135deg, rgba(204,255,0,0.08), rgba(204,255,0,0.02)); border: 1px solid rgba(204,255,0,0.2); }
+        .versus-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .versus-icon { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .pain-icon { background: rgba(255,51,51,0.2); color: var(--accent-red); border: 2px solid var(--accent-red); }
+        .sol-icon { background: rgba(204,255,0,0.2); color: var(--accent-primary); border: 2px solid var(--accent-primary); }
+        .versus-header h3 { font-size: 20px; margin: 0; }
+        .versus-divider { display: flex; align-items: center; justify-content: center; padding: 0 15px; }
+        .vs-badge { background: linear-gradient(135deg, #333, #111); border: 2px solid #555; color: white; font-size: 18px; font-weight: 800; padding: 12px 16px; border-radius: 10px; }
+        .versus-items { display: flex; flex-direction: column; gap: 12px; }
+        .versus-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .versus-item .item-icon { font-size: 20px; width: 35px; text-align: center; }
+        .versus-item .item-title { font-size: 14px; font-weight: 600; }
+        .versus-item .item-desc { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+        .cols-3-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 30px; }
+        .metric-box { background: rgba(20,20,20,0.8); border: 1px solid #333; border-radius: 12px; padding: 35px 20px; text-align: center; }
+        .metric-val { font-size: 56px; font-weight: 800; color: var(--accent-primary); }
+        .metric-label { font-size: 16px; font-weight: 600; margin-top: 10px; }
+        .metric-sub { font-size: 13px; color: var(--text-sub); margin-top: 6px; }
+        .case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; flex: 1; }
+        .showcase-card { background: rgba(20,20,20,0.6); border: 1px solid #333; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; text-align: center; }
+        .showcase-icon { font-size: 35px; color: #444; margin-bottom: 10px; }
+        .showcase-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+        .placeholder-label { background: #1a1a1a; border: 1px dashed #444; border-radius: 8px; padding: 30px 10px; color: #555; flex: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .case-step-badge { display: inline-block; background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.3); padding: 5px 12px; border-radius: 18px; font-size: 11px; font-weight: 600; color: var(--accent-primary); margin-bottom: 8px; }
+        .case-title { font-size: 26px; font-weight: 700; }
+        .progress-bar { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--accent-primary); transition: width 0.3s; z-index: 100; }
+        .control-back { position: absolute; bottom: 18px; left: 25px; z-index: 100; }
+        .control-lang { position: absolute; top: 18px; right: 25px; z-index: 100; }
+        .btn { background: #111; border: 1px solid #333; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; opacity: 0.7; text-decoration: none; transition: all 0.2s; }
+        .btn:hover { opacity: 1; background: var(--accent-primary); border-color: var(--accent-primary); color: black; }
+        /* GLITCH ELECTRIC SHOCK EFFECT */
+        .glitch-flash { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--accent-primary); opacity: 0; pointer-events: none; z-index: 9999; mix-blend-mode: overlay; }
+        .glitch-scanline { position: absolute; top: 0; left: 0; width: 100%; height: 8px; background: linear-gradient(to bottom, transparent, rgba(204, 255, 0, 0.9), rgba(255, 255, 255, 1), rgba(204, 255, 0, 0.9), transparent); opacity: 0; pointer-events: none; z-index: 9998; box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); }
+        @keyframes glitchShake { 0% { transform: translate(0, 0) skewX(0deg); filter: none; } 10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); } 20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); } 30% { transform: translate(-4px, 0) skewX(0deg); filter: none; } 40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); } 50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); } 60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); } 70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); } 80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; } 90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); } 100% { transform: translate(0, 0) skewX(0deg); filter: none; } }
+        @keyframes electricFlash { 0% { opacity: 0; } 5% { opacity: 0.8; } 10% { opacity: 0; } 15% { opacity: 0.6; } 20% { opacity: 0; } 35% { opacity: 0.9; } 40% { opacity: 0; } 55% { opacity: 0.4; } 60% { opacity: 0; } 100% { opacity: 0; } }
+        @keyframes scanlineZap { 0% { top: -10px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        @keyframes rgbSplit { 0% { text-shadow: 0 0 0 transparent; } 20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); } 40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); } 60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); } 80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); } 100% { text-shadow: 0 0 0 transparent; } }
+        #deck-container.glitching { animation: glitchShake 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        #deck-container.glitching .slide.active { animation: rgbSplit 0.3s ease-out; }
+        #deck-container.glitching .glitch-flash { animation: electricFlash 0.3s ease-out; }
+        #deck-container.glitching .glitch-scanline { animation: scanlineZap 0.15s ease-out; }
+        .control-lang .btn.zapping { animation: buttonZap 0.3s ease-out; }
+        @keyframes buttonZap { 0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); } 30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); } 50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); } 100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); } }
+    </style>
+</head>
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+<body class="lang-cn">
+<div id="deck-container">
+    <!-- Glitch effect layers -->
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    <div class="progress-bar" id="progress"></div>
+    <div class="control-back" onclick="event.stopPropagation()">
+        <a href="case-interior-solutions.html" class="btn micro-ripple magnetic-btn"><i class="fa-solid fa-arrow-left"></i></a>
+    </div>
+    <div class="control-lang" onclick="event.stopPropagation()">
+        <button class="btn magnetic-btn" onclick="toggleLanguage(); event.stopPropagation();"><i class="fa-solid fa-globe"></i></button>
+    </div>
+    <div class="slide active">
+        <div class="slide-content scroll-reveal-up" style="justify-content: center; align-items: center; text-align: center;">
+            <div class="section-big-icon"><i class="fa-solid fa-brush icon-hover-bounce"></i></div>
+            <h1 style="font-size: 52px;"><span class="cn">定制表面与面料</span><span class="en">Custom Surface & Fabric</span></h1>
+            <p class="slide-desc" style="text-align: center; margin: 20px auto;"><span class="cn">AI 生成定制墙纸、地毯图案和装饰面板纹理</span><span class="en">AI generates custom wallpaper, rug patterns, and decorative panel textures</span></p>
+            <div class="section-tag" style="margin-top: 20px;"><span class="cn">SOLUTION 03 · 表面设计</span><span class="en">SOLUTION 03 · Surface Design</span></div>
+        </div>
+    </div>
+    <div class="slide">
+        <div class="slide-content scroll-reveal-up">
+            <div class="section-tag" style="margin-bottom: 20px;"><i class="fa-solid fa-crosshairs"></i><span class="en">THE CHALLENGE</span><span class="cn">行业痛点</span></div>
+            <h2 style="font-size: 32px; margin-bottom: 20px;"><span class="cn">定制表面设计的困境</span><span class="en">Custom Surface Design Challenge</span></h2>
+            <div class="versus-container">
+                <div class="versus-side pain-side card-shine card-lift">
+                    <div class="versus-header"><div class="versus-icon pain-icon"><i class="fa-solid fa-xmark"></i></div><h3 style="color: var(--accent-red);"><span class="en">Pain Points</span><span class="cn">传统困境</span></h3></div>
+                    <div class="versus-items">
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-red);">💰</div><div><div class="item-title"><span class="en">$500+ Per Custom Pattern</span><span class="cn">定制图案 $500+/个</span></div><div class="item-desc"><span class="en">Professional pattern design costs $500-2,000 per pattern</span><span class="cn">专业图案设计单个 $500-2,000</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-red);">📐</div><div><div class="item-title"><span class="en">Limited Material Libraries</span><span class="cn">材料库选择有限</span></div><div class="item-desc"><span class="en">Stock texture libraries rarely match specific design visions</span><span class="cn">素材库难以匹配特定设计愿景</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-red);">🔁</div><div><div class="item-title"><span class="en">Obvious Tile Repetition</span><span class="cn">平铺重复感明显</span></div><div class="item-desc"><span class="en">Clients notice repeating patterns in large surfaces</span><span class="cn">大面积铺贴时客户能察觉重复</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-red);">⏰</div><div><div class="item-title"><span class="en">1-2 Week Design Cycle</span><span class="cn">设计周期 1-2 周</span></div><div class="item-desc"><span class="en">Custom fabric/wallpaper design takes 1-2 weeks from brief</span><span class="cn">从需求到定制面料/墙纸需 1-2 周</span></div></div></div>
+                    </div>
+                </div>
+                <div class="versus-divider"><div class="vs-badge">VS</div></div>
+                <div class="versus-side sol-side card-shine card-lift">
+                    <div class="versus-header"><div class="versus-icon sol-icon"><i class="fa-solid fa-check"></i></div><h3 style="color: var(--accent-primary);"><span class="en">Meshy Solution</span><span class="cn">Meshy 破局点</span></h3></div>
+                    <div class="versus-items">
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-primary);">🎨</div><div><div class="item-title"><span class="en">$0 Pattern Generation</span><span class="cn">$0 图案生成</span></div><div class="item-desc"><span class="en">Generate unique seamless patterns via text prompts</span><span class="cn">通过文本提示生成独特无缝图案</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-primary);">🖼️</div><div><div class="item-title"><span class="en">PBR-Ready Textures</span><span class="cn">PBR 材质即用</span></div><div class="item-desc"><span class="en">Full PBR texture sets with normal, roughness maps</span><span class="cn">完整 PBR 贴图集含法线、粗糙度</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-primary);">🔲</div><div><div class="item-title"><span class="en">True Seamless Tiling</span><span class="cn">真无缝平铺</span></div><div class="item-desc"><span class="en">AI-generated patterns tile without visible seams</span><span class="cn">AI 生成图案平铺无可见接缝</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-primary);">⚡</div><div><div class="item-title"><span class="en">5-Minute Turnaround</span><span class="cn">5 分钟交付</span></div><div class="item-desc"><span class="en">From concept to production-ready in 5 minutes</span><span class="cn">从概念到可用材质仅需 5 分钟</span></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide">
+        <div class="slide-content scroll-reveal-up" style="justify-content: center;">
+            <div class="section-tag"><i class="fa-solid fa-chart-line"></i><span class="en">BUSINESS VALUE</span><span class="cn">商业价值</span></div>
+            <p class="slide-desc" style="text-align: center; margin-bottom: 35px;"><span class="cn">为每个项目定制独特的表面材质，提升设计辨识度</span><span class="en">Customize unique surface materials for each project, elevate design recognition</span></p>
+            <div class="cols-3-metrics" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="metric-box"><div class="metric-val">↓99%</div><div class="metric-label"><span class="cn">成本节省</span><span class="en">Cost Saved</span></div><div class="metric-sub"><span class="cn">$500+ → 几美元</span><span class="en">$500+ → pennies</span></div></div>
+                <div class="metric-box"><div class="metric-val">5<span style="font-size: 32px;">min</span></div><div class="metric-label"><span class="cn">生成时间</span><span class="en">Generation Time</span></div><div class="metric-sub"><span class="cn">对比 1-2 周</span><span class="en">vs 1-2 weeks</span></div></div>
+                <div class="metric-box"><div class="metric-val">4K</div><div class="metric-label"><span class="cn">分辨率</span><span class="en">Resolution</span></div><div class="metric-sub"><span class="cn">PBR 材质贴图</span><span class="en">PBR texture maps</span></div></div>
+                <div class="metric-box"><div class="metric-val">30+</div><div class="metric-label"><span class="cn">变体/小时</span><span class="en">Variants/Hour</span></div><div class="metric-sub"><span class="cn">快速探索设计方案</span><span class="en">Rapid design exploration</span></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="slide">
+        <div class="slide-content scroll-reveal-up">
+            <div class="section-tag"><i class="fa-solid fa-route"></i><span class="en">WORKFLOW DEMO</span><span class="cn">落地工作流演示</span></div>
+            <h2 style="font-size: 28px; margin-bottom: 25px;"><span class="cn">定制表面材质工作流</span><span class="en">Custom Surface Material Workflow</span></h2>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <div style="background: rgba(20,20,20,0.8); border: 1px solid #333; border-radius: 12px; padding: 25px 20px; text-align: center; min-width: 180px;">
+                    <div style="font-size: 12px; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">STEP 01</div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 6px;"><span class="cn">风格定义</span><span class="en">Style Definition</span></div>
+                    <div style="font-size: 12px; color: var(--text-sub);"><span class="cn">描述图案风格/色彩</span><span class="en">Describe pattern style/color</span></div>
+                </div>
+                <div style="font-size: 24px; color: var(--text-sub);">→</div>
+                <div style="background: rgba(204,255,0,0.1); border: 2px solid var(--accent-primary); border-radius: 12px; padding: 25px 20px; text-align: center; min-width: 180px;">
+                    <div style="font-size: 12px; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">STEP 02 ⭐</div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 6px;"><span class="cn">Meshy 生成</span><span class="en">Meshy Generation</span></div>
+                    <div style="font-size: 12px; color: var(--text-sub);"><span class="cn">AI 生成 PBR 材质</span><span class="en">AI generates PBR textures</span></div>
+                </div>
+                <div style="font-size: 24px; color: var(--text-sub);">→</div>
+                <div style="background: rgba(20,20,20,0.8); border: 1px solid #333; border-radius: 12px; padding: 25px 20px; text-align: center; min-width: 180px;">
+                    <div style="font-size: 12px; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">STEP 03</div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 6px;"><span class="cn">材质应用</span><span class="en">Apply Materials</span></div>
+                    <div style="font-size: 12px; color: var(--text-sub);"><span class="cn">导入 3D 软件应用</span><span class="en">Import to 3D software</span></div>
+                </div>
+                <div style="font-size: 24px; color: var(--text-sub);">→</div>
+                <div style="background: rgba(20,20,20,0.8); border: 1px solid #333; border-radius: 12px; padding: 25px 20px; text-align: center; min-width: 180px;">
+                    <div style="font-size: 12px; font-weight: 700; color: var(--accent-primary); margin-bottom: 8px;">STEP 04</div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 6px;"><span class="cn">渲染展示</span><span class="en">Render Preview</span></div>
+                    <div style="font-size: 12px; color: var(--text-sub);"><span class="cn">高质量效果图</span><span class="en">High-quality renders</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide">
+        <div class="slide-content scroll-reveal-up">
+            <div class="case-step-badge" style="background: rgba(204,255,0,0.2);"><span class="cn">最终成果</span><span class="en">FINAL RESULT</span></div>
+            <h2 class="case-title" style="margin-bottom: 20px;"><span class="cn">表面材质变体展示</span><span class="en">Surface Material Variations</span></h2>
+            <div class="case-grid">
+                <div class="showcase-card card-shine card-lift" micro-tilt><div class="showcase-icon"><i class="fa-solid fa-square"></i></div><div class="showcase-title"><span class="cn">定制墙纸</span><span class="en">Custom Wallpaper</span></div><div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div></div>
+                <div class="showcase-card card-shine card-lift" micro-tilt><div class="showcase-icon"><i class="fa-solid fa-rug"></i></div><div class="showcase-title"><span class="cn">地毯纹理</span><span class="en">Rug Textures</span></div><div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div></div>
+                <div class="showcase-card card-shine card-lift" micro-tilt><div class="showcase-icon"><i class="fa-solid fa-layer-group"></i></div><div class="showcase-title"><span class="cn">装饰面板</span><span class="en">Decorative Panels</span></div><div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div></div>
+                <div class="showcase-card card-shine card-lift" micro-tilt><div class="showcase-icon"><i class="fa-solid fa-shirt"></i></div><div class="showcase-title"><span class="cn">布艺面料</span><span class="en">Fabric Materials</span></div><div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const slides = document.querySelectorAll('.slide'), progressBar = document.getElementById('progress'), dc = document.getElementById('deck-container');
+    let cur = 0, tot = slides.length, isFlipping = false;
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    // Apply initial language
+    document.body.classList.remove('lang-cn', 'lang-en');
+    document.body.classList.add('lang-' + lang);
+    function upd() { slides.forEach((s,i)=>{s.classList.toggle('active',i===cur);}); progressBar.style.width = ((cur+1)/tot)*100+'%'; }
+    function toggleLanguage() {
+        if (isFlipping) return;
+        isFlipping = true;
+        const deckContainer = document.getElementById('deck-container');
+        const langBtn = document.querySelector('.control-lang .btn');
+        deckContainer.classList.add('glitching');
+        if (langBtn) langBtn.classList.add('zapping');
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            document.body.classList.toggle('lang-cn', lang === 'cn');
+            document.body.classList.toggle('lang-en', lang === 'en');
+        }, 150);
+        setTimeout(() => {
+            deckContainer.classList.remove('glitching');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 300);
+    }
+    document.addEventListener('keydown', e=>{ if(e.key==='ArrowRight'||e.key===' '){if(cur<tot-1){cur++;upd();}else{location.href='case-interior-solutions.html';}} if(e.key==='ArrowLeft'){if(cur>0)cur--;upd();} if(e.key.toLowerCase()==='l')toggleLanguage(); if(e.key==='Escape')location.href='case-interior-solutions.html'; });
+    dc.addEventListener('click', e=>{ const r=dc.getBoundingClientRect(); if(e.clientX-r.left>r.width/2){if(cur<tot-1){cur++;upd();}else{location.href='case-interior-solutions.html';}}else{if(cur>0){cur--;upd();}} });
+    upd();
+</script>
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

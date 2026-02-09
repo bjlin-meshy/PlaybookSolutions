@@ -1,0 +1,427 @@
+/* ============================================
+   MOBILE ADAPTATION - Agent 11
+   移动端适配样式
+   ============================================ */
+
+/* ============================================
+   1. 触摸目标尺寸保证 (≥44x44px)
+   ============================================ */
+
+/* 确保所有可点击元素至少 44x44px */
+.btn,
+.industry-item,
+.solution-item,
+.workflow-step,
+.nav-btn,
+a[href],
+button {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* 移动端按钮尺寸增强 */
+@media (hover: none) and (pointer: coarse) {
+    .btn {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
+    
+    .industry-item,
+    .solution-item {
+        padding: 16px 24px;
+        min-height: 48px;
+    }
+    
+    /* 增加可点击区域 */
+    .control-back,
+    .control-lang {
+        padding: 8px;
+    }
+}
+
+/* ============================================
+   2. 移动端禁用重度动画
+   ============================================ */
+
+/* 触摸设备无悬停 */
+@media (hover: none) and (pointer: coarse) {
+    /* 禁用粒子效果 */
+    .particle-container,
+    .particles,
+    .particle {
+        display: none !important;
+    }
+    
+    /* 禁用自定义光标效果 */
+    .custom-cursor,
+    .cursor-dot,
+    .cursor-ring,
+    .cursor-trail {
+        display: none !important;
+    }
+    
+    /* 禁用磁性按钮效果 - 强制重置 transform */
+    .magnetic-button,
+    .btn.magnetic {
+        transform: none !important;
+    }
+    
+    /* 简化浮动元素动画 */
+    .floating-shape {
+        animation-duration: 20s !important;
+        animation-timing-function: linear !important;
+    }
+    
+    /* 禁用复杂背景动画 */
+    .grid-overlay {
+        animation: none !important;
+    }
+    
+    /* 简化脉冲动画 */
+    .horizon-glow-top,
+    .horizon-glow-bottom,
+    .horizon-bloom-top,
+    .horizon-bloom-bottom {
+        animation: none !important;
+    }
+    
+    /* 禁用扫描线效果 */
+    .scanlines {
+        display: none !important;
+    }
+    
+    /* 简化边框发光 */
+    .border-glow::before,
+    .border-glow::after {
+        animation: none !important;
+        opacity: 0.5 !important;
+    }
+    
+    /* 禁用 hover 相关变换 */
+    .industry-item:hover,
+    .solution-item:hover {
+        transform: none !important;
+    }
+    
+    /* 保持 active 状态的视觉反馈 */
+    .industry-item:active,
+    .solution-item:active,
+    .btn:active {
+        transform: scale(0.95) !important;
+        opacity: 0.8;
+    }
+}
+
+/* ============================================
+   3. 移动端滚动性能优化
+   ============================================ */
+
+@media (hover: none) and (pointer: coarse) {
+    /* 启用硬件加速的平滑滚动 */
+    html {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* 优化滚动容器 */
+    .scroll-container,
+    .content-scroll {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+    
+    /* 减少重绘 */
+    .flip-container,
+    #deck-container {
+        will-change: auto;
+        transform: translateZ(0);
+    }
+    
+    /* 固定定位元素优化 */
+    .control-back,
+    .control-lang,
+    .page-transition {
+        will-change: auto;
+        backface-visibility: hidden;
+    }
+}
+
+/* ============================================
+   4. 触摸滑动反馈样式
+   ============================================ */
+
+/* 滑动提示指示器 */
+.swipe-hint {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(204, 255, 0, 0.3);
+    border-radius: 30px;
+    color: var(--text-sub, #888);
+    font-size: 13px;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.swipe-hint i {
+    margin-right: 8px;
+    color: var(--accent-primary, #CCFF00);
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .swipe-hint {
+        display: flex;
+        align-items: center;
+    }
+    
+    .swipe-hint.visible {
+        opacity: 1;
+    }
+}
+
+/* 滑动进度条 */
+.swipe-progress {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    display: none;
+}
+
+.swipe-progress-bar {
+    height: 100%;
+    width: 0;
+    background: var(--accent-primary, #CCFF00);
+    transition: width 0.1s ease;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .swipe-progress {
+        display: block;
+    }
+}
+
+/* ============================================
+   5. 响应式断点优化
+   ============================================ */
+
+/* 小屏幕布局调整 */
+@media screen and (max-width: 768px) {
+    /* 标题尺寸 */
+    h1 {
+        font-size: 32px !important;
+        padding: 0 20px;
+    }
+    
+    /* 副标题 */
+    .subtitle {
+        font-size: 14px !important;
+        padding: 0 20px;
+    }
+    
+    /* 图标尺寸 */
+    .section-big-icon {
+        font-size: 48px !important;
+    }
+    
+    /* 行业/解决方案列表 */
+    .industries-list,
+    .solutions-list {
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding: 0 20px;
+    }
+    
+    .industries-row {
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100%;
+    }
+    
+    .industry-item,
+    .solution-item {
+        width: 100% !important;
+        justify-content: flex-start;
+    }
+    
+    /* 网格布局调整 */
+    .solutions-list {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* 控制按钮位置 */
+    .control-back {
+        bottom: 20px !important;
+        left: 20px !important;
+    }
+    
+    .control-lang {
+        top: 20px !important;
+        right: 20px !important;
+    }
+    
+    /* 浮动装饰元素 - 移动端隐藏或缩小 */
+    .floating-shape {
+        opacity: 0.3 !important;
+        transform: scale(0.5) !important;
+    }
+    
+    /* 角落装饰 */
+    .corner-accent {
+        width: 80px !important;
+        height: 80px !important;
+    }
+}
+
+/* 超小屏幕 */
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 26px !important;
+    }
+    
+    .section-big-icon {
+        font-size: 40px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .industry-item,
+    .solution-item {
+        padding: 14px 18px !important;
+        font-size: 14px !important;
+    }
+    
+    /* 隐藏复杂背景效果 */
+    .halftone-layer-top,
+    .halftone-layer-bottom {
+        opacity: 0.5 !important;
+    }
+    
+    .floating-shape {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   6. 横屏适配
+   ============================================ */
+
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .section-big-icon {
+        font-size: 36px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    h1 {
+        font-size: 28px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .subtitle {
+        margin-bottom: 20px !important;
+    }
+    
+    .industries-list,
+    .solutions-list {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+    
+    .industries-row {
+        flex-direction: row !important;
+    }
+}
+
+/* ============================================
+   7. 安全区域适配 (iPhone X+ 刘海屏)
+   ============================================ */
+
+@supports (padding: env(safe-area-inset-top)) {
+    .control-lang {
+        top: calc(25px + env(safe-area-inset-top));
+        right: calc(35px + env(safe-area-inset-right));
+    }
+    
+    .control-back {
+        bottom: calc(25px + env(safe-area-inset-bottom));
+        left: calc(35px + env(safe-area-inset-left));
+    }
+    
+    .swipe-hint {
+        bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+    
+    .swipe-progress {
+        bottom: env(safe-area-inset-bottom);
+    }
+}
+
+/* ============================================
+   8. 深色模式适配 (跟随系统)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    /* 项目本身是深色主题，此处保持一致 */
+}
+
+/* ============================================
+   9. 高对比度模式
+   ============================================ */
+
+@media (prefers-contrast: high) {
+    .industry-item,
+    .solution-item {
+        border-width: 2px !important;
+        border-color: var(--accent-primary, #CCFF00) !important;
+    }
+    
+    .btn {
+        border-width: 2px !important;
+    }
+}
+
+/* ============================================
+   10. 打印样式
+   ============================================ */
+
+@media print {
+    .floating-shape,
+    .halftone-layer-top,
+    .halftone-layer-bottom,
+    .horizon-glow-top,
+    .horizon-glow-bottom,
+    .horizon-bloom-top,
+    .horizon-bloom-bottom,
+    .vignette,
+    .grid-overlay,
+    .scanlines,
+    .border-glow,
+    .glitch-flash,
+    .glitch-scanline,
+    .control-back,
+    .control-lang,
+    .page-transition {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .flip-container {
+        background: white !important;
+        border: none !important;
+    }
+}

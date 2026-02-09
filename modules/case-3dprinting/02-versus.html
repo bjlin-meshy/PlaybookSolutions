@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+<style>
+html { background: #080808; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #080808; font-family: 'Inter', Arial, sans-serif;
+}
+.content { padding: 15pt 30pt; }
+.header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10pt; }
+.header-left { display: flex; align-items: center; gap: 8pt; }
+.pulse-dot { width: 6pt; height: 6pt; background: #CCFF00; border-radius: 50%; }
+.section-tag { color: #CCFF00; font-size: 8pt; font-weight: 600; letter-spacing: 1pt; margin: 0; }
+.slide-num { color: #333333; font-size: 8pt; margin: 0; }
+h1 { color: #FFFFFF; font-size: 20pt; margin: 0 0 12pt 0; }
+.versus-grid { display: flex; gap: 12pt; }
+.pain-col { flex: 1; }
+.sol-col { flex: 1; }
+.col-header { display: flex; align-items: center; gap: 6pt; margin-bottom: 8pt; padding-bottom: 6pt; border-bottom: 1pt solid #222222; }
+.pain-indicator { width: 3pt; height: 12pt; background: #FF3333; }
+.sol-indicator { width: 3pt; height: 12pt; background: #CCFF00; }
+.col-title { font-size: 10pt; margin: 0; font-weight: 600; }
+.pain-title { color: #FF3333; }
+.sol-title { color: #CCFF00; }
+.item { background: #0D0D0D; border-left: 2pt solid #1A1A1A; padding: 8pt 10pt; margin-bottom: 5pt; }
+.item-pain { border-left-color: #FF3333; }
+.item-sol { border-left-color: #CCFF00; }
+.item-num { color: #333333; font-size: 7pt; margin: 0 0 2pt 0; font-weight: 700; }
+.item-title { color: #FFFFFF; font-size: 9pt; margin: 0 0 2pt 0; font-weight: 600; }
+.item-desc { color: #666666; font-size: 7pt; margin: 0; }
+.vs-center { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 8pt; }
+.vs-line { width: 1pt; height: 60pt; background: #222222; }
+.vs-badge { background: #111111; border: 1pt solid #333333; padding: 8pt 6pt; margin: 6pt 0; }
+.vs-text { color: #FFFFFF; font-size: 10pt; margin: 0; font-weight: 800; }
+.footer { display: flex; justify-content: flex-end; margin-top: 8pt; }
+.footer-tag { color: #333333; font-size: 7pt; }
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="header-row">
+    <div class="header-left">
+      <div class="pulse-dot"></div>
+      <p class="section-tag">THE CHALLENGE</p>
+    </div>
+    <p class="slide-num">02</p>
+  </div>
+  <h1>Custom Miniatures at Consumer Scale</h1>
+  <div class="versus-grid">
+    <div class="pain-col">
+      <div class="col-header">
+        <div class="pain-indicator"></div>
+        <p class="col-title pain-title">PAIN POINTS</p>
+      </div>
+      <div class="item item-pain">
+        <p class="item-num">01</p>
+        <p class="item-title">Manual Painting Required</p>
+        <p class="item-desc">Traditional 3D prints are monochrome</p>
+      </div>
+      <div class="item item-pain">
+        <p class="item-num">02</p>
+        <p class="item-title">Mesh Errors Block Printing</p>
+        <p class="item-desc">Non-manifold meshes cause failures</p>
+      </div>
+      <div class="item item-pain">
+        <p class="item-num">03</p>
+        <p class="item-title">Tedious Slicer Repair</p>
+        <p class="item-desc">Manual mesh repair takes expertise</p>
+      </div>
+      <div class="item item-pain">
+        <p class="item-num">04</p>
+        <p class="item-title">High Per-Unit Cost</p>
+        <p class="item-desc">$50-200+ per custom piece</p>
+      </div>
+    </div>
+    <div class="vs-center">
+      <div class="vs-line"></div>
+      <div class="vs-badge"><p class="vs-text">VS</p></div>
+      <div class="vs-line"></div>
+    </div>
+    <div class="sol-col">
+      <div class="col-header">
+        <div class="sol-indicator"></div>
+        <p class="col-title sol-title">MESHY SOLUTION</p>
+      </div>
+      <div class="item item-sol">
+        <p class="item-num">01</p>
+        <p class="item-title">Full-Color Export</p>
+        <p class="item-desc">AI generates textured models</p>
+      </div>
+      <div class="item item-sol">
+        <p class="item-num">02</p>
+        <p class="item-title">3MF Native Support</p>
+        <p class="item-desc">Drag and drop into slicers</p>
+      </div>
+      <div class="item item-sol">
+        <p class="item-num">03</p>
+        <p class="item-title">BambuLab AMS Ready</p>
+        <p class="item-desc">Optimized for multi-color printing</p>
+      </div>
+      <div class="item item-sol">
+        <p class="item-num">04</p>
+        <p class="item-title">Scalable Workflow</p>
+        <p class="item-desc">Same process for 1 or 1000 pieces</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p class="footer-tag">02 // PAIN POINTS VS SOLUTION</p>
+  </div>
+</div>
+</body>
+</html>

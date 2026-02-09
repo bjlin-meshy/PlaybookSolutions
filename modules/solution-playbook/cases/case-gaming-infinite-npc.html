@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gaming">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming - Infinite NPC Generation | Meshy Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">`n    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+    <style>
+        :root { --bg: #080808; --accent: #CCFF00; --red: #FF3333; --text: #f0f0f0; --sub: #888; --transition-fast: 0.15s; --transition-normal: 0.3s; --transition-slow: 0.5s; --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94); --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); /* 视觉增强变量 - Visual Enhancement */ --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55); --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94); --parallax-slow: 0.3; --parallax-fast: 0.8; --cursor-size: 20px; --cursor-follower-size: 40px; --cursor-color: var(--accent); --animation-duration-fast: 0.2s; --animation-duration-normal: 0.4s; --animation-duration-slow: 0.8s; --particle-count: 30; --particle-size: 4px; --particle-color: var(--accent); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100vw; height: 100vh; margin: 0; padding: 0; background: var(--bg); overflow: hidden; font-family: 'Noto Sans SC', 'Inter', sans-serif; color: var(--text); }
+        
+        /* Bilingual toggle styles */
+        .cn { display: inline; }
+        .en { display: none; }
+        body.lang-en .cn { display: none !important; }
+        body.lang-en .en { display: inline !important; }
+        .slide { width: 100vw; height: 100vh; padding: 50px 70px; display: none; flex-direction: column; position: fixed; top: 0; left: 0; }
+        .slide.active { display: flex; }
+        .slide:nth-child(1) { background: linear-gradient(135deg, rgba(204,255,0,0.12) 0%, transparent 50%), var(--bg); }
+        .slide:nth-child(2) { background: linear-gradient(225deg, rgba(204,255,0,0.1) 0%, transparent 40%), var(--bg); }
+        .slide:nth-child(3) { background: linear-gradient(315deg, rgba(204,255,0,0.1) 0%, transparent 40%), var(--bg); }
+        
+        .cover { justify-content: center; align-items: center; text-align: center; }
+        .icon-circle { width: 120px; height: 120px; border-radius: 60px; background: rgba(204,255,0,0.08); border: 1px solid rgba(204,255,0,0.15); display: flex; align-items: center; justify-content: center; font-size: 50px; margin-bottom: 30px; }
+        .title { font-size: 52px; font-weight: 700; margin-bottom: 15px; }
+        .subtitle { font-size: 22px; color: var(--sub); margin-bottom: 40px; }
+        .tag { background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.3); padding: 12px 28px; border-radius: 30px; color: var(--accent); font-weight: 600; font-size: 14px; }
+        
+        .section-tag { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
+        .slide-title { font-size: 36px; font-weight: 700; margin-bottom: 20px; }
+        .slide-desc { font-size: 16px; color: var(--sub); margin-bottom: 30px; line-height: 1.6; }
+        
+        .npc-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 30px; }
+        .npc-item { background: #111; border: 1px solid #333; border-radius: 12px; padding: 25px 15px; text-align: center; }
+        .npc-item:hover { border-color: var(--accent); }
+        .npc-icon { font-size: 36px; margin-bottom: 10px; }
+        .npc-name { font-size: 13px; color: #888; }
+        
+        .highlight-box { background: rgba(204,255,0,0.05); border: 1px solid rgba(204,255,0,0.2); border-radius: 12px; padding: 25px 30px; margin-top: auto; }
+        .highlight-title { color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+        .highlight-desc { font-size: 15px; color: #aaa; line-height: 1.6; }
+        
+        .metrics { display: flex; gap: 25px; justify-content: center; margin-top: auto; }
+        .metric { flex: 1; background: #111; border: 1px solid #333; border-radius: 12px; padding: 40px 20px; text-align: center; }
+        .metric-val { font-size: 60px; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        .metric-label { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+        .metric-sub { font-size: 13px; color: #666; }
+        
+        .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--accent); transition: width 0.3s; }
+        
+        /* Controls */
+        .controls { position: fixed; bottom: 20px; left: 30px; z-index: 100; }
+        .lang-btn { background: #111; border: 1px solid #333; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; opacity: 0.7; }
+        .lang-btn:hover { opacity: 1; border-color: var(--accent); }
+    </style>
+</head>
+<body class="lang-cn">
+    <div class="progress" id="progress"></div>
+    <div class="controls">
+        <button class="lang-btn" onclick="toggleLang()"><i class="fa-solid fa-globe"></i> <span class="cn">EN</span><span class="en">中</span></button>
+    </div>
+
+    <!-- Slide 1: Cover -->
+    <div class="slide active cover">
+        <div class="icon-circle">👥</div>
+        <h1 class="title"><span class="cn">无限 NPC 量产</span><span class="en">Infinite NPC Generation</span></h1>
+        <p class="subtitle"><span class="cn">告别"千人一面"的解决方案</span><span class="en">Say Goodbye to Clone NPCs</span></p>
+        <div class="tag"><span class="cn">游戏娱乐行业</span><span class="en">GAMING INDUSTRY</span></div>
+    </div>
+
+    <!-- Slide 2: Problem & Solution -->
+    <div class="slide">
+        <div class="section-tag">🎮 <span class="cn">核心问题</span><span class="en">CORE PROBLEM</span></div>
+        <h2 class="slide-title"><span class="cn">告别"千人一面"的 NPC</span><span class="en">No More Identical NPCs</span></h2>
+        <p class="slide-desc"><span class="cn">开放世界游戏需要大量背景 NPC，传统方式只能复制粘贴，导致"撞脸"严重。Meshy 可以无限生成独特角色。</span><span class="en">Open world games need many background NPCs. Traditional copy-paste leads to clones everywhere. Meshy generates infinite unique characters.</span></p>
+        
+        <div class="npc-grid">
+            <div class="npc-item"><div class="npc-icon">👨‍🌾</div><div class="npc-name"><span class="cn">农夫</span><span class="en">Farmer</span> #1</div></div>
+            <div class="npc-item"><div class="npc-icon">👩‍🍳</div><div class="npc-name"><span class="cn">厨师</span><span class="en">Chef</span> #2</div></div>
+            <div class="npc-item"><div class="npc-icon">👨‍🔧</div><div class="npc-name"><span class="cn">工匠</span><span class="en">Smith</span> #3</div></div>
+            <div class="npc-item"><div class="npc-icon">👩‍🏫</div><div class="npc-name"><span class="cn">学者</span><span class="en">Scholar</span> #4</div></div>
+            <div class="npc-item"><div class="npc-icon">👨‍⚕️</div><div class="npc-name"><span class="cn">医者</span><span class="en">Healer</span> #5</div></div>
+            <div class="npc-item"><div class="npc-icon">👸</div><div class="npc-name"><span class="cn">贵族</span><span class="en">Noble</span> #6</div></div>
+            <div class="npc-item"><div class="npc-icon">🧙</div><div class="npc-name"><span class="cn">法师</span><span class="en">Mage</span> #7</div></div>
+            <div class="npc-item"><div class="npc-icon">⚔️</div><div class="npc-name"><span class="cn">战士</span><span class="en">Warrior</span> #8</div></div>
+            <div class="npc-item"><div class="npc-icon">🏹</div><div class="npc-name"><span class="cn">猎人</span><span class="en">Hunter</span> #9</div></div>
+            <div class="npc-item"><div class="npc-icon">🎭</div><div class="npc-name"><span class="cn">艺人</span><span class="en">Bard</span> #10</div></div>
+        </div>
+        
+        <div class="highlight-box">
+            <div class="highlight-title">✨ Meshy <span class="cn">方案</span><span class="en">Solution</span></div>
+            <div class="highlight-desc"><span class="cn">文本描述 → 独特 NPC 模型。支持批量生成，每个角色都有独特的服装、面部特征和配饰。针对群组模拟优化几何体。</span><span class="en">Text description → Unique NPC model. Batch generation support, each character with unique clothing, facial features, and accessories. Geometry optimized for crowd simulation.</span></div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Business Value -->
+    <div class="slide">
+        <div class="section-tag">📈 <span class="cn">商业价值</span><span class="en">BUSINESS VALUE</span></div>
+        <h2 class="slide-title"><span class="cn">用 AI 填满你的开放世界</span><span class="en">Fill Your Open World with AI</span></h2>
+        <p class="slide-desc"><span class="cn">从"复制粘贴"到"无限生成"，让每个 NPC 都独一无二。</span><span class="en">From copy-paste to infinite generation. Every NPC is unique.</span></p>
+        
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-val">500+</div>
+                <div class="metric-label"><span class="cn">独特变体/周</span><span class="en">Unique Variants/Week</span></div>
+                <div class="metric-sub"><span class="cn">每个角色都独特</span><span class="en">Each character unique</span></div>
+            </div>
+            <div class="metric">
+                <div class="metric-val">100+</div>
+                <div class="metric-label"><span class="cn">批量生成</span><span class="en">Batch Gen</span></div>
+                <div class="metric-sub"><span class="cn">一天内完成</span><span class="en">In one day</span></div>
+            </div>
+            <div class="metric">
+                <div class="metric-val">LOD</div>
+                <div class="metric-label"><span class="cn">优化输出</span><span class="en">Optimized</span></div>
+                <div class="metric-sub"><span class="cn">适配群组渲染</span><span class="en">Crowd-ready</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progress = document.getElementById('progress');
+        let current = 0;
+        const total = slides.length;
+        
+        function update() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === current));
+            progress.style.width = ((current + 1) / total * 100) + '%';
+        }
+        
+        function toggleLang() {
+            document.body.classList.toggle('lang-en');
+            document.body.classList.toggle('lang-cn');
+        }
+        
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { current = Math.min(current + 1, total - 1); update(); }
+            if (e.key === 'ArrowLeft') { current = Math.max(current - 1, 0); update(); }
+            if (e.key === 'l' || e.key === 'L') { toggleLang(); }
+        });
+        
+        document.body.addEventListener('click', e => {
+            if (e.target.closest('.controls')) return;
+            const rect = document.body.getBoundingClientRect();
+            if (e.clientX > rect.width / 2) current = Math.min(current + 1, total - 1);
+            else current = Math.max(current - 1, 0);
+            update();
+        });
+        
+        update();
+    </script>
+<script src="../assets/js/mobile-effects.js"></script>`n<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

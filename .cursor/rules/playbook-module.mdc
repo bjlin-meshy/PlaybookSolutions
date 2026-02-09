@@ -1,0 +1,105 @@
+---
+description: Playbook Solutions 模块化开发规范。当在 PlaybookSolutions 项目中工作时自动激活。
+globs: 
+  - "**/*"
+alwaysApply: true
+---
+
+# Playbook Solutions — 模块开发规范
+
+## 项目概览
+
+这是 Meshy AI 的行业解决方案（Playbook Solutions）统一平台，采用模块化架构。
+
+- **入口**: `index.html`（统一门户，链接到所有模块）
+- **模块目录**: `modules/`（每个子模块独立运行）
+- **工具目录**: `tools/`（转换脚本）
+- **资源目录**: `resources/`（共享 Markdown 内容）
+
+## 核心规则
+
+### 1. 新增模块必须遵循标准结构
+
+```
+modules/[module-name]/
+├── index.html          # 必须 - 模块入口
+├── README.md           # 推荐 - 模块说明
+├── assets/             # 可选 - 模块私有资源
+└── ...
+```
+
+### 2. 模块之间零耦合
+
+- 模块不能直接引用其他模块的文件
+- 共享资源放在 `resources/` 目录
+- 统一入口 `index.html` 是唯一的连接点
+
+### 3. 视觉风格统一
+
+- 品牌色: `#CCFF00`（荧光黄绿）
+- 背景色: `#080808`（深黑）
+- 字体: Inter（英文）+ Noto Sans SC（中文）
+- 深色主题 + 卡片式布局
+
+### 4. 新增模块后必须更新
+
+1. 根 `index.html` — 添加模块卡片
+2. `README.md` — 更新模块说明表
+3. `ARCHITECTURE.md` — 如有架构变化则更新
+
+### 5. 行业分类（5 大行业）
+
+- Gaming（游戏）
+- Film & Animation（影视动画）
+- Manufacturing（制造业）
+- Interior Design（室内设计）
+- 3D Printing（3D 打印）
+
+新增行业时，在所有文档中同步更新。
+
+## AI 行为指南
+
+当用户在此项目中讨论新的解决方案、案例或行业应用时：
+
+1. **识别意图** — 判断是否需要创建新模块
+2. **确认方案** — 向用户确认模块名称和定位
+3. **创建模块** — 在 `modules/` 下按标准结构创建
+4. **注册入口** — 更新根 `index.html` 添加卡片
+5. **更新文档** — 更新 README 和 ARCHITECTURE（如需要）
+
+### 模块卡片模板
+
+```html
+<a href="modules/[name]/index.html" class="module-card">
+    <div class="module-icon">[emoji]</div>
+    <div class="module-title">[Module Name]</div>
+    <div class="module-desc">[中英文描述]</div>
+    <div class="module-meta">
+        <span class="tag">[标签]</span>
+        <span class="tag tech">[技术栈]</span>
+    </div>
+</a>
+```
+
+### 案例 HTML 模板（PPT 风格）
+
+创建新案例时使用 720pt x 405pt 的 PPT 尺寸：
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #080808; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #080808; font-family: Arial, sans-serif;
+}
+/* ... 案例内容样式 ... */
+</style>
+</head>
+<body>
+<!-- 案例内容 -->
+</body>
+</html>
+```

@@ -1,0 +1,70 @@
+<!-- yšÎ<D§Ï§ / Stylized Asset Mass Production -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="prod-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C8FF00"/>
+      <stop offset="100%" stop-color="#9ACC00"/>
+    </linearGradient>
+    
+    <filter id="prod-glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <style>
+      @keyframes duplicate {
+        0% { opacity: 0; transform: translateX(-10px); }
+        100% { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes spin-slow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .dup1 { animation: duplicate 0.8s ease-out forwards; }
+      .dup2 { animation: duplicate 0.8s ease-out 0.2s forwards; opacity: 0; }
+      .dup3 { animation: duplicate 0.8s ease-out 0.4s forwards; opacity: 0; }
+    </style>
+  </defs>
+  
+  <!-- r;S -->
+  <g filter="url(#prod-glow)">
+    <path d="M12 32C12 20.954 20.954 12 32 12C43.046 12 52 20.954 52 32C52 43.046 43.046 52 32 52C32 52 12 52 12 32Z" 
+          fill="url(#prod-gradient)" opacity="0.9"/>
+    <!-- rT -->
+    <circle cx="22" cy="28" r="4" fill="#1a1a1a"/>
+    <circle cx="32" cy="22" r="4" fill="#1a1a1a"/>
+    <circle cx="42" cy="28" r="4" fill="#1a1a1a"/>
+    <circle cx="38" cy="38" r="4" fill="#1a1a1a"/>
+    <circle cx="26" cy="38" r="4" fill="#1a1a1a"/>
+    <!-- -ÃT -->
+    <ellipse cx="20" cy="44" rx="5" ry="4" fill="#1a1a1a"/>
+  </g>
+  
+  <!-- 6­4Œ*“ú -->
+  <g class="dup1">
+    <path d="M54 24L58 28L54 32" stroke="#C8FF00" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- 6„¹W -->
+  <g class="dup2">
+    <rect x="56" y="16" width="6" height="6" rx="1" fill="#C8FF00" opacity="0.8"/>
+  </g>
+  <g class="dup3">
+    <rect x="56" y="26" width="6" height="6" rx="1" fill="#C8FF00" opacity="0.6"/>
+  </g>
+  <g class="dup3" style="animation-delay: 0.6s;">
+    <rect x="56" y="36" width="6" height="6" rx="1" fill="#C8FF00" opacity="0.4"/>
+  </g>
+  
+  <!-- AI 8ÃÆ -->
+  <g filter="url(#prod-glow)">
+    <circle cx="32" cy="32" r="6" fill="none" stroke="#C8FF00" stroke-width="1.5" opacity="0.6"/>
+    <text x="32" y="35" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#C8FF00" text-anchor="middle">AI</text>
+  </g>
+  
+  <!-- Þ¥¿ -->
+  <line x1="38" y1="32" x2="54" y2="28" stroke="#C8FF00" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+</svg>

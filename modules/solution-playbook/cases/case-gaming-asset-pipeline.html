@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gaming">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming - Asset Production Pipeline | Meshy Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">`n    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+    <style>
+        :root {
+            --bg: #080808;
+            --accent: #CCFF00;
+            --red: #FF3333;
+            --text: #f0f0f0;
+            --sub: #888888;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            width: 100vw; height: 100vh; 
+            margin: 0; padding: 0;
+            background: var(--bg); 
+            overflow: hidden;
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            color: var(--text);
+        }
+        
+        /* Bilingual toggle styles */
+        .cn { display: inline; }
+        .en { display: none; }
+        body.lang-en .cn { display: none !important; }
+        body.lang-en .en { display: inline !important; }
+        
+        .slide {
+            width: 100vw; height: 100vh;
+            padding: 50px 70px;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            flex-direction: column;
+            position: relative;
+        }
+        .slide.active { display: flex; }
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .slide:nth-child(1)::before { background: linear-gradient(135deg, rgba(204,255,0,0.12) 0%, transparent 50%), var(--bg); }
+        .slide:nth-child(2)::before { background: linear-gradient(225deg, rgba(204,255,0,0.1) 0%, transparent 40%), var(--bg); }
+        .slide:nth-child(3)::before { background: linear-gradient(315deg, rgba(204,255,0,0.1) 0%, transparent 40%), var(--bg); }
+        .slide-content { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; }
+        
+        /* Cover */
+        .cover { justify-content: center; align-items: center; text-align: center; }
+        .icon-circle { width: 120px; height: 120px; border-radius: 60px; background: rgba(204,255,0,0.08); border: 1px solid rgba(204,255,0,0.15); display: flex; align-items: center; justify-content: center; font-size: 50px; margin-bottom: 30px; }
+        .title { font-size: 52px; font-weight: 700; margin-bottom: 15px; }
+        .subtitle { font-size: 22px; color: var(--sub); margin-bottom: 40px; }
+        .tag { background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.3); padding: 12px 28px; border-radius: 30px; color: var(--accent); font-weight: 600; font-size: 14px; }
+        
+        /* Section Tag */
+        .section-tag { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .slide-title { font-size: 36px; font-weight: 700; margin-bottom: 20px; }
+        .slide-desc { font-size: 16px; color: var(--sub); margin-bottom: 30px; max-width: 800px; line-height: 1.6; }
+        
+        /* Timeline */
+        .timeline-row { display: flex; align-items: center; gap: 20px; padding: 18px; border-radius: 12px; background: rgba(0,0,0,0.4); margin-bottom: 12px; }
+        .pain-row { border: 1px solid rgba(255,51,51,0.3); }
+        .sol-row { border: 1px solid rgba(204,255,0,0.3); }
+        .timeline-label { min-width: 70px; text-align: center; font-size: 11px; }
+        .badge { width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin: 0 auto 6px; }
+        .pain-badge { background: rgba(255,51,51,0.2); color: var(--red); }
+        .sol-badge { background: rgba(204,255,0,0.2); color: var(--accent); }
+        .timeline-track { flex: 1; display: flex; gap: 4px; height: 50px; }
+        .block { border-radius: 6px; padding: 8px 10px; display: flex; flex-direction: column; justify-content: center; background: #1a1a1a; }
+        .pain-block { background: linear-gradient(135deg, rgba(255,51,51,0.25) 0%, rgba(255,51,51,0.08) 100%); border: 1px solid rgba(255,51,51,0.3); }
+        .sol-block { background: linear-gradient(135deg, rgba(204,255,0,0.25) 0%, rgba(204,255,0,0.08) 100%); border: 1px solid rgba(204,255,0,0.3); }
+        .block-t { font-size: 11px; font-weight: 600; }
+        .block-s { font-size: 9px; color: #888; }
+        .total { min-width: 70px; text-align: center; font-size: 16px; font-weight: 700; color: #666; }
+        .total-g { color: var(--accent); }
+        .arrow-center { text-align: center; color: var(--accent); font-weight: 700; font-size: 13px; margin: 8px 0; }
+        
+        /* Metrics */
+        .metrics { display: flex; gap: 25px; justify-content: center; margin-top: auto; }
+        .metric { flex: 1; background: #111; border: 1px solid #333; border-radius: 12px; padding: 35px 20px; text-align: center; }
+        .metric:hover { border-color: var(--accent); }
+        .metric-val { font-size: 56px; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
+        .metric-label { font-size: 16px; font-weight: 600; margin-bottom: 5px; }
+        .metric-sub { font-size: 12px; color: #666; }
+        
+        /* Keys */
+        .keys { display: flex; justify-content: center; gap: 50px; margin-top: auto; padding-top: 20px; }
+        .key { text-align: center; }
+        .key-n { font-size: 32px; font-weight: 800; color: var(--accent); }
+        .key-t { font-size: 13px; color: #888; }
+        
+        /* Workflow */
+        .workflow { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 30px 0; }
+        .wf-step { background: #111; border: 1px solid #333; border-radius: 10px; padding: 20px; text-align: center; min-width: 140px; }
+        .wf-step.highlight { border-color: var(--accent); background: rgba(204,255,0,0.05); }
+        .wf-num { font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+        .wf-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .wf-desc { font-size: 10px; color: #888; }
+        .wf-arrow { color: var(--accent); font-size: 20px; }
+        
+        /* Controls */
+        .controls { position: fixed; bottom: 20px; left: 30px; z-index: 100; }
+        .lang-btn { background: #111; border: 1px solid #333; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; opacity: 0.7; }
+        .lang-btn:hover { opacity: 1; border-color: var(--accent); }
+        .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--accent); transition: width 0.3s; }
+    </style>
+</head>
+<body class="lang-cn">
+    <div class="progress" id="progress"></div>
+    <div class="controls">
+        <button class="lang-btn" onclick="toggleLang()"><i class="fa-solid fa-globe"></i> <span class="cn">EN</span><span class="en">中</span></button>
+    </div>
+
+    <!-- Slide 1: Cover -->
+    <div class="slide active">
+        <div class="slide-content cover">
+            <div class="icon-circle">🎮</div>
+            <h1 class="title"><span class="cn">资产生产管线</span><span class="en">Asset Production Pipeline</span></h1>
+            <p class="subtitle"><span class="cn">高模到低模的加速方案</span><span class="en">High-to-Low Poly Acceleration</span></p>
+            <div class="tag"><span class="cn">游戏娱乐行业</span><span class="en">GAMING INDUSTRY</span></div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Problem & Solution -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="section-tag">🎮 <span class="cn">核心问题</span><span class="en">CORE PROBLEM</span></div>
+            <h2 class="slide-title"><span class="cn">高模到低模的漫长之路</span><span class="en">The Long Road from High to Low Poly</span></h2>
+            <p class="slide-desc"><span class="cn">传统管线：高模雕刻 → ZBrush 精修 → Retopology → Substance 贴图。每个环节都需要专业人员，周期长、成本高。</span><span class="en">Traditional pipeline: High poly sculpt → ZBrush refine → Retopology → Substance texturing. Each step requires specialists, leading to long cycles and high costs.</span></p>
+            
+            <div class="timeline-row pain-row">
+                <div class="timeline-label"><div class="badge pain-badge">❌</div><span class="cn">传统</span><span class="en">Before</span></div>
+                <div class="timeline-track">
+                    <div class="block" style="flex:2"><div class="block-t"><span class="cn">概念设计</span><span class="en">Concept</span></div><div class="block-s">2-3d</div></div>
+                    <div class="block pain-block" style="flex:3"><div class="block-t"><span class="cn">高模雕刻</span><span class="en">Hi-Poly</span></div><div class="block-s">5-7d</div></div>
+                    <div class="block pain-block" style="flex:2"><div class="block-t"><span class="cn">拓扑减面</span><span class="en">Retopo</span></div><div class="block-s">2-3d</div></div>
+                    <div class="block pain-block" style="flex:2"><div class="block-t"><span class="cn">贴图烘焙</span><span class="en">Texture</span></div><div class="block-s">2-3d</div></div>
+                </div>
+                <div class="total">2-3<span class="cn">周</span><span class="en">wks</span></div>
+            </div>
+            
+            <div class="arrow-center">⬇ Meshy AI</div>
+            
+            <div class="timeline-row sol-row">
+                <div class="timeline-label"><div class="badge sol-badge">✓</div><span class="cn">现在</span><span class="en">Now</span></div>
+                <div class="timeline-track">
+                    <div class="block" style="flex:2"><div class="block-t"><span class="cn">概念设计</span><span class="en">Concept</span></div><div class="block-s">1d</div></div>
+                    <div class="block sol-block" style="flex:2"><div class="block-t"><span class="cn">AI 生成高模</span><span class="en">AI Gen</span></div><div class="block-s">10m</div></div>
+                    <div class="block" style="flex:1.5"><div class="block-t"><span class="cn">精修调整</span><span class="en">Refine</span></div><div class="block-s">1-2d</div></div>
+                    <div class="block sol-block" style="flex:1.5"><div class="block-t"><span class="cn">AI 贴图</span><span class="en">AI Tex</span></div><div class="block-s">5m</div></div>
+                </div>
+                <div class="total total-g">2-3<span class="cn">天</span><span class="en">days</span></div>
+            </div>
+            
+            <div class="keys">
+                <div class="key"><div class="key-n">80%</div><div class="key-t"><span class="cn">时间节省</span><span class="en">Time Saved</span></div></div>
+                <div class="key"><div class="key-n">3x</div><div class="key-t"><span class="cn">产出提升</span><span class="en">Output Boost</span></div></div>
+                <div class="key"><div class="key-n">$0</div><div class="key-t"><span class="cn">外包成本</span><span class="en">Outsource Cost</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Business Value -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="section-tag">📈 <span class="cn">商业价值</span><span class="en">BUSINESS VALUE</span></div>
+            <h2 class="slide-title"><span class="cn">重塑资产生产效率</span><span class="en">Reshape Asset Production Efficiency</span></h2>
+            <p class="slide-desc"><span class="cn">让美术团队从繁琐的基础工作中解放，专注于创意和品质提升。</span><span class="en">Free your art team from tedious groundwork to focus on creativity and quality.</span></p>
+            
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-val">80%</div>
+                    <div class="metric-label"><span class="cn">生产周期缩短</span><span class="en">Cycle Reduction</span></div>
+                    <div class="metric-sub"><span class="cn">2-3 周 → 2-3 天</span><span class="en">2-3 weeks → 2-3 days</span></div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val">3x</div>
+                    <div class="metric-label"><span class="cn">团队产能提升</span><span class="en">Team Capacity</span></div>
+                    <div class="metric-sub"><span class="cn">同等人力更多产出</span><span class="en">More output, same headcount</span></div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val">↓60%</div>
+                    <div class="metric-label"><span class="cn">外包成本降低</span><span class="en">Outsource Cost Down</span></div>
+                    <div class="metric-sub"><span class="cn">更多流程内部完成</span><span class="en">More work done in-house</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progress = document.getElementById('progress');
+        let current = 0;
+        const total = slides.length;
+
+        function update() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === current));
+            progress.style.width = ((current + 1) / total * 100) + '%';
+        }
+
+        function toggleLang() {
+            document.body.classList.toggle('lang-en');
+            document.body.classList.toggle('lang-cn');
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { current = Math.min(current + 1, total - 1); update(); }
+            if (e.key === 'ArrowLeft') { current = Math.max(current - 1, 0); update(); }
+            if (e.key === 'l' || e.key === 'L') { toggleLang(); }
+        });
+
+        document.body.addEventListener('click', e => {
+            if (e.target.closest('.controls')) return;
+            const rect = document.body.getBoundingClientRect();
+            if (e.clientX > rect.width / 2) { current = Math.min(current + 1, total - 1); }
+            else { current = Math.max(current - 1, 0); }
+            update();
+        });
+
+        update();
+    </script>
+<script src="../assets/js/mobile-effects.js"></script>`n<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="3dprinting">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Printing - Digital Twin Souvenirs | Meshy Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">`n    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <style>
+        :root {
+            --bg-core: #000000;
+            --bg-slide: #080808;
+            --accent-primary: #CCFF00;
+            --accent-red: #FF3333;
+            --text-main: #FFFFFF;
+            --text-sub: #888888;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-core);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        body.lang-cn { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+        .cn { display: none; }
+        body.lang-cn .en { display: none !important; }
+        body.lang-cn .cn { display: inline; }
+        body.lang-cn div.cn, body.lang-cn p.cn { display: block; }
+
+        #deck-container { width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: var(--bg-slide); border: 1px solid #333; overflow: hidden; }
+
+        .slide { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            padding: 60px 80px; 
+            opacity: 0; 
+            visibility: hidden; 
+            transform: scale(1.03) translateY(10px);
+            filter: blur(5px);
+            transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease, visibility 0s 0.4s;
+            display: flex;
+            flex-direction: column; 
+            z-index: 1; 
+        }
+        .slide.active { 
+            opacity: 1; 
+            visibility: visible; 
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+            transition-delay: 0s;
+            z-index: 10; 
+        }
+
+        @keyframes dotFlow { 0% { background-position: 0 0; } 100% { background-position: 24px 24px; } }
+        @keyframes glowPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+        .slide::before { content: ''; position: absolute; width: 150%; height: 150%; pointer-events: none; z-index: 0; animation: glowPulse 8s ease-in-out infinite; }
+        .slide::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle, rgba(204, 255, 0, 0.06) 2px, transparent 2px); background-size: 16px 16px; pointer-events: none; z-index: -1; animation: dotFlow 3s linear infinite; }
+        .slide:nth-child(odd)::before { top: -40%; left: -40%; background: radial-gradient(ellipse at 0% 0%, rgba(204, 255, 0, 0.2) 0%, transparent 50%); }
+        .slide:nth-child(odd)::after { mask-image: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, transparent 40%); -webkit-mask-image: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, transparent 40%); }
+        .slide:nth-child(even)::before { bottom: -40%; right: -40%; top: auto; left: auto; background: radial-gradient(ellipse at 100% 100%, rgba(204, 255, 0, 0.2) 0%, transparent 50%); }
+        .slide:nth-child(even)::after { mask-image: linear-gradient(315deg, rgba(0,0,0,0.8) 0%, transparent 40%); -webkit-mask-image: linear-gradient(315deg, rgba(0,0,0,0.8) 0%, transparent 40%); }
+
+        .slide-content { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
+        .section-big-icon { font-size: 64px; color: var(--accent-primary); margin-bottom: 20px; }
+        .section-tag { display: inline-flex; align-items: center; gap: 10px; background: rgba(204, 255, 0, 0.1); border: 1px solid rgba(204, 255, 0, 0.3); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--accent-primary); margin-bottom: 20px; width: fit-content; }
+        .slide-desc { font-size: 18px; color: var(--text-sub); line-height: 1.6; max-width: 800px; }
+
+        .versus-container { display: flex; align-items: stretch; gap: 0; flex: 1; }
+        .versus-side { flex: 1; padding: 25px; border-radius: 12px; display: flex; flex-direction: column; }
+        .pain-side { background: linear-gradient(135deg, rgba(255, 51, 51, 0.08) 0%, rgba(255, 51, 51, 0.02) 100%); border: 1px solid rgba(255, 51, 51, 0.2); }
+        .sol-side { background: linear-gradient(135deg, rgba(204, 255, 0, 0.08) 0%, rgba(204, 255, 0, 0.02) 100%); border: 1px solid rgba(204, 255, 0, 0.2); }
+        .versus-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .versus-icon { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .pain-icon { background: rgba(255, 51, 51, 0.2); color: var(--accent-red); border: 2px solid var(--accent-red); }
+        .sol-icon { background: rgba(204, 255, 0, 0.2); color: var(--accent-primary); border: 2px solid var(--accent-primary); }
+        .versus-header h3 { font-size: 20px; margin: 0; }
+        .versus-divider { display: flex; align-items: center; justify-content: center; padding: 0 15px; }
+        .vs-badge { background: linear-gradient(135deg, #333 0%, #111 100%); border: 2px solid #555; color: white; font-size: 18px; font-weight: 800; padding: 12px 16px; border-radius: 10px; }
+        .versus-items { display: flex; flex-direction: column; gap: 12px; }
+        .versus-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .versus-item .item-icon { font-size: 20px; width: 35px; text-align: center; flex-shrink: 0; }
+        .versus-item .item-title { font-size: 14px; font-weight: 600; color: white; }
+        .versus-item .item-desc { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+        .cols-3-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 30px; }
+        .metric-box { background: rgba(20, 20, 20, 0.8); border: 1px solid #333; border-radius: 12px; padding: 35px 20px; text-align: center; }
+        .metric-val { font-size: 56px; font-weight: 800; color: var(--accent-primary); }
+        .metric-label { font-size: 16px; font-weight: 600; margin-top: 10px; }
+        .metric-sub { font-size: 13px; color: var(--text-sub); margin-top: 6px; }
+
+        .workflow-nav { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 25px; }
+        .workflow-step-mini { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 70px; opacity: 0.4; }
+        .workflow-step-mini.active { opacity: 1; }
+        .workflow-step-mini.completed { opacity: 0.7; }
+        .step-indicator { width: 32px; height: 32px; border-radius: 50%; background: #222; border: 2px solid #444; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+        .workflow-step-mini.active .step-indicator { background: var(--accent-primary); border-color: var(--accent-primary); color: black; }
+        .workflow-step-mini.completed .step-indicator { background: rgba(204, 255, 0, 0.2); border-color: var(--accent-primary); color: var(--accent-primary); }
+        .step-label { font-size: 10px; color: var(--text-sub); text-align: center; }
+        .workflow-connector { width: 35px; height: 2px; background: #333; }
+        .workflow-connector.completed { background: var(--accent-primary); }
+
+        .case-content { flex: 1; display: flex; flex-direction: column; }
+        .case-header { margin-bottom: 15px; }
+        .case-step-badge { display: inline-block; background: rgba(204, 255, 0, 0.1); border: 1px solid rgba(204, 255, 0, 0.3); padding: 5px 12px; border-radius: 18px; font-size: 11px; font-weight: 600; color: var(--accent-primary); margin-bottom: 8px; }
+        .case-title { font-size: 26px; font-weight: 700; }
+        .case-single { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .showcase-card-large { background: rgba(20, 20, 20, 0.6); border: 1px solid #333; border-radius: 12px; padding: 35px; width: 100%; max-width: 750px; text-align: center; }
+        .showcase-icon { font-size: 45px; color: #444; margin-bottom: 18px; }
+        .showcase-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .showcase-desc { font-size: 14px; color: var(--text-sub); margin-bottom: 18px; }
+        .placeholder-label { background: #1a1a1a; border: 1px dashed #444; border-radius: 8px; padding: 50px 25px; color: #555; font-size: 13px; }
+
+        .case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; flex: 1; }
+        .showcase-card { background: rgba(20, 20, 20, 0.6); border: 1px solid #333; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; }
+        .showcase-card .placeholder-label { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+        .progress-bar { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--accent-primary); transition: width 0.3s; z-index: 100; }
+        .control-back { position: absolute; bottom: 18px; left: 25px; z-index: 100; }
+        .control-lang { position: absolute; top: 18px; right: 25px; z-index: 100; }
+        .btn { background: #111; border: 1px solid #333; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; opacity: 0.7; text-decoration: none; }
+        .btn:hover { opacity: 1; background: var(--accent-primary); border-color: var(--accent-primary); color: black; }
+
+        /* GLITCH ELECTRIC SHOCK EFFECT */
+        .glitch-flash { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--accent-primary); opacity: 0; pointer-events: none; z-index: 9999; mix-blend-mode: overlay; }
+        .glitch-scanline { position: absolute; top: 0; left: 0; width: 100%; height: 8px; background: linear-gradient(to bottom, transparent, rgba(204, 255, 0, 0.9), rgba(255, 255, 255, 1), rgba(204, 255, 0, 0.9), transparent); opacity: 0; pointer-events: none; z-index: 9998; box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); }
+        @keyframes glitchShake { 0% { transform: translate(0, 0) skewX(0deg); filter: none; } 10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); } 20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); } 30% { transform: translate(-4px, 0) skewX(0deg); filter: none; } 40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); } 50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); } 60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); } 70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); } 80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; } 90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); } 100% { transform: translate(0, 0) skewX(0deg); filter: none; } }
+        @keyframes electricFlash { 0% { opacity: 0; } 5% { opacity: 0.8; } 10% { opacity: 0; } 15% { opacity: 0.6; } 20% { opacity: 0; } 35% { opacity: 0.9; } 40% { opacity: 0; } 55% { opacity: 0.4; } 60% { opacity: 0; } 100% { opacity: 0; } }
+        @keyframes scanlineZap { 0% { top: -10px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        @keyframes rgbSplit { 0% { text-shadow: 0 0 0 transparent; } 20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); } 40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); } 60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); } 80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); } 100% { text-shadow: 0 0 0 transparent; } }
+        #deck-container.glitching { animation: glitchShake 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        #deck-container.glitching .slide.active { animation: rgbSplit 0.3s ease-out; }
+        #deck-container.glitching .glitch-flash { animation: electricFlash 0.3s ease-out; }
+        #deck-container.glitching .glitch-scanline { animation: scanlineZap 0.15s ease-out; }
+        .control-lang .btn.zapping { animation: buttonZap 0.3s ease-out; }
+        @keyframes buttonZap { 0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); } 30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); } 50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); } 100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); } }
+
+        /* PERFORMANCE OPTIMIZATIONS */
+        .slide { will-change: transform, opacity, filter; }
+        .glitch-flash, .glitch-scanline { will-change: opacity, top; }
+        .btn, .metric-box, .showcase-card, .showcase-card-large { will-change: transform; }
+
+        /* ENHANCED LANGUAGE BUTTON */
+        .control-lang .btn { position: relative; animation: langButtonPulse 3s ease-in-out infinite; }
+        .control-lang .btn::after { content: ''; position: absolute; inset: -4px; border: 1px dashed rgba(204, 255, 0, 0.3); border-radius: 50%; animation: langRingPulse 2s ease-in-out infinite; }
+        @keyframes langButtonPulse { 0%, 100% { box-shadow: 0 0 0 rgba(204, 255, 0, 0); } 50% { box-shadow: 0 0 15px rgba(204, 255, 0, 0.3); } }
+        @keyframes langRingPulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) { .slide { padding: 50px 60px; } h1, h2 { font-size: 36px; } .cols-3-metrics { gap: 18px; } .metric-val { font-size: 48px; } }
+        @media (max-width: 992px) { .slide { padding: 40px 40px; } h1, h2 { font-size: 28px; } .section-big-icon { font-size: 50px; } .cols-3-metrics { grid-template-columns: repeat(2, 1fr); } .metric-val { font-size: 40px; } .versus-container { flex-direction: column; gap: 15px; } .versus-divider { padding: 10px 0; } }
+        @media (max-width: 768px) { .slide { padding: 30px 25px; } h1, h2 { font-size: 24px; } .section-big-icon { font-size: 42px; } .slide-desc { font-size: 14px; } .cols-3-metrics { grid-template-columns: 1fr 1fr; } .metric-val { font-size: 32px; } .metric-box { padding: 25px 15px; } .workflow-nav { flex-wrap: wrap; gap: 5px; } .workflow-step-mini { min-width: 55px; } .step-indicator { width: 24px; height: 24px; font-size: 10px; } .workflow-connector { width: 20px; } .case-grid { grid-template-columns: 1fr; } .btn { width: 36px; height: 36px; font-size: 14px; } .control-back { bottom: 12px; left: 15px; } .control-lang { top: 12px; right: 15px; } }
+        @media (max-width: 480px) { .slide { padding: 25px 20px; } h1, h2 { font-size: 20px; } .section-big-icon { font-size: 36px; } .cols-3-metrics { grid-template-columns: 1fr; } .metric-val { font-size: 28px; } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+    </style>
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+</head>
+<body class="lang-cn">
+
+<div id="deck-container">
+    <!-- Glitch effect layers -->
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    <div class="progress-bar" id="progress"></div>
+    <div class="control-back" onclick="event.stopPropagation()">
+        <a href="case-3dprinting-solutions.html" class="btn micro-ripple" title="返回 / Back"><i class="fa-solid fa-arrow-left"></i></a>
+    </div>
+    <div class="control-lang" onclick="event.stopPropagation()">
+        <button class="btn" onclick="toggleLanguage(); event.stopPropagation();" title="切换语言 / Toggle Language"><i class="fa-solid fa-globe"></i></button>
+    </div>
+
+    <!-- SLIDE 1: COVER -->
+    <div class="slide active">
+        <div class="slide-content" style="justify-content: center; align-items: center; text-align: center;">
+            <div class="section-big-icon"><i class="fa-solid fa-user"></i></div>
+            <h1 style="font-size: 52px;"><span class="cn">3D 人像/宠物克隆</span><span class="en">Digital Twin Souvenirs</span></h1>
+            <p class="slide-desc" style="text-align: center; margin: 20px auto;"><span class="cn">照片转 3D 模型，打造个性化定制纪念品</span><span class="en">Photo-to-3D models for personalized custom souvenirs</span></p>
+            <div class="section-tag" style="margin-top: 20px;"><span class="cn">SOLUTION 02 · 定制纪念品</span><span class="en">SOLUTION 02 · Custom Souvenirs</span></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: PAIN POINTS VS SOLUTION -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="section-tag" style="margin-bottom: 20px;"><i class="fa-solid fa-crosshairs"></i><span class="en">THE CHALLENGE</span><span class="cn">行业痛点</span></div>
+            <h2 style="font-size: 32px; margin-bottom: 20px;"><span class="cn">定制化纪念品的规模化难题</span><span class="en">Scaling Personalized Souvenirs</span></h2>
+
+            <div class="versus-container">
+                <div class="versus-side pain-side">
+                    <div class="versus-header"><div class="versus-icon pain-icon"><i class="fa-solid fa-xmark"></i></div><h3 style="color: var(--accent-red);"><span class="en">Pain Points</span><span class="cn">传统困境</span></h3></div>
+                    <div class="versus-items">
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-red);">💇</div><div><div class="item-title"><span class="en">Realistic Hair = Print Nightmare</span><span class="cn">写实发丝 = 打印噩梦</span></div><div class="item-desc"><span class="en">Individual hair strands &lt;0.2mm = unprintable. Photogrammetry captures surface noise, not hair structure.</span><span class="cn">单根发丝 &lt;0.2mm = 无法打印，摄影测量只能捕捉表面噪点，非发丝结构</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-red);">👤</div><div><div class="item-title"><span class="en">Face Supports = Surface Damage</span><span class="cn">面部支撑 = 表面损伤</span></div><div class="item-desc"><span class="en">Nose, ears, chin need supports at 45°+ overhangs. Support nubs on face = customer complaints, 20%+ rework rate.</span><span class="cn">鼻子、耳朵、下巴 45°+ 悬垂需支撑，面部支撑点 = 客诉高发，返工率 >20%</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-red);">📐</div><div><div class="item-title"><span class="en">Ultra-Fine Layer Height = Slow</span><span class="cn">超细层高 = 漫长等待</span></div><div class="item-desc"><span class="en">Realistic face details need SLA at 25-50μm layers. Single 10cm portrait = 8-14 hours print time.</span><span class="cn">写实面部细节需 SLA 25-50μm 层高，单个 10cm 人像 = 8-14 小时打印</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-red);">💰</div><div><div class="item-title"><span class="en">$300-800 Per Likeness Sculpt</span><span class="cn">写实雕刻 $300-800/个</span></div><div class="item-desc"><span class="en">Professional ZBrush likeness = 8-15 hours. Fiverr/Upwork rate $40-60/hr. Mass customization unviable.</span><span class="cn">专业 ZBrush 写实雕刻 = 8-15 小时，Fiverr/Upwork 时薪 $40-60，批量定制不可行</span></div></div></div>
+                    </div>
+                </div>
+                <div class="versus-divider"><div class="vs-badge">VS</div></div>
+                <div class="versus-side sol-side">
+                    <div class="versus-header"><div class="versus-icon sol-icon"><i class="fa-solid fa-check"></i></div><h3 style="color: var(--accent-primary);"><span class="en">Meshy Solution</span><span class="cn">Meshy 破局点</span></h3></div>
+                    <div class="versus-items">
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-primary);">🎭</div><div><div class="item-title"><span class="en">Q-Style = FDM-Safe Geometry</span><span class="cn">Q 版风格 = FDM 友好几何</span></div><div class="item-desc"><span class="en">Stylized large heads, chunky features. Min wall >1.2mm, max overhang <40°. Face supports = 0, success rate >95%.</span><span class="cn">风格化大头、粗壮特征，最小壁厚 >1.2mm，最大悬垂 <40°，面部零支撑，成功率 >95%</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-primary);">💇</div><div><div class="item-title"><span class="en">Solid Hair Volumes (Not Strands)</span><span class="cn">整体发块（非发丝）</span></div><div class="item-desc"><span class="en">AI generates merged hair volumes with surface texture. Printable on $200 FDM (0.4mm nozzle, 0.2mm layer).</span><span class="cn">AI 生成融合发块 + 表面纹理，$200 入门 FDM 可打印（0.4mm 喷嘴，0.2mm 层高）</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-primary);">⏱️</div><div><div class="item-title"><span class="en">2-5 Min Per Portrait Generation</span><span class="cn">2-5 分钟/个人像生成</span></div><div class="item-desc"><span class="en">Photo → print-ready 3MF in minutes. API batch: 30-50 portraits overnight for wedding/event orders.</span><span class="cn">照片 → 打印就绪 3MF 仅需分钟，API 批量：过夜处理 30-50 个婚礼/活动订单</span></div></div></div>
+                        <div class="versus-item"><div class="item-icon" style="color: var(--accent-primary);">🖨️</div><div><div class="item-title"><span class="en">FDM or Resin Ready</span><span class="cn">FDM/树脂双模式</span></div><div class="item-desc"><span class="en">Q-style works on $200 FDM. Premium option: SLA 0.1mm for fine details.</span><span class="cn">Q版适配 $200 入门 FDM，高端选项：SLA 0.1mm 精细层高</span></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: BUSINESS VALUE -->
+    <div class="slide">
+        <div class="slide-content" style="justify-content: center;">
+            <div class="section-tag"><i class="fa-solid fa-chart-line"></i><span class="en">BUSINESS VALUE</span><span class="cn">商业价值</span></div>
+            <p class="slide-desc" style="text-align: center; margin-bottom: 35px;"><span class="cn">开启 C2M 定制纪念品新市场，低成本高情感价值</span><span class="en">Unlock new C2M custom souvenir market — low cost, high emotional value</span></p>
+            <div class="cols-3-metrics" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="metric-box"><div class="metric-val">>95%</div><div class="metric-label"><span class="cn">首次打印成功率</span><span class="en">First-Print Success</span></div><div class="metric-sub"><span class="cn">Q 版风格零面部支撑</span><span class="en">Q-style = zero face supports</span></div></div>
+                <div class="metric-box"><div class="metric-val" style="font-size: 36px;">$20-40</div><div class="metric-label"><span class="cn">终端售价区间</span><span class="en">Retail Price Point</span></div><div class="metric-sub"><span class="cn">vs. 写实雕刻 $300-800</span><span class="en">vs. likeness sculpt $300-800</span></div></div>
+                <div class="metric-box"><div class="metric-val">30-50</div><div class="metric-label"><span class="cn">批量处理/夜</span><span class="en">Batch Per Night</span></div><div class="metric-sub"><span class="cn">API 自动化婚礼/活动订单</span><span class="en">API-automated wedding/events</span></div></div>
+                <div class="metric-box"><div class="metric-val" style="font-size: 36px;">API</div><div class="metric-label"><span class="cn">White-Label 嵌入</span><span class="en">White-Label Ready</span></div><div class="metric-sub"><span class="cn">宠物店/影楼小程序集成</span><span class="en">Pet store/studio integration</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: STEP 01 -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="workflow-nav">
+                <div class="workflow-step-mini active"><div class="step-indicator">01</div><div class="step-label"><span class="cn">上传照片</span><span class="en">Upload</span></div></div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini"><div class="step-indicator">02</div><div class="step-label"><span class="cn">AI 生成</span><span class="en">AI Gen</span></div></div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini"><div class="step-indicator">03</div><div class="step-label"><span class="cn">打印交付</span><span class="en">Print</span></div></div>
+            </div>
+            <div class="case-content">
+                <div class="case-header"><div class="case-step-badge"><span class="cn">步骤 01：上传照片</span><span class="en">STEP 01: UPLOAD PHOTO</span></div><h2 class="case-title"><span class="cn">客户提供照片</span><span class="en">Customer Provides Photo</span></h2></div>
+                <div class="case-single"><div class="showcase-card-large" micro-tilt><div class="showcase-icon"><i class="fa-solid fa-camera"></i></div><div class="showcase-title"><span class="cn">照片输入</span><span class="en">Photo Input</span></div><div class="showcase-desc"><span class="cn">上传宠物、人物或婚礼照片</span><span class="en">Upload pet, person, or wedding photos</span></div><div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: STEP 02 -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="workflow-nav">
+                <div class="workflow-step-mini completed"><div class="step-indicator"><i class="fa-solid fa-check"></i></div><div class="step-label"><span class="cn">上传照片</span><span class="en">Upload</span></div></div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini active"><div class="step-indicator">02</div><div class="step-label"><span class="cn">AI 生成</span><span class="en">AI Gen</span></div></div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini"><div class="step-indicator">03</div><div class="step-label"><span class="cn">打印交付</span><span class="en">Print</span></div></div>
+            </div>
+            <div class="case-content">
+                <div class="case-header"><div class="case-step-badge"><span class="cn">步骤 02：AI 生成 3D 模型</span><span class="en">STEP 02: AI GENERATES 3D MODEL</span></div><h2 class="case-title"><span class="cn">Meshy 将照片转为 3D</span><span class="en">Meshy Converts Photo to 3D</span></h2></div>
+                <div class="case-single"><div class="showcase-card-large" micro-tilt><div class="showcase-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="showcase-title"><span class="cn">AI 克隆</span><span class="en">AI Clone</span></div><div class="showcase-desc"><span class="cn">AI 分析照片特征，生成可打印的 3D 模型</span><span class="en">AI analyzes photo features, generates printable 3D model</span></div><div class="placeholder-label"><span class="cn">视频占位</span><span class="en">Video Placeholder</span></div></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: FINAL RESULT -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="workflow-nav">
+                <div class="workflow-step-mini completed"><div class="step-indicator"><i class="fa-solid fa-check"></i></div><div class="step-label"><span class="cn">上传照片</span><span class="en">Upload</span></div></div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed"><div class="step-indicator"><i class="fa-solid fa-check"></i></div><div class="step-label"><span class="cn">AI 生成</span><span class="en">AI Gen</span></div></div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed"><div class="step-indicator"><i class="fa-solid fa-check"></i></div><div class="step-label"><span class="cn">打印交付</span><span class="en">Print</span></div></div>
+            </div>
+            <div class="case-content">
+                <div class="case-header"><div class="case-step-badge" style="background: rgba(204, 255, 0, 0.2);"><span class="cn">最终成果</span><span class="en">FINAL RESULT</span></div><h2 class="case-title"><span class="cn">定制纪念品展示</span><span class="en">Custom Souvenir Showcase</span></h2></div>
+                <div class="case-grid">
+                    <div class="showcase-card" micro-tilt><div class="showcase-icon"><i class="fa-solid fa-dog"></i></div><div class="showcase-title"><span class="cn">宠物店/电商合作</span><span class="en">Pet Store / E-commerce</span></div><div class="showcase-desc"><span class="cn">宠物店、电商平台嵌入式服务</span><span class="en">Embedded service for pet stores</span></div><div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div></div>
+                    <div class="showcase-card" micro-tilt><div class="showcase-icon"><i class="fa-solid fa-heart"></i></div><div class="showcase-title"><span class="cn">婚纱摄影增值</span><span class="en">Wedding Cake Topper</span></div><div class="showcase-desc"><span class="cn">婚纱摄影增值服务：定制蛋糕顶饰</span><span class="en">Wedding photography add-on service</span></div><div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progress');
+    const deckContainer = document.getElementById('deck-container');
+    let current = 0, total = slides.length;
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    let isFlipping = false;
+    // Apply initial language
+    document.body.classList.remove('lang-cn', 'lang-en');
+    document.body.classList.add('lang-' + lang);
+
+    function update() { slides.forEach((s, i) => { s.classList.remove('active'); if(i === current) s.classList.add('active'); }); progressBar.style.width = ((current + 1) / total) * 100 + '%'; }
+    function toggleLanguage() {
+        if (isFlipping) return;
+        isFlipping = true;
+        const deckContainer = document.getElementById('deck-container');
+        const langBtn = document.querySelector('.control-lang .btn');
+        deckContainer.classList.add('glitching');
+        if (langBtn) langBtn.classList.add('zapping');
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            document.body.classList.remove('lang-cn', 'lang-en');
+            document.body.classList.add('lang-' + lang);
+        }, 150);
+        setTimeout(() => {
+            deckContainer.classList.remove('glitching');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 300);
+    }
+    function nextSlide() { 
+        if(current < total - 1) { current++; update(); } 
+        else { window.location.href = 'case-3dprinting-solutions.html'; }
+    }
+    function prevSlide() { if(current > 0) { current--; update(); } }
+    document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight' || e.key === ' ') nextSlide(); if(e.key === 'ArrowLeft') prevSlide(); if(e.key.toLowerCase() === 'l') toggleLanguage(); if(e.key === 'Escape') window.location.href = 'case-3dprinting-solutions.html'; });
+    deckContainer.addEventListener('click', (e) => { const r = deckContainer.getBoundingClientRect(); if(e.clientX - r.left > r.width / 2) nextSlide(); else prevSlide(); });
+    update();
+</script>
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

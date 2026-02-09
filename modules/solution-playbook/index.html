@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="home">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution Playbooks | Meshy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Micro Interactions CSS -->
+    <link rel="stylesheet" href="assets/css/micro-interactions.css">
+    <!-- Cursor Effects CSS -->
+    <link rel="stylesheet" href="assets/css/cursor-effects.css">
+    <!-- Visual Enhancement CSS -->
+    <link rel="stylesheet" href="assets/css/visual-effects.css">
+    <link rel="stylesheet" href="assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="assets/css/mobile-effects.css">
+    <!-- Advanced Visual Effects CSS -->
+    <link rel="stylesheet" href="assets/css/text-animations.css">
+    <link rel="stylesheet" href="assets/css/entrance-effects.css">
+    <link rel="stylesheet" href="assets/css/advanced-interactions.css">
+    <!-- Page Animation System -->
+    <link rel="stylesheet" href="assets/css/page-animations.css">
+    <link rel="stylesheet" href="assets/css/industry-themes.css">
+    <style>
+        :root {
+            --bg-core: #000000;
+            --bg-slide: #050505;
+            --accent-primary: #CCFF00;
+            --text-main: #f0f0f0;
+            --text-sub: #888888;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            background-color: var(--bg-core);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        body.lang-cn { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+        .cn { display: none; }
+        body.lang-cn .en { display: none !important; }
+        body.lang-cn .cn { display: inline; }
+
+        #deck-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            perspective: 2000px;
+        }
+
+        .flip-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: var(--bg-slide);
+            border: 1px solid #222;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ============================================
+           GLITCH ELECTRIC SHOCK EFFECT
+           ============================================ */
+        .glitch-flash {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--accent-primary);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+
+        .glitch-scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 8px;
+            background: linear-gradient(to bottom, transparent, rgba(204, 255, 0, 0.9), rgba(255, 255, 255, 1), rgba(204, 255, 0, 0.9), transparent);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
+        }
+
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0) skewX(0deg); filter: none; }
+            10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); }
+            20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); }
+            30% { transform: translate(-4px, 0) skewX(0deg); filter: none; }
+            40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); }
+            50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); }
+            60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); }
+            70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); }
+            80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; }
+            90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); }
+            100% { transform: translate(0, 0) skewX(0deg); filter: none; }
+        }
+
+        @keyframes electricFlash {
+            0% { opacity: 0; }
+            5% { opacity: 0.8; }
+            10% { opacity: 0; }
+            15% { opacity: 0.6; }
+            20% { opacity: 0; }
+            35% { opacity: 0.9; }
+            40% { opacity: 0; }
+            55% { opacity: 0.4; }
+            60% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes scanlineZap {
+            0% { top: -10px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes rgbSplit {
+            0% { text-shadow: 0 0 0 transparent; }
+            20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); }
+            40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); }
+            60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); }
+            80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+
+        /* 语言切换闪电效果 - 加快速度 */
+        .flip-container.glitching { animation: glitchShake 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .flip-container.glitching .content { animation: rgbSplit 0.15s ease-out; }
+        .flip-container.glitching .glitch-flash { animation: electricFlash 0.15s ease-out; }
+        .flip-container.glitching .glitch-scanline { animation: scanlineZap 0.1s ease-out; }
+
+        .control-lang .btn.zapping { animation: buttonZap 0.15s ease-out; }
+        @keyframes buttonZap {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+            30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+        }
+
+        @keyframes screenPunch {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        #deck-container.punched { animation: screenPunch 0.15s ease-out; }
+
+        /* Controls */
+        .control-lang {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            z-index: 100;
+        }
+        .btn {
+            background: rgba(20,20,20,0.8);
+            border: 1px solid #333;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all var(--transition-normal) var(--ease-out);
+            opacity: 0.7;
+            text-decoration: none;
+            will-change: transform, opacity;
+        }
+        .btn.micro-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:hover {
+            opacity: 1;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: black;
+            transform: scale(1.05);
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+        }
+        .section-big-icon {
+            font-size: 72px;
+            color: var(--accent-primary);
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.4));
+        }
+        .hero-icon {
+            animation: heroFloat 2.5s ease-in-out infinite, heroGlow 1.5s ease-in-out infinite alternate, heroPulse 4s ease-in-out infinite;
+        }
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-15px) rotate(3deg) scale(1.02); }
+            50% { transform: translateY(-8px) rotate(-2deg) scale(1.05); }
+            75% { transform: translateY(-12px) rotate(2deg) scale(1.02); }
+        }
+        @keyframes heroGlow {
+            0% { filter: drop-shadow(0 0 25px rgba(204, 255, 0, 0.4)) drop-shadow(0 0 50px rgba(204, 255, 0, 0.2)); }
+            100% { filter: drop-shadow(0 0 50px rgba(204, 255, 0, 0.7)) drop-shadow(0 0 80px rgba(204, 255, 0, 0.4)); }
+        }
+        @keyframes heroPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        .section-big-icon.micro-bounce {
+            cursor: pointer;
+        }
+        h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-sub);
+            margin-bottom: 45px;
+        }
+        .industries-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .industries-row {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+        }
+        /* 第一行：3个等宽按钮 */
+        .industries-row:first-child .industry-item {
+            width: 180px;
+            justify-content: center;
+        }
+        /* 第二行：2个稍宽的等宽按钮 */
+        .industries-row:nth-child(2) .industry-item {
+            width: 200px;
+            justify-content: center;
+        }
+        .industry-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all var(--transition-normal) var(--ease-out);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+            white-space: nowrap;
+            height: 50px;
+            box-sizing: border-box;
+            pointer-events: auto !important;
+            z-index: 100;
+        }
+        .industry-item.micro-tilt {
+            transform-style: preserve-3d;
+        }
+        .industry-item.micro-bounce i {
+            transition: transform var(--transition-normal) var(--ease-bounce);
+            display: inline-block;
+        }
+        .industry-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(204, 255, 0, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width var(--transition-slow) ease, height var(--transition-slow) ease;
+            z-index: -1;
+        }
+        .industry-item:hover {
+            border-color: var(--accent-primary);
+            background: rgba(204, 255, 0, 0.15);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 15px 40px rgba(204, 255, 0, 0.3),
+                0 0 20px rgba(204, 255, 0, 0.2),
+                inset 0 0 20px rgba(204, 255, 0, 0.05);
+        }
+        .industry-item:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        .industry-item:active {
+            transform: scale(0.92);
+            box-shadow: 0 5px 20px rgba(204, 255, 0, 0.4);
+        }
+        .industry-item i { 
+            font-size: 18px; 
+            color: var(--text-sub); 
+            transition: all var(--transition-normal) var(--ease-bounce);
+        }
+        .industry-item:hover i { 
+            color: var(--accent-primary); 
+            transform: scale(1.3) rotate(-5deg); 
+            filter: drop-shadow(0 0 8px rgba(204, 255, 0, 0.6));
+        }
+
+        /* Lottie icon styles */
+        .lottie-globe {
+            width: 24px;
+            height: 24px;
+            pointer-events: none;
+        }
+        
+        .lottie-hero {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.4));
+        }
+        
+        /* Industry item Lottie hover effect */
+        .industry-item .lottie-industry {
+            width: 22px;
+            height: 22px;
+            display: none;
+        }
+        
+        .industry-item:hover .fa-solid {
+            display: none;
+        }
+        
+        .industry-item:hover .lottie-industry {
+            display: block;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            /* Exception: Keep glitch/lightning effects active */
+            .flip-container.glitching,
+            .flip-container.glitching .content,
+            .flip-container.glitching .glitch-flash,
+            .flip-container.glitching .glitch-scanline,
+            .control-lang .btn.zapping {
+                animation-duration: 0.15s !important;
+                animation-iteration-count: 1 !important;
+            }
+            
+            /* Pause Lottie animations for reduced motion preference */
+            lottie-player {
+                --lottie-player-autoplay: false;
+            }
+            
+            .lottie-globe,
+            .lottie-hero,
+            .lottie-industry {
+                opacity: 0.7;
+            }
+        }
+        .industry-item.wip { opacity: 0.5; }
+        .industry-item.wip:hover { opacity: 0.8; }
+        .industry-item.ready { border-color: rgba(204, 255, 0, 0.3); }
+
+        /* ============================================
+           ENHANCED PAGE TRANSITION - Glitch Electric Style
+           ============================================ */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-core);
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            will-change: opacity, transform;
+        }
+        
+        /* Main scanline that sweeps across */
+        .page-transition::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(to bottom, 
+                transparent, 
+                rgba(204, 255, 0, 0.6), 
+                rgba(255, 255, 255, 1), 
+                rgba(204, 255, 0, 0.6), 
+                transparent);
+            box-shadow: 
+                0 0 60px 20px rgba(204, 255, 0, 0.5),
+                0 0 120px 40px rgba(204, 255, 0, 0.3);
+            opacity: 0;
+            z-index: 2;
+        }
+        
+        /* Glitch flash overlay */
+        .page-transition::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-primary);
+            opacity: 0;
+            mix-blend-mode: overlay;
+            z-index: 1;
+        }
+        
+        /* RGB split noise texture */
+        .page-transition-noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    transparent 2px,
+                    rgba(204, 255, 0, 0.03) 2px,
+                    rgba(204, 255, 0, 0.03) 4px
+                );
+            z-index: 3;
+        }
+        
+        /* Active state animations */
+        .page-transition.active {
+            animation: transitionFadeIn 0.45s var(--ease-out) forwards;
+        }
+        
+        .page-transition.active::before {
+            animation: transitionScanline 0.4s var(--ease-out) 0.05s forwards;
+        }
+        
+        .page-transition.active::after {
+            animation: transitionGlitchFlash 0.35s ease-out forwards;
+        }
+        
+        .page-transition.active .page-transition-noise {
+            animation: transitionNoise 0.4s ease-out forwards;
+        }
+        
+        /* Keyframe animations for page transition */
+        @keyframes transitionFadeIn {
+            0% { opacity: 0; }
+            15% { opacity: 0.3; }
+            30% { opacity: 0.1; }
+            45% { opacity: 0.5; }
+            60% { opacity: 0.3; }
+            75% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes transitionScanline {
+            0% { top: -10px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        
+        @keyframes transitionGlitchFlash {
+            0% { opacity: 0; }
+            8% { opacity: 0.7; }
+            16% { opacity: 0; }
+            24% { opacity: 0.5; }
+            32% { opacity: 0; }
+            48% { opacity: 0.8; }
+            56% { opacity: 0; }
+            72% { opacity: 0.3; }
+            100% { opacity: 0; }
+        }
+        
+        @keyframes transitionNoise {
+            0% { opacity: 0; }
+            20% { opacity: 0.8; }
+            40% { opacity: 0.2; }
+            60% { opacity: 0.6; }
+            80% { opacity: 0.3; }
+            100% { opacity: 0; }
+        }
+        
+        /* Glitch shake for the entire page during transition */
+        @keyframes transitionShake {
+            0% { transform: translate(0, 0) skewX(0deg); }
+            10% { transform: translate(-5px, 2px) skewX(-1deg); }
+            20% { transform: translate(5px, -2px) skewX(1deg); }
+            30% { transform: translate(-3px, 0) skewX(0deg); }
+            40% { transform: translate(4px, 1px) skewX(0.5deg); }
+            50% { transform: translate(0, -2px) skewX(-0.5deg); }
+            60% { transform: translate(-4px, 1px) skewX(1deg); }
+            70% { transform: translate(3px, 0) skewX(0deg); }
+            80% { transform: translate(-2px, -1px) skewX(-0.5deg); }
+            90% { transform: translate(2px, 1px) skewX(0.5deg); }
+            100% { transform: translate(0, 0) skewX(0deg); }
+        }
+        
+        /* RGB split effect during transition */
+        @keyframes transitionRgbSplit {
+            0% { filter: none; }
+            15% { filter: drop-shadow(-4px 0 0 rgba(255, 0, 0, 0.5)) drop-shadow(4px 0 0 rgba(0, 255, 255, 0.5)); }
+            30% { filter: drop-shadow(3px 0 0 rgba(255, 0, 0, 0.5)) drop-shadow(-3px 0 0 rgba(0, 255, 255, 0.5)); }
+            45% { filter: none; }
+            60% { filter: drop-shadow(-2px 0 0 rgba(255, 0, 0, 0.3)) drop-shadow(2px 0 0 rgba(0, 255, 255, 0.3)); }
+            75% { filter: drop-shadow(1px 0 0 rgba(255, 0, 0, 0.2)) drop-shadow(-1px 0 0 rgba(0, 255, 255, 0.2)); }
+            100% { filter: none; }
+        }
+        
+        /* ============================================
+           SMOOTH INDUSTRY NAVIGATION TRANSITION
+           ============================================ */
+        @keyframes industryZoomOut {
+            0% { 
+                transform: scale(1); 
+                opacity: 1;
+                filter: none;
+            }
+            100% { 
+                transform: scale(0.92); 
+                opacity: 0;
+                filter: blur(8px);
+            }
+        }
+        
+        @keyframes industryItemPulse {
+            0% { 
+                transform: scale(1); 
+                box-shadow: 0 0 0 rgba(204, 255, 0, 0);
+            }
+            50% { 
+                transform: scale(1.08); 
+                box-shadow: 0 0 40px rgba(204, 255, 0, 0.8);
+            }
+            100% { 
+                transform: scale(1.15); 
+                box-shadow: 0 0 60px rgba(204, 255, 0, 0.4);
+                opacity: 0;
+            }
+        }
+        
+        /* Smooth fade overlay for industry navigation */
+        .page-transition.industry-nav {
+            background: linear-gradient(135deg, var(--bg-core) 0%, rgba(0,0,0,0.95) 100%);
+        }
+        
+        .page-transition.industry-nav.active {
+            animation: fadeInOverlay 0.4s ease-out forwards;
+        }
+        
+        @keyframes fadeInOverlay {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        /* Container zoom during navigation (no shake) */
+        #deck-container.navigating-industry {
+            animation: industryZoomOut 0.4s ease-out forwards;
+        }
+        
+        /* Clicked industry item pulse effect */
+        .industry-item.clicked-industry {
+            animation: industryItemPulse 0.4s ease-out forwards;
+        }
+        
+        /* Legacy: Container shake during navigation (for glitch) */
+        #deck-container.navigating {
+            animation: transitionShake 0.3s var(--ease-out);
+        }
+        
+        #deck-container.navigating .content {
+            animation: transitionRgbSplit 0.35s ease-out;
+        }
+        
+        /* Legacy: Clicked item effect (for glitch) */
+        .industry-item.clicked {
+            animation: itemZapOut 0.35s var(--ease-out) forwards;
+        }
+        
+        @keyframes itemZapOut {
+            0% { 
+                transform: scale(1); 
+                box-shadow: 0 0 0 rgba(204, 255, 0, 0);
+                filter: none;
+            }
+            30% { 
+                transform: scale(0.95); 
+                box-shadow: 0 0 40px rgba(204, 255, 0, 0.9);
+                filter: brightness(2);
+            }
+            60% { 
+                transform: scale(1.05); 
+                box-shadow: 0 0 60px rgba(204, 255, 0, 1);
+                filter: brightness(1.5) hue-rotate(10deg);
+            }
+            100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 80px rgba(204, 255, 0, 0.6);
+                filter: brightness(1.2);
+            }
+        }
+
+        /* Staggered entrance animation */
+        .industry-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        .industries-row:nth-child(1) .industry-item:nth-child(1) { animation-delay: 0.1s; }
+        .industries-row:nth-child(1) .industry-item:nth-child(2) { animation-delay: 0.15s; }
+        .industries-row:nth-child(1) .industry-item:nth-child(3) { animation-delay: 0.2s; }
+        .industries-row:nth-child(2) .industry-item:nth-child(1) { animation-delay: 0.25s; }
+        .industries-row:nth-child(2) .industry-item:nth-child(2) { animation-delay: 0.3s; }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .industry-item.wip { animation-fill-mode: forwards; }
+        .industry-item.wip { --final-opacity: 0.5; }
+        @keyframes fadeInUpWip {
+            to { opacity: 0.5; transform: translateY(0); }
+        }
+        .industries-row:nth-child(2) .industry-item.wip:nth-child(1),
+        .industries-row:nth-child(2) .industry-item.wip:nth-child(2) { 
+            animation: fadeInUpWip 0.5s ease forwards; 
+        }
+
+        /* ============================================
+           BACKGROUND EFFECTS
+           ============================================ */
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.85; transform: translateX(-50%) scale(1.02); }
+        }
+        @keyframes horizonPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* TOP: Halftone dot pattern - subtle green dots */
+        .halftone-layer-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background-image: radial-gradient(circle, rgba(204, 255, 0, 0.15) 1.5px, transparent 1.5px);
+            background-size: 10px 10px;
+            mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, 
+                rgba(0,0,0,0.5) 0%, 
+                rgba(0,0,0,0.2) 40%, 
+                transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, 
+                rgba(0,0,0,0.5) 0%, 
+                rgba(0,0,0,0.2) 40%, 
+                transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .horizon-glow-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(204, 255, 0, 0.2) 20%, 
+                rgba(204, 255, 0, 0.5) 50%, 
+                rgba(204, 255, 0, 0.2) 80%, 
+                transparent 100%);
+            box-shadow: 0 0 40px 15px rgba(204, 255, 0, 0.12);
+            animation: horizonPulse 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .horizon-bloom-top {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 120px;
+            background: radial-gradient(ellipse at 50% 0%, 
+                rgba(204, 255, 0, 0.15) 0%, 
+                rgba(204, 255, 0, 0.05) 40%,
+                transparent 70%);
+            animation: softPulse 5s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* BOTTOM: Halftone dot pattern - black dots (negative) */
+        .halftone-layer-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 280px;
+            background-image: radial-gradient(circle, #000000 2.5px, transparent 2.5px);
+            background-size: 10px 10px;
+            mask-image: radial-gradient(ellipse 80% 100% at 50% 100%, 
+                rgba(0,0,0,0.7) 0%, 
+                rgba(0,0,0,0.4) 30%, 
+                rgba(0,0,0,0.15) 50%,
+                transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 100%, 
+                rgba(0,0,0,0.7) 0%, 
+                rgba(0,0,0,0.4) 30%, 
+                rgba(0,0,0,0.15) 50%,
+                transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .horizon-glow-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(204, 255, 0, 0.4) 20%, 
+                rgba(204, 255, 0, 0.9) 50%, 
+                rgba(204, 255, 0, 0.4) 80%, 
+                transparent 100%);
+            box-shadow: 0 0 80px 30px rgba(204, 255, 0, 0.25);
+            animation: horizonPulse 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .horizon-bloom-bottom {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 200px;
+            background: radial-gradient(ellipse at 50% 100%, 
+                rgba(204, 255, 0, 0.3) 0%, 
+                rgba(204, 255, 0, 0.12) 35%,
+                transparent 65%);
+            animation: softPulse 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Vignette */
+        .vignette {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(0,0,0,0.35) 100%);
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        /* Credits */
+        .credits {
+            margin-top: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+        .credits .company {
+            color: var(--accent-primary);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .credits .author {
+            opacity: 0.7;
+        }
+        .credits .divider {
+            width: 4px;
+            height: 4px;
+            background: var(--text-sub);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="lang-cn">
+
+<div id="deck-container">
+<div class="flip-container" id="flipContainer">
+    <!-- Glitch effect layers -->
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    
+    <!-- Top effects -->
+    <div class="halftone-layer-top"></div>
+    <div class="horizon-bloom-top"></div>
+    <div class="horizon-glow-top"></div>
+    
+    <!-- Floating particles -->
+    <div class="particles-container" id="particlesContainer"></div>
+    
+    <!-- Bottom effects -->
+    <div class="halftone-layer-bottom"></div>
+    <div class="horizon-bloom-bottom"></div>
+    <div class="horizon-glow-bottom"></div>
+    
+    <!-- Vignette -->
+    <div class="vignette"></div>
+    
+    <!-- Page transition overlay - Enhanced glitch style -->
+    <div class="page-transition" id="pageTransition">
+        <div class="page-transition-noise"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="section-big-icon entrance-hero-icon">
+            <i class="fa-solid fa-cubes hero-icon"></i>
+        </div>
+        <h1 class="entrance-title typewriter-target">
+            <span class="cn">解决方案手册</span>
+            <span class="en">Solution Playbooks</span>
+        </h1>
+        <p class="subtitle entrance-subtitle text-fade-in">
+            <span class="cn">行业应用指南</span>
+            <span class="en">Strategic Solution Guides</span>
+        </p>
+        <div class="credits entrance-credits text-fade-in" style="--fade-delay: 0.2s">
+            <span class="company text-glow-pulse">Meshy.AI</span>
+            <span class="divider"></span>
+            <span class="author">
+                <span class="cn">由林炳君制作</span>
+                <span class="en">Made by BJ Lin</span>
+            </span>
+        </div>
+        <div class="industries-list">
+            <div class="industries-row">
+                <a href="cases/case-gaming-solutions.html" class="industry-item ready micro-tilt micro-bounce micro-ripple magnetic-btn entrance-card card-shine card-lift" onclick="navigateTo(event, this)">
+                    <i class="fa-solid fa-gamepad icon-hover-bounce"></i>
+                    <span class="cn">游戏行业</span>
+                    <span class="en">Gaming</span>
+                </a>
+                <a href="cases/case-film-solutions.html" class="industry-item ready micro-tilt micro-bounce micro-ripple magnetic-btn entrance-card card-shine card-lift" onclick="navigateTo(event, this)">
+                    <i class="fa-solid fa-film icon-hover-bounce"></i>
+                    <span class="cn">动画/电影</span>
+                    <span class="en">Film/Animation</span>
+                </a>
+                <a href="cases/case-manufacturing-solutions.html" class="industry-item ready micro-tilt micro-bounce micro-ripple magnetic-btn entrance-card card-shine card-lift" onclick="navigateTo(event, this)">
+                    <i class="fa-solid fa-industry icon-hover-bounce"></i>
+                    <span class="cn">工业产品</span>
+                    <span class="en">Manufacturing</span>
+                </a>
+            </div>
+            <div class="industries-row">
+                <a href="cases/case-interior-solutions.html" class="industry-item ready micro-tilt micro-bounce micro-ripple magnetic-btn entrance-card card-shine card-lift" onclick="navigateTo(event, this)">
+                    <i class="fa-solid fa-couch icon-hover-bounce"></i>
+                    <span class="cn">室内设计</span>
+                    <span class="en">Interior Design</span>
+                </a>
+                <a href="cases/case-3dprinting-solutions.html" class="industry-item micro-tilt micro-bounce micro-ripple magnetic-btn entrance-card card-shine card-lift" onclick="navigateTo(event, this)">
+                    <i class="fa-solid fa-cube icon-hover-bounce"></i>
+                    <span class="cn">3D打印</span>
+                    <span class="en">3D Printing</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="control-lang">
+        <button class="btn micro-ripple magnetic-btn" onclick="toggleLanguage()" title="切换语言 / Toggle Language" id="langBtn">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+    </div>
+</div>
+</div>
+
+<script>
+    // Initialize language from localStorage or default to 'cn'
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    let isFlipping = false;
+    
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Apply initial language state
+    function applyLanguage() {
+        document.body.classList.remove('lang-cn', 'lang-en');
+        document.body.classList.add('lang-' + lang);
+    }
+    applyLanguage();
+    
+    // Handle Lottie animations based on reduced motion preference
+    document.addEventListener('DOMContentLoaded', () => {
+        if (prefersReducedMotion) {
+            // Pause all Lottie animations if user prefers reduced motion
+            document.querySelectorAll('lottie-player').forEach(player => {
+                player.addEventListener('ready', () => {
+                    player.pause();
+                });
+            });
+        }
+        
+        // Add hover interaction for language button
+        const langBtn = document.getElementById('langBtn');
+        if (langBtn) {
+            langBtn.addEventListener('mouseenter', () => {
+                langBtn.style.transform = 'scale(1.1) rotate(15deg)';
+            });
+            langBtn.addEventListener('mouseleave', () => {
+                langBtn.style.transform = '';
+            });
+        }
+    });
+    
+    function toggleLanguage() {
+        if (isFlipping) return;
+        isFlipping = true;
+        
+        const flipContainer = document.getElementById('flipContainer');
+        const deckContainer = document.getElementById('deck-container');
+        const langBtn = document.querySelector('.control-lang .btn');
+        
+        // Trigger glitch effects (faster)
+        flipContainer.classList.add('glitching');
+        deckContainer.classList.add('punched');
+        if (langBtn) langBtn.classList.add('zapping');
+        
+        // Switch language at peak of glitch (faster)
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            applyLanguage();
+        }, 75);
+        
+        // Clean up (faster)
+        setTimeout(() => {
+            flipContainer.classList.remove('glitching');
+            deckContainer.classList.remove('punched');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 150);
+    }
+
+    function navigateTo(event, element) {
+        event.preventDefault();
+        const href = element.getAttribute('href');
+        const transition = document.getElementById('pageTransition');
+        const flipContainer = document.getElementById('flipContainer');
+        const deckContainer = document.getElementById('deck-container');
+        
+        // Use smooth industry navigation transition (no glitch)
+        element.classList.add('clicked-industry');
+        deckContainer.classList.add('navigating-industry');
+        transition.classList.add('industry-nav');
+        
+        // Phase 1: Start zoom-out effect immediately
+        setTimeout(() => {
+            transition.classList.add('active');
+        }, 100);
+        
+        // Phase 2: Navigate after smooth transition (400ms)
+        const navigateDelay = 400;
+        
+        // Try View Transitions API if supported
+        if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            setTimeout(() => {
+                document.startViewTransition(() => {
+                    window.location.href = href;
+                });
+            }, navigateDelay);
+        } else {
+            setTimeout(() => {
+                window.location.href = href;
+            }, navigateDelay);
+        }
+    }
+    
+    // Utility: Clean up transition state on page load (for back navigation)
+    window.addEventListener('pageshow', function(event) {
+        const transition = document.getElementById('pageTransition');
+        const deckContainer = document.getElementById('deck-container');
+        const flipContainer = document.getElementById('flipContainer');
+        
+        if (transition) {
+            transition.classList.remove('active', 'industry-nav');
+        }
+        if (deckContainer) {
+            deckContainer.classList.remove('navigating', 'navigating-industry');
+        }
+        if (flipContainer) flipContainer.classList.remove('glitching');
+        
+        // Reset any clicked items
+        document.querySelectorAll('.industry-item.clicked, .industry-item.clicked-industry').forEach(item => {
+            item.classList.remove('clicked', 'clicked-industry');
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key.toLowerCase() === 'l') toggleLanguage();
+        if(e.key >= '1' && e.key <= '5') {
+            const items = document.querySelectorAll('.industry-item');
+            const idx = parseInt(e.key) - 1;
+            if(items[idx]) {
+                navigateTo(new Event('click'), items[idx]);
+            }
+        }
+    });
+
+    // ============================================
+    // FLOATING PARTICLES SYSTEM
+    // ============================================
+    (function initParticles() {
+        const container = document.getElementById('particlesContainer');
+        if (!container) return;
+
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        // Particle configuration
+        const isMobile = window.innerWidth <= 768;
+        const particleCount = isMobile ? 10 : 20;
+        const particles = [];
+
+        function createParticle(index) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random size: 2-5px
+            const size = 2 + Math.random() * 3;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            
+            // Random horizontal position
+            particle.style.left = Math.random() * 100 + '%';
+            
+            // Random animation timing
+            const floatDuration = 12 + Math.random() * 10; // 12-22s
+            const swayDuration = 3 + Math.random() * 3; // 3-6s
+            const delay = Math.random() * 8; // 0-8s stagger
+            const driftX = (Math.random() - 0.5) * 60; // -30 to 30px drift
+            const swayAmount = 10 + Math.random() * 20; // 10-30px sway
+            
+            particle.style.setProperty('--float-duration', floatDuration + 's');
+            particle.style.setProperty('--sway-duration', swayDuration + 's');
+            particle.style.setProperty('--drift-x', driftX + 'px');
+            particle.style.setProperty('--sway-amount', swayAmount + 'px');
+            particle.style.animationDelay = delay + 's';
+            
+            // Glow intensity varies with size
+            const glowIntensity = 0.3 + (size / 5) * 0.4;
+            particle.style.boxShadow = `0 0 ${size * 2}px rgba(204, 255, 0, ${glowIntensity})`;
+            
+            container.appendChild(particle);
+            particles.push(particle);
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+                particle.classList.add('active');
+            });
+            
+            // Reset particle after animation completes
+            const totalDuration = (floatDuration + delay) * 1000;
+            setTimeout(() => resetParticle(particle, index), totalDuration);
+        }
+
+        function resetParticle(particle, index) {
+            particle.classList.remove('active');
+            
+            // New random position
+            particle.style.left = Math.random() * 100 + '%';
+            
+            // New random timing
+            const floatDuration = 12 + Math.random() * 10;
+            const driftX = (Math.random() - 0.5) * 60;
+            const swayAmount = 10 + Math.random() * 20;
+            
+            particle.style.setProperty('--float-duration', floatDuration + 's');
+            particle.style.setProperty('--drift-x', driftX + 'px');
+            particle.style.setProperty('--sway-amount', swayAmount + 'px');
+            particle.style.animationDelay = '0s';
+            
+            // Restart animation
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    particle.classList.add('active');
+                });
+            });
+            
+            // Schedule next reset
+            setTimeout(() => resetParticle(particle, index), floatDuration * 1000);
+        }
+
+        // Create initial particles with stagger
+        for (let i = 0; i < particleCount; i++) {
+            setTimeout(() => createParticle(i), i * 300);
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            particles.forEach(p => p.remove());
+        });
+    })();
+</script>
+<!-- Micro Interactions JavaScript -->
+<script src="assets/js/micro-interactions.js"></script>
+<!-- Cursor Effects JavaScript -->
+<script src="assets/js/cursor-effects.js"></script>
+<!-- Visual Enhancement JavaScript -->
+<script src="assets/js/feature-detection.js"></script>
+<script src="assets/js/visual-effects.js"></script>
+<script src="assets/js/scroll-effects.js"></script>
+<script src="assets/js/mobile-effects.js"></script>
+<!-- GSAP Animation Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<!-- Advanced Visual Effects JavaScript -->
+<script src="assets/js/text-animations.js"></script>
+<script src="assets/js/particle-system.js"></script>
+<script src="assets/js/entrance-effects.js"></script>
+<script src="assets/js/advanced-interactions.js"></script>
+<!-- Page Animation System -->
+<script src="assets/js/page-animations.js"></script>
+
+</body>
+</html>

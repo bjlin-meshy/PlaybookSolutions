@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="film">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film/Animation - Stylized Prop Design | Meshy Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">
+    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+    <style>
+        /* --- 1. CORE & RESET --- */
+        :root {
+            --bg-core: #000000;
+            --bg-slide: #080808;
+            --accent-primary: #CCFF00;
+            --accent-dim: #4ade80;
+            --accent-red: #FF3333;
+            --text-main: #f0f0f0;
+            --text-sub: #888888;
+            --border: #222222;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-core);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        body.lang-cn { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+        body.lang-cn h1, body.lang-cn h2, body.lang-cn h3, body.lang-cn .metric-val {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .cn { display: none; }
+        body.lang-cn .en { display: none !important; }
+        body.lang-cn .cn { display: inline; }
+        body.lang-cn div.cn, body.lang-cn p.cn, body.lang-cn ul.cn { display: block; }
+        body.lang-cn span.cn { display: inline; }
+
+        /* --- 2. DECK CONTAINER --- */
+        #deck-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--bg-slide);
+            box-shadow: 0 0 150px rgba(204, 255, 0, 0.05);
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+
+        /* --- 3. SLIDE TRANSITIONS --- */
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            padding: 60px 80px;
+            opacity: 0; visibility: hidden;
+            transform: scale(1.05);
+            filter: blur(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease, visibility 0s 0.5s;
+            display: flex; flex-direction: column;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1; visibility: visible;
+            transform: scale(1); filter: blur(0);
+            transition-delay: 0s;
+            z-index: 10;
+        }
+
+        /* Staggered Animations - Enhanced with page entrance effects */
+        .slide .anim-el {
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .slide.active .anim-el { opacity: 1; transform: translateY(0); }
+        .slide.active .delay-1 { transition-delay: 0.1s; }
+        .slide.active .delay-2 { transition-delay: 0.2s; }
+        .slide.active .delay-3 { transition-delay: 0.3s; }
+        
+        /* Override for section-big-icon - use dramatic entrance instead */
+        .slide.active .section-big-icon.anim-el {
+            animation: iconDropHero 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+        }
+        
+        @keyframes iconDropHero {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(-120px) rotateZ(-10deg);
+                filter: blur(8px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.15) translateY(15px) rotateZ(3deg);
+                filter: blur(0);
+            }
+            70% {
+                transform: scale(0.95) translateY(-8px) rotateZ(-2deg);
+            }
+            85% {
+                transform: scale(1.05) translateY(4px) rotateZ(1deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0) rotateZ(0);
+            }
+        }
+        
+        /* Icon glow pulse after entrance */
+        .slide.active .section-big-icon {
+            animation: 
+                iconDropHero 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                iconGlowPulse 3s ease-in-out 1s infinite !important;
+        }
+        
+        @keyframes iconGlowPulse {
+            0%, 100% {
+                box-shadow: 
+                    0 0 30px rgba(204, 255, 0, 0.1),
+                    0 0 60px rgba(204, 255, 0, 0.05);
+            }
+            50% {
+                box-shadow: 
+                    0 0 50px rgba(204, 255, 0, 0.4),
+                    0 0 100px rgba(204, 255, 0, 0.2),
+                    0 0 150px rgba(204, 255, 0, 0.1);
+            }
+        }
+        
+        /* Icon inner element bounce */
+        .slide.active .section-big-icon i {
+            animation: iconInnerWiggle 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.7s;
+            display: inline-block;
+        }
+        
+        @keyframes iconInnerWiggle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.15) rotate(-5deg); }
+            50% { transform: scale(0.9) rotate(5deg); }
+            75% { transform: scale(1.08) rotate(-2deg); }
+        }
+
+        /* Background animations */
+        @keyframes dotFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 24px 24px; }
+        }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            width: 120%; height: 120%;
+            pointer-events: none; z-index: 0;
+            animation: glowPulse 8s ease-in-out infinite;
+        }
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+            background-image: radial-gradient(circle, rgba(204, 255, 0, 0.08) 2px, transparent 2px);
+            background-size: 16px 16px;
+            animation: dotFlow 3s linear infinite;
+        }
+
+        /* Slide backgrounds - rotating positions */
+        .slide:nth-child(1)::before, .slide:nth-child(2)::before {
+            top: -40%; left: -40%;
+            background: radial-gradient(ellipse at 0% 0%, rgba(204, 255, 0, 0.25) 0%, rgba(204, 255, 0, 0.12) 30%, transparent 60%);
+        }
+        .slide:nth-child(1)::after, .slide:nth-child(2)::after {
+            mask-image: linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+            -webkit-mask-image: linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+        }
+        .slide:nth-child(3)::before, .slide:nth-child(4)::before {
+            top: -40%; right: -40%; left: auto;
+            background: radial-gradient(ellipse at 100% 0%, rgba(204, 255, 0, 0.25) 0%, rgba(204, 255, 0, 0.12) 30%, transparent 60%);
+        }
+        .slide:nth-child(3)::after, .slide:nth-child(4)::after {
+            mask-image: linear-gradient(225deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+            -webkit-mask-image: linear-gradient(225deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+        }
+        .slide:nth-child(5)::before, .slide:nth-child(6)::before {
+            bottom: -40%; right: -40%; top: auto; left: auto;
+            background: radial-gradient(ellipse at 100% 100%, rgba(204, 255, 0, 0.25) 0%, rgba(204, 255, 0, 0.12) 30%, transparent 60%);
+        }
+        .slide:nth-child(5)::after, .slide:nth-child(6)::after {
+            mask-image: linear-gradient(315deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+            -webkit-mask-image: linear-gradient(315deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+        }
+        .slide:nth-child(7)::before, .slide:nth-child(8)::before {
+            bottom: -40%; left: -40%; top: auto;
+            background: radial-gradient(ellipse at 0% 100%, rgba(204, 255, 0, 0.25) 0%, rgba(204, 255, 0, 0.12) 30%, transparent 60%);
+        }
+        .slide:nth-child(7)::after, .slide:nth-child(8)::after {
+            mask-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+            -webkit-mask-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+        }
+
+        .slide-content {
+            position: relative; z-index: 2;
+            height: 100%; display: flex; flex-direction: column;
+        }
+
+        /* --- 4. TYPOGRAPHY --- */
+        h1, h2, h3 { font-family: 'Urbanist', sans-serif; margin: 0; color: white; }
+
+        .section-tag {
+            font-size: 14px; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--accent-primary);
+            font-weight: 700; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .slide-title { font-size: 48px; font-weight: 700; margin-bottom: 20px; min-height: 1.2em; }
+        .slide-desc { font-size: 20px; color: var(--text-sub); max-width: 800px; line-height: 1.5; margin-bottom: 40px; }
+
+        /* --- 5. CONTROLS --- */
+        .control-back {
+            position: absolute; bottom: 20px; left: 30px; z-index: 100;
+        }
+        .control-lang {
+            position: absolute; top: 20px; right: 30px; z-index: 100;
+        }
+
+        .btn {
+            background: #111; border: 1px solid #333; color: white;
+            width: 40px; height: 40px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; font-size: 16px; opacity: 0.7; text-decoration: none;
+        }
+        .btn:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: black; opacity: 1; }
+
+        .progress-bar {
+            position: absolute; bottom: 0; left: 0;
+            height: 3px; background: var(--accent-primary);
+            width: 0%; transition: width 0.3s; z-index: 100;
+            box-shadow: 0 0 8px var(--accent-primary);
+        }
+
+        /* --- 6. SECTION COVER --- */
+        .section-big-icon {
+            font-size: 80px; margin-bottom: 30px; color: var(--accent-primary);
+            background: rgba(204,255,0,0.05); width: 160px; height: 160px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; border: 1px solid rgba(204,255,0,0.1);
+            box-shadow: 0 0 30px rgba(204,255,0,0.05);
+        }
+
+        /* --- 7. VERSUS / COMPARISON --- */
+        .versus-container { display: flex; align-items: stretch; gap: 0; flex: 1; }
+        .versus-side { flex: 1; padding: 30px; border-radius: 16px; display: flex; flex-direction: column; }
+        .pain-side {
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.08) 0%, rgba(255, 51, 51, 0.02) 100%);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+        }
+        .sol-side {
+            background: linear-gradient(135deg, rgba(204, 255, 0, 0.08) 0%, rgba(204, 255, 0, 0.02) 100%);
+            border: 1px solid rgba(204, 255, 0, 0.2);
+        }
+        .versus-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .versus-icon {
+            width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 24px;
+        }
+        .pain-icon { background: rgba(255, 51, 51, 0.2); color: var(--accent-red); border: 2px solid var(--accent-red); }
+        .sol-icon { background: rgba(204, 255, 0, 0.2); color: var(--accent-primary); border: 2px solid var(--accent-primary); }
+        .versus-header h3 { font-size: 22px; margin: 0; }
+        .versus-divider { display: flex; align-items: center; justify-content: center; padding: 0 20px; }
+        .vs-badge {
+            background: linear-gradient(135deg, #333 0%, #111 100%);
+            border: 2px solid #555; color: white;
+            font-size: 20px; font-weight: 800;
+            padding: 15px 20px; border-radius: 12px;
+        }
+        .versus-items { display: flex; flex-direction: column; gap: 15px; }
+        .versus-item { display: flex; align-items: flex-start; gap: 15px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .versus-item .item-icon { font-size: 24px; width: 40px; text-align: center; flex-shrink: 0; }
+        .versus-item .item-title { font-size: 15px; font-weight: 600; color: white; }
+        .versus-item .item-desc { font-size: 13px; color: var(--text-sub); margin-top: 3px; }
+
+        /* --- 8. METRICS --- */
+        .cols-2-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
+        .metric-box {
+            background: #111; border: 1px solid #333; border-radius: 8px;
+            padding: 50px 30px; text-align: center;
+            display: flex; flex-direction: column; justify-content: center;
+            transition: transform 0.3s;
+        }
+        .metric-box:hover { transform: scale(1.02); border-color: var(--accent-primary); box-shadow: 0 0 20px rgba(204,255,0,0.1); }
+        .metric-val {
+            font-size: 72px; font-weight: 800; color: var(--accent-primary);
+            font-family: 'Urbanist', sans-serif; margin-bottom: 10px;
+        }
+        .metric-label { font-size: 20px; color: white; font-weight: 600; }
+        .metric-sub { font-size: 14px; color: var(--text-sub); margin-top: 8px; }
+
+        /* --- 9. WORKFLOW --- */
+        .workflow-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap; }
+        .workflow-step {
+            background: #111; border: 1px solid #333; border-radius: 8px;
+            padding: 20px; text-align: center; min-width: 150px; transition: all 0.3s;
+        }
+        .workflow-step.highlight {
+            border-color: var(--accent-primary);
+            background: linear-gradient(180deg, rgba(204, 255, 0, 0.1) 0%, transparent 100%);
+        }
+        .workflow-step .step-num { font-size: 12px; color: var(--accent-primary); font-weight: 700; margin-bottom: 8px; }
+        .workflow-step .step-title { font-size: 16px; color: white; font-weight: 600; margin-bottom: 5px; }
+        .workflow-step .step-desc { font-size: 12px; color: var(--text-sub); }
+        .workflow-arrow { color: var(--accent-primary); font-size: 24px; }
+
+        /* --- 10. WORKFLOW NAVIGATION BAR --- */
+        .workflow-nav {
+            display: flex; align-items: center; justify-content: center; gap: 0;
+            margin-bottom: 25px; padding: 15px 20px;
+            background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid #222;
+        }
+        .workflow-step-mini {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 8px 20px; border-radius: 8px; transition: all 0.3s ease;
+        }
+        .workflow-step-mini .step-indicator {
+            font-size: 12px; font-weight: 700; color: var(--text-sub);
+            background: #1a1a1a; border: 1px solid #333;
+            width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 6px; transition: all 0.3s ease;
+        }
+        .workflow-step-mini .step-label { font-size: 11px; color: var(--text-sub); text-align: center; transition: all 0.3s ease; }
+        .workflow-step-mini.active { background: rgba(204, 255, 0, 0.08); transform: scale(1.1); }
+        .workflow-step-mini.active .step-indicator {
+            background: var(--accent-primary); color: black; border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+        }
+        .workflow-step-mini.active .step-label { color: var(--accent-primary); font-weight: 600; }
+        .workflow-step-mini.completed .step-indicator { background: var(--accent-primary); color: black; border-color: var(--accent-primary); }
+        .workflow-step-mini.completed .step-label { color: var(--accent-dim); }
+        .workflow-connector { width: 40px; height: 2px; background: linear-gradient(90deg, #333 0%, #444 50%, #333 100%); }
+        .workflow-connector.completed { background: var(--accent-primary); }
+
+        /* --- 11. CASE CONTENT --- */
+        .case-content { flex: 1; display: flex; flex-direction: column; }
+        .case-header { margin-bottom: 20px; }
+        .case-step-badge {
+            display: inline-block; background: rgba(204, 255, 0, 0.1);
+            border: 1px solid rgba(204, 255, 0, 0.3);
+            padding: 6px 16px; border-radius: 20px;
+            font-size: 12px; font-weight: 600; color: var(--accent-primary);
+            letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .case-step-badge.final { background: var(--accent-primary); border-color: var(--accent-primary); color: black; }
+        .case-title { font-size: 32px; font-weight: 700; color: white; margin: 0; }
+        .case-single { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .showcase-card-large {
+            background: #0a0a0a; border: 1px solid #333; border-radius: 12px;
+            padding: 50px 80px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+            width: 100%; max-width: 800px; transition: all 0.3s;
+        }
+        .showcase-card-large:hover { border-color: var(--accent-primary); box-shadow: 0 0 30px rgba(204,255,0,0.1); }
+        .showcase-card-large .showcase-icon { font-size: 70px; color: #444; margin-bottom: 25px; }
+        .showcase-card-large .showcase-title { font-size: 24px; color: white; font-weight: 600; margin-bottom: 12px; }
+        .showcase-card-large .showcase-desc { font-size: 16px; color: var(--text-sub); max-width: 500px; line-height: 1.5; }
+        .placeholder-label {
+            background: rgba(204,255,0,0.1); border: 1px dashed var(--accent-primary);
+            padding: 8px 20px; border-radius: 20px; font-size: 12px; color: var(--accent-primary); margin-top: 25px;
+        }
+
+        /* --- 12. RESULTS GRID --- */
+        .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; flex: 1; }
+        .showcase-card {
+            background: #0a0a0a; border: 1px solid #333; border-radius: 12px;
+            padding: 25px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+            transition: all 0.3s;
+        }
+        .showcase-card:hover { border-color: var(--accent-primary); box-shadow: 0 0 30px rgba(204,255,0,0.1); }
+        .showcase-card .showcase-icon { font-size: 50px; color: #333; margin-bottom: 15px; }
+        .showcase-card .showcase-title { font-size: 18px; color: white; font-weight: 600; margin-bottom: 8px; }
+        .showcase-card .showcase-desc { font-size: 13px; color: var(--text-sub); }
+
+        /* GLITCH ELECTRIC SHOCK EFFECT */
+        .glitch-flash {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--accent-primary);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+        .glitch-scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 8px;
+            background: linear-gradient(to bottom, transparent, rgba(204, 255, 0, 0.9), rgba(255, 255, 255, 1), rgba(204, 255, 0, 0.9), transparent);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
+        }
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0) skewX(0deg); filter: none; }
+            10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); }
+            20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); }
+            30% { transform: translate(-4px, 0) skewX(0deg); filter: none; }
+            40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); }
+            50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); }
+            60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); }
+            70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); }
+            80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; }
+            90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); }
+            100% { transform: translate(0, 0) skewX(0deg); filter: none; }
+        }
+        @keyframes electricFlash { 0% { opacity: 0; } 5% { opacity: 0.8; } 10% { opacity: 0; } 15% { opacity: 0.6; } 20% { opacity: 0; } 35% { opacity: 0.9; } 40% { opacity: 0; } 55% { opacity: 0.4; } 60% { opacity: 0; } 100% { opacity: 0; } }
+        @keyframes scanlineZap { 0% { top: -10px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        @keyframes rgbSplit { 0% { text-shadow: 0 0 0 transparent; } 20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); } 40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); } 60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); } 80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); } 100% { text-shadow: 0 0 0 transparent; } }
+        #deck-container.glitching { animation: glitchShake 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        #deck-container.glitching .slide.active { animation: rgbSplit 0.3s ease-out; }
+        #deck-container.glitching .glitch-flash { animation: electricFlash 0.3s ease-out; }
+        #deck-container.glitching .glitch-scanline { animation: scanlineZap 0.15s ease-out; }
+        .control-lang .btn.zapping { animation: buttonZap 0.3s ease-out; }
+        @keyframes buttonZap { 0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); } 30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); } 50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); } 100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); } }
+    </style>
+</head>
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+<body class="lang-cn">
+
+<div id="deck-container">
+    <!-- Glitch effect layers -->
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    <div class="progress-bar" id="progress"></div>
+
+    <!-- CONTROLS -->
+    <div class="control-back" onclick="event.stopPropagation()">
+        <a href="case-film-solutions.html" class="btn micro-ripple magnetic-btn" title="返回 / Back">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    </div>
+    <div class="control-lang" onclick="event.stopPropagation()">
+        <button class="btn magnetic-btn" onclick="toggleLanguage(); event.stopPropagation();" title="切换语言 / Toggle Language">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+    </div>
+
+    <!-- ==================== SLIDE 1: COVER ==================== -->
+    <div class="slide active">
+        <div class="slide-content scroll-reveal-up" style="justify-content:center; align-items:center;">
+            <div class="section-big-icon anim-el delay-1"><i class="fa-solid fa-palette icon-hover-bounce"></i></div>
+            <h1 class="anim-el delay-2" style="font-size: 56px; text-align: center;">
+                <span class="en">Stylized Prop Design</span>
+                <span class="cn">风格化道具设计</span>
+            </h1>
+            <p class="anim-el delay-3" style="font-size: 24px; color: var(--text-sub); margin-top:20px; text-align: center;">
+                <span class="en">Asset Production & Style Consistency Pipeline</span>
+                <span class="cn">资产量产与风格一致性管线</span>
+            </p>
+            <div class="anim-el delay-3" style="margin-top: 40px; display: flex; gap: 20px;">
+                <div style="background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.2); padding: 10px 25px; border-radius: 30px;">
+                    <span class="en" style="color: var(--accent-primary); font-weight: 600;">FILM / ANIMATION</span>
+                    <span class="cn" style="color: var(--accent-primary); font-weight: 600;">动画/电影行业</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 2: PAIN POINTS VS SOLUTION ==================== -->
+    <div class="slide">
+        <div class="slide-content scroll-reveal-up">
+            <div class="anim-el delay-1" style="margin-bottom: 25px;">
+                <div class="section-tag">
+                    <i class="fa-solid fa-palette"></i>
+                    <span class="en">THE CHALLENGE</span><span class="cn">行业痛点</span>
+                </div>
+                <h2 style="font-size: 38px;">
+                    <span class="en">Stylized Asset Production at Scale</span>
+                    <span class="cn">风格化资产的规模化生产</span>
+                </h2>
+            </div>
+
+            <div class="versus-container anim-el delay-2">
+                <div class="versus-side pain-side card-shine card-lift">
+                    <div class="versus-header">
+                        <div class="versus-icon pain-icon"><i class="fa-solid fa-xmark"></i></div>
+                        <h3 style="color: var(--accent-red);">
+                            <span class="en">Pain Points</span><span class="cn">传统困境</span>
+                        </h3>
+                    </div>
+                    <div class="versus-items">
+                        <div class="versus-item">
+                            <div class="item-icon" style="color: var(--accent-red);">🎨</div>
+                            <div>
+                                <div class="item-title"><span class="en">Fragmented Art Styles</span><span class="cn">外包风格割裂</span></div>
+                                <div class="item-desc"><span class="en">Heavy outsourcing makes it hard to unify the look. Quality control costs are high.</span><span class="cn">大量资产外包导致美术风格难以统一，质控成本极高</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon" style="color: var(--accent-red);">⏱️</div>
+                            <div>
+                                <div class="item-title"><span class="en">Slow Iteration Cycles</span><span class="cn">量产迭代慢</span></div>
+                                <div class="item-desc"><span class="en">Creating variations ("reworking") usually takes days, with long feedback loops.</span><span class="cn">制作风格变体需要"返稿"流程，动辄周级反馈循环</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon" style="color: var(--accent-red);">🔄</div>
+                            <div>
+                                <div class="item-title"><span class="en">Repetitive Labor</span><span class="cn">重复劳动</span></div>
+                                <div class="item-desc"><span class="en">Building different tiers/states requires tedious manual remodeling.</span><span class="cn">同建筑不同层级/状态的资产需要人工重复建模</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon" style="color: var(--accent-red);">📅</div>
+                            <div>
+                                <div class="item-title"><span class="en">Long Revision Cycles</span><span class="cn">修改周期长</span></div>
+                                <div class="item-desc"><span class="en">Art direction changes require weeks of rework across outsourced assets.</span><span class="cn">美术方向变更需要数周时间重新修改外包资产</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="versus-divider"><div class="vs-badge">VS</div></div>
+
+                <div class="versus-side sol-side">
+                    <div class="versus-header">
+                        <div class="versus-icon sol-icon"><i class="fa-solid fa-check"></i></div>
+                        <h3 style="color: var(--accent-primary);">
+                            <span class="en">Meshy Solution</span><span class="cn">Meshy 破局点</span>
+                        </h3>
+                    </div>
+                    <div class="versus-items">
+                        <div class="versus-item">
+                            <div class="item-icon" style="color: var(--accent-primary);">🔒</div>
+                            <div>
+                                <div class="item-title"><span class="en">Style Standardization</span><span class="cn">风格锁定</span></div>
+                                <div class="item-desc"><span class="en">Upload a few reference images, AI locks the style for 100% consistency.</span><span class="cn">只需定下基础的几张参考，可确保 100% 一致性</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon" style="color: var(--accent-primary);">⚡</div>
+                            <div>
+                                <div class="item-title"><span class="en">Exponential Scale</span><span class="cn">效率爆发</span></div>
+                                <div class="item-desc"><span class="en">Variations take "minutes" instead of "days." Create 10+ versions instantly.</span><span class="cn">变体作品从"天"变成"分钟"，基于统一母版瞬间批量生成</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon" style="color: var(--accent-primary);">🎯</div>
+                            <div>
+                                <div class="item-title"><span class="en">Precise Refinement</span><span class="cn">精准精修</span></div>
+                                <div class="item-desc"><span class="en">Use "Local Refine" to fix specific details without re-generating the whole asset.</span><span class="cn">利用"定点精修"功能针对特定细节精准修正</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon" style="color: var(--accent-primary);">🔄</div>
+                            <div>
+                                <div class="item-title"><span class="en">Rapid Iteration</span><span class="cn">快速迭代</span></div>
+                                <div class="item-desc"><span class="en">Art direction changes applied in hours, not weeks.</span><span class="cn">美术方向变更可在数小时内完成，而非数周</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 3: BUSINESS VALUE ==================== -->
+    <div class="slide">
+        <div class="slide-content scroll-reveal-up" style="justify-content: center;">
+            <div class="section-tag anim-el delay-1">
+                <i class="fa-solid fa-chart-line"></i>
+                <span class="en">BUSINESS VALUE</span><span class="cn">商业价值</span>
+            </div>
+            <p class="slide-desc anim-el delay-1" style="margin-bottom: 20px;">
+                <span class="en">Transform asset production from a bottleneck into a competitive advantage.</span>
+                <span class="cn">将资产生产从瓶颈转化为竞争优势。</span>
+            </p>
+
+            <div class="cols-2-metrics anim-el delay-2" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="metric-box">
+                    <div class="metric-val">10x</div>
+                    <div class="metric-label">
+                        <span class="en">Output Speed</span>
+                        <span class="cn">产出速度</span>
+                    </div>
+                    <div class="metric-sub">
+                        <span class="en">1 Day: 1 → 10+ variants</span>
+                        <span class="cn">1天产出从1个变体到10+</span>
+                    </div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val">100%</div>
+                    <div class="metric-label">
+                        <span class="en">Style Consistency</span>
+                        <span class="cn">风格一致性</span>
+                    </div>
+                    <div class="metric-sub">
+                        <span class="en">Reference-based generation</span>
+                        <span class="cn">基于参考图约束生成</span>
+                    </div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val">↓80%</div>
+                    <div class="metric-label">
+                        <span class="en">QC Cost</span>
+                        <span class="cn">质控成本</span>
+                    </div>
+                    <div class="metric-sub">
+                        <span class="en">Less outsource style drift</span>
+                        <span class="cn">减少外包风格偏差</span>
+                    </div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val">&lt;5<span style="font-size: 32px;">min</span></div>
+                    <div class="metric-label">
+                        <span class="en">Per Variant</span>
+                        <span class="cn">单变体生成</span>
+                    </div>
+                    <div class="metric-sub">
+                        <span class="en">From prompt to asset</span>
+                        <span class="cn">从提示词到成品</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 4: WORKFLOW OVERVIEW ==================== -->
+    <div class="slide">
+        <div class="slide-content scroll-reveal-up">
+            <div class="anim-el delay-1">
+                <div class="section-tag">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <span class="en">WORKFLOW DEMO</span><span class="cn">落地工作流演示</span>
+                </div>
+                <h2 style="font-size: 36px; margin-bottom: 10px;">
+                    <span class="en">Case Study: "Project Ruins"</span>
+                    <span class="cn">案例: "Project Ruins"</span>
+                </h2>
+                <p class="slide-desc" style="margin-bottom: 30px;">
+                    <span class="en">For 2.5D fixed-camera RPG buildings, output Final Assets directly to the engine.</span>
+                    <span class="cn">针对 2.5D 固定视角 RPG 建筑，直接生成最终资产 (Final Assets) 导入引擎。</span>
+                </p>
+            </div>
+
+            <div class="workflow-container anim-el delay-2">
+                <div class="workflow-step">
+                    <div class="step-num">STEP 01</div>
+                    <div class="step-title"><span class="en">Style Definition</span><span class="cn">风格定义</span></div>
+                    <div class="step-desc"><span class="en">Input Reference<br>to lock art direction</span><span class="cn">输入参考图<br>锁定美术风格</span></div>
+                </div>
+                <div class="workflow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="workflow-step highlight">
+                    <div class="step-num">STEP 02</div>
+                    <div class="step-title"><span class="en">Batch Generation</span><span class="cn">批量变体生成</span></div>
+                    <div class="step-desc"><span class="en">Create multiple 3D<br>variants instantly</span><span class="cn">基于母版批量出图<br>一次多个变体</span></div>
+                </div>
+                <div class="workflow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="workflow-step highlight">
+                    <div class="step-num">STEP 03</div>
+                    <div class="step-title"><span class="en">Local Refine</span><span class="cn">局部精准微调</span></div>
+                    <div class="step-desc"><span class="en">Fix specific details<br>via Edit Texture</span><span class="cn">使用 Edit Texture<br>精修局部贴图</span></div>
+                </div>
+                <div class="workflow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="workflow-step">
+                    <div class="step-num">STEP 04</div>
+                    <div class="step-title"><span class="en">Engine Ready</span><span class="cn">引擎集成</span></div>
+                    <div class="step-desc"><span class="en">Import to Unity/UE<br>(Minimal cleanup)</span><span class="cn">导入 Unity/UE<br>(最小清理)</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 5: STEP 01 - STYLE DEFINITION ==================== -->
+    <div class="slide case-slide" data-workflow-step="1">
+        <div class="slide-content scroll-reveal-up">
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini active" data-step="1">
+                    <div class="step-indicator">01</div>
+                    <div class="step-label"><span class="en">Style</span><span class="cn">风格定义</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="2">
+                    <div class="step-indicator">02</div>
+                    <div class="step-label"><span class="en">Generate</span><span class="cn">批量生成</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="3">
+                    <div class="step-indicator">03</div>
+                    <div class="step-label"><span class="en">Refine</span><span class="cn">精准微调</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="4">
+                    <div class="step-indicator">04</div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+            </div>
+
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge"><span class="en">STEP 01: STYLE DEFINITION</span><span class="cn">步骤 01：风格定义</span></div>
+                    <h2 class="case-title"><span class="en">Input Reference Image · Establish Style</span><span class="cn">输入参考图 · 奠定风格</span></h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-image"></i></div>
+                        <div class="showcase-title"><span class="en">Style Reference Upload</span><span class="cn">风格参考图上传</span></div>
+                        <div class="showcase-desc"><span class="en">Upload one or a few style reference images. The AI learns and locks that visual style, ensuring all subsequent generated assets maintain consistent art direction.</span><span class="cn">上传一张或几张风格参考图，AI 会学习并锁定该视觉风格，确保后续所有生成资产保持一致的美术方向。</span></div>
+                        <div class="placeholder-label"><span class="en">Image Placeholder</span><span class="cn">图片占位</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 6: STEP 02 - BATCH GENERATION ==================== -->
+    <div class="slide case-slide" data-workflow-step="2">
+        <div class="slide-content scroll-reveal-up">
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini completed" data-step="1">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Style</span><span class="cn">风格定义</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini active" data-step="2">
+                    <div class="step-indicator">02</div>
+                    <div class="step-label"><span class="en">Generate</span><span class="cn">批量生成</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="3">
+                    <div class="step-indicator">03</div>
+                    <div class="step-label"><span class="en">Refine</span><span class="cn">精准微调</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="4">
+                    <div class="step-indicator">04</div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+            </div>
+
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge"><span class="en">STEP 02: BATCH GENERATION</span><span class="cn">步骤 02：批量变体生成</span></div>
+                    <h2 class="case-title"><span class="en">Control Variables · Generate Variants</span><span class="cn">控制变量 · 批量生成变体</span></h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div class="showcase-title"><span class="en">AI Variant Generation</span><span class="cn">AI 变体生成</span></div>
+                        <div class="showcase-desc"><span class="en">Input specific prompts to control variables and generate multiple style-consistent variants with different details at once. Iteration goes from "days" to "minutes".</span><span class="cn">输入特定提示词控制变量，一次性生成多个风格一致但细节不同的变体。从"天级"迭代变为"分钟级"。</span></div>
+                        <div class="placeholder-label"><span class="en">Image/Video Placeholder</span><span class="cn">图片/视频占位</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 7: STEP 03 - LOCAL REFINE ==================== -->
+    <div class="slide case-slide" data-workflow-step="3">
+        <div class="slide-content">
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini completed" data-step="1">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Style</span><span class="cn">风格定义</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="2">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Generate</span><span class="cn">批量生成</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini active" data-step="3">
+                    <div class="step-indicator">03</div>
+                    <div class="step-label"><span class="en">Refine</span><span class="cn">精准微调</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="4">
+                    <div class="step-indicator">04</div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+            </div>
+
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge"><span class="en">STEP 03: LOCAL REFINE</span><span class="cn">步骤 03：局部精准微调</span></div>
+                    <h2 class="case-title"><span class="en">Edit Texture · Precise Modifications</span><span class="cn">Edit Texture · 局部修改贴图</span></h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-brush"></i></div>
+                        <div class="showcase-title"><span class="en">Edit Texture Interface</span><span class="cn">Edit Texture 界面</span></div>
+                        <div class="showcase-desc"><span class="en">Use the Edit Texture feature to make precise modifications to specific areas without regenerating the entire model, greatly improving iteration efficiency.</span><span class="cn">使用 Edit Texture 功能对局部区域进行精准修改，无需重新生成整个模型，极大提升迭代效率。</span></div>
+                        <div class="placeholder-label"><span class="en">Image/Video Placeholder</span><span class="cn">图片/视频占位</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 8: FINAL RESULT ==================== -->
+    <div class="slide case-slide" data-workflow-step="final">
+        <div class="slide-content">
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini completed" data-step="1">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Style</span><span class="cn">风格定义</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="2">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Generate</span><span class="cn">批量生成</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="3">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Refine</span><span class="cn">精准微调</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="4">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+            </div>
+
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge final"><span class="en">FINAL RESULT</span><span class="cn">最终成果</span></div>
+                    <h2 class="case-title"><span class="en">Rendering Results Display</span><span class="cn">渲染结果展示</span></h2>
+                </div>
+                <div class="case-grid">
+                    <div class="showcase-card card-shine card-lift" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-cube"></i></div>
+                        <div class="showcase-title"><span class="en">Variant A - Blender Render</span><span class="cn">变体 A - Blender 渲染</span></div>
+                        <div class="showcase-desc"><span class="en">Final 3D asset rendered in Blender</span><span class="cn">在 Blender 中渲染的最终 3D 资产</span></div>
+                        <div class="placeholder-label"><span class="en">Video Placeholder</span><span class="cn">视频占位</span></div>
+                    </div>
+                    <div class="showcase-card card-shine card-lift" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-cubes"></i></div>
+                        <div class="showcase-title"><span class="en">Variant B - Engine Preview</span><span class="cn">变体 B - 引擎预览</span></div>
+                        <div class="showcase-desc"><span class="en">Multiple variants displayed in game engine</span><span class="cn">多个变体在游戏引擎中展示</span></div>
+                        <div class="placeholder-label"><span class="en">Video Placeholder</span><span class="cn">视频占位</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progress');
+    const deckContainer = document.getElementById('deck-container');
+    let current = 0;
+    const total = slides.length;
+    // Initialize language from localStorage
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    let isFlipping = false;
+    function applyLanguage() { document.body.classList.remove('lang-cn', 'lang-en'); document.body.classList.add('lang-' + lang); }
+    applyLanguage();
+
+    function update() {
+        slides.forEach((slide, idx) => {
+            slide.classList.remove('active', 'prev');
+            if(idx === current) slide.classList.add('active');
+            else if (idx < current) slide.classList.add('prev');
+        });
+        const percent = ((current + 1) / total) * 100;
+        progressBar.style.width = percent + '%';
+    }
+
+    function toggleLanguage() {
+        if (isFlipping) return;
+        isFlipping = true;
+        
+        const deckContainer = document.getElementById('deck-container');
+        const langBtn = document.querySelector('.control-lang .btn');
+        
+        deckContainer.classList.add('glitching');
+        if (langBtn) langBtn.classList.add('zapping');
+        
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            applyLanguage();
+        }, 150);
+        
+        setTimeout(() => {
+            deckContainer.classList.remove('glitching');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 300);
+    }
+
+    function nextSlide() { 
+        if(current < total - 1) { current++; update(); } 
+        else { window.location.href = 'case-film-solutions.html'; }
+    }
+    function prevSlide() { if(current > 0) { current--; update(); } }
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+        if(e.key === 'ArrowLeft') prevSlide();
+        if(e.key.toLowerCase() === 'l') toggleLanguage();
+        if(e.key === 'Escape') window.location.href = 'case-film-solutions.html';
+    });
+
+    deckContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.control-back') || e.target.closest('.control-lang')) return;
+        const rect = deckContainer.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        if(clickX > rect.width / 2) nextSlide();
+        else prevSlide();
+    });
+
+    update();
+</script>
+
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

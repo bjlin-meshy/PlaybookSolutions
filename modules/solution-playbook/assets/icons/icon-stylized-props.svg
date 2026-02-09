@@ -1,0 +1,81 @@
+<!-- Î<Sw¾¡ / Stylized Prop Design -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="props-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C8FF00"/>
+      <stop offset="100%" stop-color="#9ACC00"/>
+    </linearGradient>
+    
+    <radialGradient id="props-glow-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C8FF00" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#C8FF00" stop-opacity="0"/>
+    </radialGradient>
+    
+    <filter id="props-glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <style>
+      @keyframes orbit {
+        0% { transform: rotate(0deg) translateX(18px) rotate(0deg); }
+        100% { transform: rotate(360deg) translateX(18px) rotate(-360deg); }
+      }
+      @keyframes magic-pulse {
+        0%, 100% { opacity: 0.4; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.1); }
+      }
+      @keyframes sparkle {
+        0%, 100% { opacity: 0; transform: scale(0.5); }
+        50% { opacity: 1; transform: scale(1); }
+      }
+      .orbit { transform-origin: 32px 32px; animation: orbit 8s linear infinite; }
+      .magic-pulse { animation: magic-pulse 2s ease-in-out infinite; }
+      .sparkle { animation: sparkle 1.5s ease-in-out infinite; }
+    </style>
+  </defs>
+  
+  <!-- ÌoIU -->
+  <circle cx="32" cy="32" r="24" fill="url(#props-glow-bg)" class="magic-pulse"/>
+  
+  <!-- TÕCV;S -->
+  <g filter="url(#props-glow)">
+    <!-- CVF -->
+    <line x1="24" y1="48" x2="40" y2="16" stroke="url(#props-gradient)" stroke-width="4" stroke-linecap="round"/>
+    <!-- CV4èó -->
+    <path d="M40 12L44 16L40 24L36 16L40 12Z" fill="#C8FF00"/>
+    <!-- óØI -->
+    <path d="M40 14L42 16L40 20L38 16L40 14Z" fill="#EEFF88"/>
+  </g>
+  
+  <!-- ¯ÕTÕ’P -->
+  <g class="orbit">
+    <circle cx="32" cy="14" r="3" fill="#C8FF00" opacity="0.8"/>
+  </g>
+  <g class="orbit" style="animation-delay: -2.7s;">
+    <circle cx="32" cy="14" r="2" fill="#C8FF00" opacity="0.6"/>
+  </g>
+  <g class="orbit" style="animation-delay: -5.3s;">
+    <circle cx="32" cy="14" r="2.5" fill="#C8FF00" opacity="0.7"/>
+  </g>
+  
+  <!-- IÅp -->
+  <g class="sparkle">
+    <path d="M12 24L14 26L12 28L10 26Z" fill="#C8FF00"/>
+  </g>
+  <g class="sparkle" style="animation-delay: 0.5s;">
+    <path d="M52 36L54 38L52 40L50 38Z" fill="#C8FF00"/>
+  </g>
+  <g class="sparkle" style="animation-delay: 1s;">
+    <path d="M20 12L21 14L20 16L19 14Z" fill="#C8FF00"/>
+  </g>
+  <g class="sparkle" style="animation-delay: 0.3s;">
+    <path d="M48 20L49 22L48 24L47 22Z" fill="#C8FF00"/>
+  </g>
+  
+  <!-- TÕýÏ¯ -->
+  <circle cx="40" cy="18" r="8" fill="none" stroke="#C8FF00" stroke-width="1" opacity="0.4" stroke-dasharray="4,3" class="magic-pulse"/>
+</svg>

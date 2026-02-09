@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="gaming">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming - Concept Art to 3D | Meshy Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">`n    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <style>
+        :root {
+            --bg-core: #000000;
+            --bg-slide: #080808;
+            --accent-primary: #CCFF00;
+            --accent-dim: #4ade80;
+            --accent-red: #FF3333;
+            --text-main: #f0f0f0;
+            --text-sub: #888888;
+            --border: #222222;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-core);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        body.lang-cn { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+        body.lang-cn h1, body.lang-cn h2, body.lang-cn h3, body.lang-cn .metric-val { font-family: 'Noto Sans SC', sans-serif; }
+
+        .cn { display: none; }
+        body.lang-cn .en { display: none !important; }
+        body.lang-cn .cn { display: inline; }
+        body.lang-cn div.cn, body.lang-cn p.cn { display: block; }
+
+        #deck-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--bg-slide);
+            border: 1px solid #333;
+            overflow: hidden;
+            perspective: 2000px;
+        }
+
+        .glitch-flash {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--accent-primary);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+
+        .glitch-scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 8px;
+            background: linear-gradient(to bottom, transparent, rgba(204, 255, 0, 0.9), rgba(255, 255, 255, 1), rgba(204, 255, 0, 0.9), transparent);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
+        }
+
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0) skewX(0deg); filter: none; }
+            10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); }
+            20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); }
+            30% { transform: translate(-4px, 0) skewX(0deg); filter: none; }
+            40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); }
+            50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); }
+            60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); }
+            70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); }
+            80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; }
+            90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); }
+            100% { transform: translate(0, 0) skewX(0deg); filter: none; }
+        }
+
+        @keyframes electricFlash {
+            0% { opacity: 0; } 5% { opacity: 0.8; } 10% { opacity: 0; } 15% { opacity: 0.6; } 20% { opacity: 0; } 35% { opacity: 0.9; } 40% { opacity: 0; } 55% { opacity: 0.4; } 60% { opacity: 0; } 100% { opacity: 0; }
+        }
+
+        @keyframes scanlineZap {
+            0% { top: -10px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes rgbSplit {
+            0% { text-shadow: 0 0 0 transparent; }
+            20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); }
+            40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); }
+            60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); }
+            80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+
+        #deck-container.glitching { animation: glitchShake 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        #deck-container.glitching .slide.active { animation: rgbSplit 0.3s ease-out; }
+        #deck-container.glitching .glitch-flash { animation: electricFlash 0.3s ease-out; }
+        #deck-container.glitching .glitch-scanline { animation: scanlineZap 0.15s ease-out; }
+
+        .control-lang .btn.zapping { animation: buttonZap 0.3s ease-out; }
+        @keyframes buttonZap {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+            30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            padding: 60px 80px;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.03) translateY(10px);
+            filter: blur(5px);
+            transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease, visibility 0s 0.4s;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+            transition-delay: 0s;
+            z-index: 10;
+        }
+
+        @keyframes dotFlow { 0% { background-position: 0 0; } 100% { background-position: 24px 24px; } }
+        @keyframes glowPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: -40%; right: -40%;
+            width: 150%; height: 150%;
+            background: radial-gradient(ellipse at 100% 0%, rgba(204, 255, 0, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: glowPulse 8s ease-in-out infinite;
+        }
+        .slide:nth-child(even)::before { bottom: -40%; left: -40%; top: auto; right: auto; background: radial-gradient(ellipse at 0% 100%, rgba(204, 255, 0, 0.2) 0%, transparent 50%); }
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(circle, rgba(204, 255, 0, 0.06) 2px, transparent 2px);
+            background-size: 16px 16px;
+            mask-image: linear-gradient(45deg, rgba(0,0,0,0.8) 0%, transparent 40%);
+            -webkit-mask-image: linear-gradient(45deg, rgba(0,0,0,0.8) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+            animation: dotFlow 3s linear infinite;
+        }
+
+        .slide-content { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
+
+        .section-big-icon { font-size: 64px; color: var(--accent-primary); margin-bottom: 20px; }
+        .section-tag { 
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(204, 255, 0, 0.1); border: 1px solid rgba(204, 255, 0, 0.3);
+            padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+            color: var(--accent-primary); margin-bottom: 20px; width: fit-content;
+        }
+        .slide-title { font-size: 36px; font-weight: 800; margin-bottom: 15px; line-height: 1.3; }
+        .slide-desc { font-size: 18px; color: var(--text-sub); line-height: 1.6; max-width: 800px; }
+
+        /* Versus Container */
+        .versus-container { display: flex; align-items: stretch; gap: 0; flex: 1; margin-top: 20px; }
+        .versus-side { flex: 1; padding: 25px; border-radius: 12px; display: flex; flex-direction: column; }
+        .pain-side { background: linear-gradient(135deg, rgba(255, 51, 51, 0.08) 0%, rgba(255, 51, 51, 0.02) 100%); border: 1px solid rgba(255, 51, 51, 0.2); }
+        .sol-side { background: linear-gradient(135deg, rgba(204, 255, 0, 0.08) 0%, rgba(204, 255, 0, 0.02) 100%); border: 1px solid rgba(204, 255, 0, 0.2); }
+        .versus-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .versus-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .pain-icon { background: rgba(255, 51, 51, 0.2); color: var(--accent-red); border: 2px solid var(--accent-red); }
+        .sol-icon { background: rgba(204, 255, 0, 0.2); color: var(--accent-primary); border: 2px solid var(--accent-primary); }
+        .versus-header h3 { font-size: 18px; margin: 0; }
+        .versus-divider { display: flex; align-items: center; justify-content: center; padding: 0 15px; }
+        .vs-badge { background: linear-gradient(135deg, #333 0%, #111 100%); border: 2px solid #555; color: white; font-size: 16px; font-weight: 800; padding: 12px 16px; border-radius: 10px; }
+        .versus-items { display: flex; flex-direction: column; gap: 12px; }
+        .versus-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .versus-item .item-icon { font-size: 22px; width: 40px; text-align: center; }
+        .versus-item .item-title { font-size: 14px; font-weight: 600; color: white; }
+        .versus-item .item-desc { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+        /* Metrics */
+        .cols-3-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-top: 30px; }
+        .metric-box { background: rgba(20, 20, 20, 0.8); border: 1px solid #333; border-radius: 12px; padding: 35px 20px; text-align: center; }
+        .metric-val { font-size: 56px; font-weight: 800; color: var(--accent-primary); }
+        .metric-label { font-size: 16px; font-weight: 600; margin-top: 8px; }
+        .metric-sub { font-size: 13px; color: var(--text-sub); margin-top: 6px; }
+
+        /* Workflow */
+        .workflow-nav { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; }
+        .workflow-step-mini { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 80px; opacity: 0.4; }
+        .workflow-step-mini.active { opacity: 1; }
+        .workflow-step-mini.completed { opacity: 0.7; }
+        .step-indicator { width: 36px; height: 36px; border-radius: 50%; background: #222; border: 2px solid #444; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+        .workflow-step-mini.active .step-indicator { background: var(--accent-primary); border-color: var(--accent-primary); color: black; }
+        .workflow-step-mini.completed .step-indicator { background: rgba(204, 255, 0, 0.2); border-color: var(--accent-primary); color: var(--accent-primary); }
+        .step-label { font-size: 11px; color: var(--text-sub); text-align: center; }
+        .workflow-connector { width: 40px; height: 2px; background: #333; }
+        .workflow-connector.completed { background: var(--accent-primary); }
+
+        /* Case Content */
+        .case-content { flex: 1; display: flex; flex-direction: column; }
+        .case-header { margin-bottom: 20px; }
+        .case-step-badge { display: inline-block; background: rgba(204, 255, 0, 0.1); border: 1px solid rgba(204, 255, 0, 0.3); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--accent-primary); margin-bottom: 10px; }
+        .case-step-badge.final { background: var(--accent-primary); color: black; }
+        .case-title { font-size: 28px; font-weight: 700; }
+        .case-single { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .showcase-card-large { background: rgba(20, 20, 20, 0.6); border: 1px solid #333; border-radius: 12px; padding: 40px; width: 100%; max-width: 800px; text-align: center; }
+        .showcase-icon { font-size: 48px; color: #444; margin-bottom: 20px; }
+        .showcase-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+        .showcase-desc { font-size: 15px; color: var(--text-sub); margin-bottom: 20px; }
+        .placeholder-label { background: #1a1a1a; border: 1px dashed #444; border-radius: 8px; padding: 60px 30px; color: #555; font-size: 14px; }
+
+        .case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; flex: 1; }
+        .showcase-card { background: rgba(20, 20, 20, 0.6); border: 1px solid #333; border-radius: 12px; padding: 25px; display: flex; flex-direction: column; }
+        .showcase-card .placeholder-label { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+        .progress-bar { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--accent-primary); transition: width 0.3s; z-index: 100; }
+
+        .control-back { position: absolute; bottom: 20px; left: 30px; z-index: 100; }
+        .control-lang { position: absolute; top: 20px; right: 30px; z-index: 100; }
+        .btn { background: #111; border: 1px solid #333; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; opacity: 0.7; text-decoration: none; }
+        .btn:hover { opacity: 1; background: var(--accent-primary); border-color: var(--accent-primary); color: black; }
+    </style>
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+</head>
+<body class="lang-cn">
+
+<div id="deck-container">
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    <div class="progress-bar" id="progress"></div>
+
+    <div class="control-back" onclick="event.stopPropagation()">
+        <a href="case-gaming-solutions.html" class="btn magnetic-btn micro-ripple" title="返回 / Back">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    </div>
+    <div class="control-lang" onclick="event.stopPropagation()">
+        <button class="btn magnetic-btn" onclick="toggleLanguage(); event.stopPropagation();" title="切换语言 / Toggle Language">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+    </div>
+
+    <!-- SLIDE 1: Cover -->
+    <div class="slide active">
+        <div class="slide-content" style="justify-content: center; align-items: center; text-align: center;">
+            <div class="section-big-icon icon-hover-bounce"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <h1 style="font-size: 52px;">
+                <span class="cn">概念图转 3D 模型</span>
+                <span class="en">Concept Art to 3D</span>
+            </h1>
+            <p class="slide-desc" style="text-align: center; margin: 20px auto;">
+                <span class="cn">将 2D 概念设计快速转化为可用的 3D 资产</span>
+                <span class="en">Rapidly transform 2D concept designs into production-ready 3D assets</span>
+            </p>
+            <div class="section-tag" style="margin-top: 20px;">
+                <span class="cn">游戏娱乐行业 · 概念实现</span>
+                <span class="en">GAMING INDUSTRY · Concept Realization</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: Challenge vs Solution -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="section-tag">
+                <i class="fa-solid fa-gamepad"></i>
+                <span class="en">THE CHALLENGE</span><span class="cn">行业痛点</span>
+            </div>
+            <h2 class="slide-title">
+                <span class="cn">概念图到 3D 的漫长鸿沟</span>
+                <span class="en">The Long Gap from Concept to 3D</span>
+            </h2>
+
+            <div class="versus-container scroll-reveal-up">
+                <div class="versus-side pain-side card-shine card-lift">
+                    <div class="versus-header">
+                        <div class="versus-icon pain-icon">❌</div>
+                        <h3><span class="cn">传统困境</span><span class="en">Traditional Pain</span></h3>
+                    </div>
+                    <div class="versus-items">
+                        <div class="versus-item">
+                            <div class="item-icon">⏱️</div>
+                            <div>
+                                <div class="item-title"><span class="cn">跨部门沟通成本高</span><span class="en">High Cross-Team Communication</span></div>
+                                <div class="item-desc"><span class="cn">概念美术与 3D 建模师之间反复沟通需求</span><span class="en">Repeated clarifications between concept artists and 3D modelers</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon">🎨</div>
+                            <div>
+                                <div class="item-title"><span class="cn">2D 转 3D 解读偏差</span><span class="en">2D to 3D Interpretation Gap</span></div>
+                                <div class="item-desc"><span class="cn">从单张概念图理解体积和结构容易出错</span><span class="en">Understanding volume and structure from a single image is error-prone</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon">💰</div>
+                            <div>
+                                <div class="item-title"><span class="cn">外包成本不可控</span><span class="en">Uncontrollable Outsourcing Costs</span></div>
+                                <div class="item-desc"><span class="cn">每个概念图都需要外包制作 3D 模型</span><span class="en">Each concept requires outsourced 3D modeling</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon">🔄</div>
+                            <div>
+                                <div class="item-title"><span class="cn">迭代周期长</span><span class="en">Long Iteration Cycles</span></div>
+                                <div class="item-desc"><span class="cn">从反馈到交付需要 1-2 周</span><span class="en">1-2 weeks from feedback to delivery</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="versus-divider"><div class="vs-badge">VS</div></div>
+
+                <div class="versus-side sol-side card-shine card-lift">
+                    <div class="versus-header">
+                        <div class="versus-icon sol-icon">✓</div>
+                        <h3>Meshy <span class="cn">方案</span><span class="en">Solution</span></h3>
+                    </div>
+                    <div class="versus-items">
+                        <div class="versus-item">
+                            <div class="item-icon">⚡</div>
+                            <div>
+                                <div class="item-title"><span class="cn">概念美术直接输出 3D</span><span class="en">Concept Artists Output 3D Directly</span></div>
+                                <div class="item-desc"><span class="cn">跳过跨部门沟通，美术师自主完成转换</span><span class="en">Skip cross-team handoffs, artists do it themselves</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon">🎯</div>
+                            <div>
+                                <div class="item-title"><span class="cn">AI 精准理解设计意图</span><span class="en">AI Understands Design Intent</span></div>
+                                <div class="item-desc"><span class="cn">自动分析概念图的形状、比例和细节</span><span class="en">Automatically analyzes shape, proportion and details</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon">💵</div>
+                            <div>
+                                <div class="item-title"><span class="cn">零外包依赖</span><span class="en">Zero Outsourcing Dependency</span></div>
+                                <div class="item-desc"><span class="cn">内部完成概念到 3D 的全流程</span><span class="en">Complete concept-to-3D pipeline in-house</span></div>
+                            </div>
+                        </div>
+                        <div class="versus-item">
+                            <div class="item-icon">🚀</div>
+                            <div>
+                                <div class="item-title"><span class="cn">分钟级迭代</span><span class="en">Minute-Level Iteration</span></div>
+                                <div class="item-desc"><span class="cn">5 分钟内获得 3D 模型，快速验证设计</span><span class="en">Get 3D model in 5 minutes, validate designs fast</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Business Value -->
+    <div class="slide">
+        <div class="slide-content" style="justify-content: center;">
+            <div class="section-tag">
+                <i class="fa-solid fa-chart-line"></i>
+                <span class="en">BUSINESS VALUE</span><span class="cn">商业价值</span>
+            </div>
+            <h2 class="slide-title" style="text-align: center;">
+                <span class="cn">消除概念到 3D 的鸿沟</span>
+                <span class="en">Bridge the Concept-to-3D Gap</span>
+            </h2>
+            <p class="slide-desc" style="text-align: center; margin: 0 auto 40px;">
+                <span class="cn">概念美术师直接输出 3D，消除跨部门沟通成本</span>
+                <span class="en">Concept artists output 3D directly, eliminating cross-department communication overhead</span>
+            </p>
+
+            <div class="cols-3-metrics">
+                <div class="metric-box">
+                    <div class="metric-val">95%</div>
+                    <div class="metric-label"><span class="cn">时间缩减</span><span class="en">Time Reduction</span></div>
+                    <div class="metric-sub"><span class="cn">2-3 周 → 1 天内</span><span class="en">2-3 Weeks → Under 1 Day</span></div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val">$0</div>
+                    <div class="metric-label"><span class="cn">外包成本</span><span class="en">Outsource Cost</span></div>
+                    <div class="metric-sub"><span class="cn">无需外包建模</span><span class="en">No outsourcing needed</span></div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val">10x</div>
+                    <div class="metric-label"><span class="cn">迭代速度</span><span class="en">Iteration Speed</span></div>
+                    <div class="metric-sub"><span class="cn">快速验证设计方向</span><span class="en">Validate design direction fast</span></div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val">1</div>
+                    <div class="metric-label"><span class="cn">人即可完成</span><span class="en">Person Workflow</span></div>
+                    <div class="metric-sub"><span class="cn">概念到 3D 一人搞定</span><span class="en">Concept to 3D by one artist</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Step 1 -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="workflow-nav">
+                <div class="workflow-step-mini active"><div class="step-indicator">01</div><div class="step-label"><span class="cn">上传原画</span><span class="en">Upload Art</span></div></div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini"><div class="step-indicator">02</div><div class="step-label"><span class="cn">AI 生成</span><span class="en">AI Gen</span></div></div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini"><div class="step-indicator">03</div><div class="step-label"><span class="cn">微调导出</span><span class="en">Refine</span></div></div>
+            </div>
+
+            <div class="case-content">
+                <div class="case-header">
+                    <div class="case-step-badge"><span class="cn">步骤 01：上传概念原画</span><span class="en">STEP 01: UPLOAD CONCEPT ART</span></div>
+                    <h2 class="case-title"><span class="cn">导入 2D 概念设计</span><span class="en">Import 2D Concept Design</span></h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift scroll-reveal-up" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-image"></i></div>
+                        <div class="showcase-title"><span class="cn">概念原画</span><span class="en">Concept Art</span></div>
+                        <div class="showcase-desc"><span class="cn">支持角色、武器、载具、建筑等各类 2D 设计图</span><span class="en">Supports characters, weapons, vehicles, buildings, and other 2D designs</span></div>
+                        <div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: Step 2 -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="workflow-nav">
+                <div class="workflow-step-mini completed"><div class="step-indicator"><i class="fa-solid fa-check"></i></div><div class="step-label"><span class="cn">上传原画</span><span class="en">Upload Art</span></div></div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini active"><div class="step-indicator">02</div><div class="step-label"><span class="cn">AI 生成</span><span class="en">AI Gen</span></div></div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini"><div class="step-indicator">03</div><div class="step-label"><span class="cn">微调导出</span><span class="en">Refine</span></div></div>
+            </div>
+
+            <div class="case-content">
+                <div class="case-header">
+                    <div class="case-step-badge"><span class="cn">步骤 02：AI 生成 3D 模型</span><span class="en">STEP 02: AI GENERATES 3D MODEL</span></div>
+                    <h2 class="case-title"><span class="cn">Meshy Image-to-3D 智能转换</span><span class="en">Meshy Image-to-3D Intelligent Conversion</span></h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift scroll-reveal-up" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-cube"></i></div>
+                        <div class="showcase-title"><span class="cn">3D 模型生成</span><span class="en">3D Model Generation</span></div>
+                        <div class="showcase-desc"><span class="cn">AI 理解概念图的形状、比例和细节，自动生成匹配的 3D 模型</span><span class="en">AI understands shape, proportion and details from concept art, automatically generates matching 3D model</span></div>
+                        <div class="placeholder-label"><span class="cn">视频占位 - 生成过程</span><span class="en">Video Placeholder - Generation Process</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Final Result -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="workflow-nav">
+                <div class="workflow-step-mini completed"><div class="step-indicator"><i class="fa-solid fa-check"></i></div><div class="step-label"><span class="cn">上传原画</span><span class="en">Upload Art</span></div></div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed"><div class="step-indicator"><i class="fa-solid fa-check"></i></div><div class="step-label"><span class="cn">AI 生成</span><span class="en">AI Gen</span></div></div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed"><div class="step-indicator"><i class="fa-solid fa-check"></i></div><div class="step-label"><span class="cn">微调导出</span><span class="en">Refine</span></div></div>
+            </div>
+
+            <div class="case-content">
+                <div class="case-header">
+                    <div class="case-step-badge final"><span class="cn">最终成果</span><span class="en">FINAL RESULT</span></div>
+                    <h2 class="case-title"><span class="cn">概念原画 → 可用 3D 资产</span><span class="en">Concept Art → Usable 3D Asset</span></h2>
+                </div>
+                <div class="case-grid">
+                    <div class="showcase-card card-shine card-lift scroll-reveal-up" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-image"></i></div>
+                        <div class="showcase-title"><span class="cn">原始概念图</span><span class="en">Original Concept</span></div>
+                        <div class="placeholder-label"><span class="cn">图片占位</span><span class="en">Image Placeholder</span></div>
+                    </div>
+                    <div class="showcase-card card-shine card-lift scroll-reveal-up" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-cubes"></i></div>
+                        <div class="showcase-title"><span class="cn">3D 模型成果</span><span class="en">3D Model Result</span></div>
+                        <div class="placeholder-label"><span class="cn">图片/视频占位</span><span class="en">Image/Video Placeholder</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progress');
+    const deckContainer = document.getElementById('deck-container');
+    let current = 0;
+    const total = slides.length;
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    let isFlipping = false;
+    function applyLanguage() { document.body.classList.remove('lang-cn', 'lang-en'); document.body.classList.add('lang-' + lang); }
+    applyLanguage();
+
+    function update() {
+        slides.forEach((slide, idx) => {
+            slide.classList.remove('active');
+            if(idx === current) slide.classList.add('active');
+        });
+        progressBar.style.width = ((current + 1) / total) * 100 + '%';
+    }
+
+    function toggleLanguage() {
+        if (isFlipping) return;
+        isFlipping = true;
+        
+        const langBtn = document.querySelector('.control-lang .btn');
+        deckContainer.classList.add('glitching');
+        if (langBtn) langBtn.classList.add('zapping');
+        
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            applyLanguage();
+        }, 150);
+        
+        setTimeout(() => {
+            deckContainer.classList.remove('glitching');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 300);
+    }
+
+    function nextSlide() { 
+        if(current < total - 1) { current++; update(); } 
+        else { window.location.href = 'case-gaming-solutions.html'; }
+    }
+    function prevSlide() { if(current > 0) { current--; update(); } }
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+        if(e.key === 'ArrowLeft') prevSlide();
+        if(e.key.toLowerCase() === 'l') toggleLanguage();
+        if(e.key === 'Escape') window.location.href = 'case-gaming-solutions.html';
+    });
+
+    deckContainer.addEventListener('click', (e) => {
+        const rect = deckContainer.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        if(clickX > rect.width / 2) nextSlide();
+        else prevSlide();
+    });
+
+    update();
+</script>
+
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

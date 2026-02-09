@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="film">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film/Animation Solutions | Meshy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+    <style>
+        :root {
+            --bg-core: #000000;
+            --bg-slide: #050505;
+            --accent-primary: #CCFF00;
+            --text-main: #f0f0f0;
+            --text-sub: #888888;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            background-color: var(--bg-core);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        body.lang-cn { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+        .cn { display: none; }
+        body.lang-cn .en { display: none !important; }
+        body.lang-cn .cn { display: inline; }
+
+        #deck-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            perspective: 2000px;
+        }
+
+        .flip-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: var(--bg-slide);
+            border: 1px solid #222;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* GLITCH ELECTRIC SHOCK EFFECT */
+        .glitch-flash {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--accent-primary);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+
+        .glitch-scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 8px;
+            background: linear-gradient(to bottom, transparent, rgba(204, 255, 0, 0.9), rgba(255, 255, 255, 1), rgba(204, 255, 0, 0.9), transparent);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
+        }
+
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0) skewX(0deg); filter: none; }
+            10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); }
+            20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); }
+            30% { transform: translate(-4px, 0) skewX(0deg); filter: none; }
+            40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); }
+            50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); }
+            60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); }
+            70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); }
+            80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; }
+            90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); }
+            100% { transform: translate(0, 0) skewX(0deg); filter: none; }
+        }
+
+        @keyframes electricFlash {
+            0% { opacity: 0; }
+            5% { opacity: 0.8; }
+            10% { opacity: 0; }
+            15% { opacity: 0.6; }
+            20% { opacity: 0; }
+            35% { opacity: 0.9; }
+            40% { opacity: 0; }
+            55% { opacity: 0.4; }
+            60% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes scanlineZap {
+            0% { top: -10px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes rgbSplit {
+            0% { text-shadow: 0 0 0 transparent; }
+            20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); }
+            40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); }
+            60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); }
+            80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+
+        .flip-container.glitching { animation: glitchShake 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .flip-container.glitching .content { animation: rgbSplit 0.3s ease-out; }
+        .flip-container.glitching .glitch-flash { animation: electricFlash 0.3s ease-out; }
+        .flip-container.glitching .glitch-scanline { animation: scanlineZap 0.15s ease-out; }
+
+        .control-lang .btn.zapping { animation: buttonZap 0.3s ease-out; }
+        @keyframes buttonZap {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+            30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+        }
+
+        @keyframes screenPunch {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        #deck-container.punched { animation: screenPunch 0.15s ease-out; }
+
+        .control-back {
+            position: absolute;
+            bottom: 25px;
+            left: 35px;
+            z-index: 100;
+        }
+        .control-lang {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            z-index: 100;
+        }
+        .btn {
+            background: rgba(20,20,20,0.8);
+            border: 1px solid #333;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all var(--transition-normal) var(--ease-out);
+            opacity: 0.7;
+            text-decoration: none;
+            will-change: transform, opacity;
+        }
+        .btn:hover {
+            opacity: 1;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: black;
+            transform: scale(1.05);
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .content {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+        }
+        .section-big-icon {
+            font-size: 72px;
+            color: var(--accent-primary);
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.4));
+        }
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+        }
+        .solutions-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .solutions-row {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+        }
+        .solution-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all var(--transition-normal) var(--ease-out);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp var(--transition-slow) ease forwards;
+            will-change: transform, opacity, box-shadow;
+        }
+        .solutions-row:nth-child(1) .solution-item:nth-child(1) { animation-delay: 0.05s; }
+        .solutions-row:nth-child(1) .solution-item:nth-child(2) { animation-delay: 0.1s; }
+        .solutions-row:nth-child(2) .solution-item:nth-child(1) { animation-delay: 0.15s; }
+        .solutions-row:nth-child(2) .solution-item:nth-child(2) { animation-delay: 0.2s; }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .solution-item.wip {
+            animation-name: fadeInUpWip;
+        }
+        @keyframes fadeInUpWip {
+            to { opacity: 0.5; transform: translateY(0); }
+        }
+        .solution-item:hover {
+            border-color: var(--accent-primary);
+            background: rgba(204, 255, 0, 0.1);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(204, 255, 0, 0.18);
+        }
+        .solution-item:active {
+            transform: scale(0.97);
+        }
+        .solution-item i { font-size: 14px; color: var(--text-sub); transition: all var(--transition-normal) var(--ease-out); }
+        .solution-item:hover i { color: var(--accent-primary); transform: scale(1.1); }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        .sol-num { font-size: 11px; font-weight: 700; color: var(--text-sub); }
+        .solution-item:hover .sol-num { color: var(--accent-primary); }
+        .solution-item.wip { opacity: 0.5; }
+        .solution-item.wip:hover { opacity: 0.8; }
+        .solution-item.ready { border-color: rgba(204, 255, 0, 0.3); }
+
+        /* Page transition overlay */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-core);
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.35s ease-out;
+        }
+        .page-transition.active {
+            opacity: 1;
+        }
+        .page-transition::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.6), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease 0.1s;
+        }
+        .page-transition.active::after {
+            opacity: 1;
+        }
+
+        /* 案例导航过渡效果 - 滑动缩放 */
+        @keyframes caseSlideIn {
+            0% { 
+                transform: translateX(100%) scale(0.95);
+                opacity: 0;
+            }
+            100% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes contentSlideOut {
+            0% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateX(-30%) scale(0.95);
+                opacity: 0;
+                filter: blur(4px);
+            }
+        }
+
+        .page-transition.case-nav {
+            background: linear-gradient(90deg, transparent 0%, var(--bg-core) 30%, var(--bg-core) 100%);
+        }
+
+        .page-transition.case-nav.active {
+            animation: caseSlideIn 0.35s ease-out forwards;
+        }
+
+        #deck-container.navigating-case {
+            animation: contentSlideOut 0.35s ease-out forwards;
+        }
+
+        .solution-item.clicked-case {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.6);
+            transition: all 0.15s ease-out;
+        }
+
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.85; transform: translateX(-50%) scale(1.02); }
+        }
+        @keyframes horizonPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .halftone-layer-top {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 200px;
+            background-image: radial-gradient(circle, rgba(204, 255, 0, 0.15) 1.5px, transparent 1.5px);
+            background-size: 10px 10px;
+            mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, transparent 70%);
+            pointer-events: none; z-index: 1;
+        }
+        .horizon-glow-top {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(204, 255, 0, 0.2) 20%, rgba(204, 255, 0, 0.5) 50%, rgba(204, 255, 0, 0.2) 80%, transparent 100%);
+            box-shadow: 0 0 40px 15px rgba(204, 255, 0, 0.12);
+            animation: horizonPulse 4s ease-in-out infinite;
+            pointer-events: none; z-index: 3;
+        }
+        .horizon-bloom-top {
+            position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+            width: 700px; height: 120px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(204, 255, 0, 0.15) 0%, rgba(204, 255, 0, 0.05) 40%, transparent 70%);
+            animation: softPulse 5s ease-in-out infinite;
+            pointer-events: none; z-index: 2;
+        }
+        .halftone-layer-bottom {
+            position: absolute; bottom: 0; left: 0;
+            width: 100%; height: 280px;
+            background-image: radial-gradient(circle, #000000 2.5px, transparent 2.5px);
+            background-size: 10px 10px;
+            mask-image: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.15) 50%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.15) 50%, transparent 70%);
+            pointer-events: none; z-index: 1;
+        }
+        .horizon-glow-bottom {
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent 0%, rgba(204, 255, 0, 0.4) 20%, rgba(204, 255, 0, 0.9) 50%, rgba(204, 255, 0, 0.4) 80%, transparent 100%);
+            box-shadow: 0 0 80px 30px rgba(204, 255, 0, 0.25);
+            animation: horizonPulse 3s ease-in-out infinite;
+            pointer-events: none; z-index: 3;
+        }
+        .horizon-bloom-bottom {
+            position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+            width: 900px; height: 200px;
+            background: radial-gradient(ellipse at 50% 100%, rgba(204, 255, 0, 0.3) 0%, rgba(204, 255, 0, 0.12) 35%, transparent 65%);
+            animation: softPulse 4s ease-in-out infinite;
+            pointer-events: none; z-index: 2;
+        }
+        .vignette {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(0,0,0,0.35) 100%);
+            pointer-events: none; z-index: 4;
+        }
+
+        /* ============================================
+           FILM/ANIMATION UNIQUE EFFECTS
+           ============================================ */
+        
+        /* Film strip borders - left side */
+        .film-strip-left {
+            position: absolute;
+            left: 0; top: 0;
+            width: 35px; height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 8px,
+                rgba(20, 20, 20, 0.9) 8px,
+                rgba(20, 20, 20, 0.9) 12px,
+                transparent 12px,
+                transparent 30px
+            );
+            pointer-events: none; z-index: 2;
+        }
+        .film-strip-left::before {
+            content: '';
+            position: absolute;
+            left: 8px; top: 0;
+            width: 12px; height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 5px,
+                rgba(204, 255, 0, 0.15) 5px,
+                rgba(204, 255, 0, 0.15) 10px,
+                transparent 10px,
+                transparent 30px
+            );
+            animation: filmScroll 8s linear infinite;
+        }
+        
+        /* Film strip borders - right side */
+        .film-strip-right {
+            position: absolute;
+            right: 0; top: 0;
+            width: 35px; height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 8px,
+                rgba(20, 20, 20, 0.9) 8px,
+                rgba(20, 20, 20, 0.9) 12px,
+                transparent 12px,
+                transparent 30px
+            );
+            pointer-events: none; z-index: 2;
+        }
+        .film-strip-right::before {
+            content: '';
+            position: absolute;
+            right: 8px; top: 0;
+            width: 12px; height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 5px,
+                rgba(204, 255, 0, 0.15) 5px,
+                rgba(204, 255, 0, 0.15) 10px,
+                transparent 10px,
+                transparent 30px
+            );
+            animation: filmScroll 8s linear infinite reverse;
+        }
+        @keyframes filmScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 120px; }
+        }
+
+        /* Spotlight effect */
+        .spotlight {
+            position: absolute;
+            top: -100px; left: 50%;
+            width: 400px; height: 500px;
+            background: conic-gradient(
+                from 260deg at 50% 0%,
+                transparent 0deg,
+                transparent 70deg,
+                rgba(204, 255, 0, 0.08) 85deg,
+                rgba(204, 255, 0, 0.12) 90deg,
+                rgba(204, 255, 0, 0.08) 95deg,
+                transparent 110deg,
+                transparent 360deg
+            );
+            transform: translateX(-50%);
+            transform-origin: top center;
+            animation: spotlightSway 6s ease-in-out infinite;
+            pointer-events: none; z-index: 1;
+        }
+        @keyframes spotlightSway {
+            0%, 100% { transform: translateX(-50%) rotate(-8deg); }
+            50% { transform: translateX(-50%) rotate(8deg); }
+        }
+
+        /* Lens flares */
+        .lens-flare {
+            position: absolute;
+            width: 6px; height: 6px;
+            background: radial-gradient(circle, rgba(204, 255, 0, 0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none; z-index: 3;
+            animation: flareGlow 3s ease-in-out infinite;
+        }
+        .flare-1 { top: 15%; left: 20%; animation-delay: 0s; }
+        .flare-2 { top: 25%; right: 15%; animation-delay: 1s; width: 4px; height: 4px; }
+        .flare-3 { bottom: 30%; left: 12%; animation-delay: 2s; width: 5px; height: 5px; }
+        .flare-4 { top: 40%; right: 25%; animation-delay: 0.5s; width: 3px; height: 3px; }
+        .flare-5 { bottom: 20%; right: 18%; animation-delay: 1.5s; }
+        @keyframes flareGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Stage floor glow */
+        .stage-glow {
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80%; height: 120px;
+            background: radial-gradient(ellipse 100% 100% at 50% 100%, 
+                rgba(204, 255, 0, 0.15) 0%, 
+                rgba(204, 255, 0, 0.05) 40%,
+                transparent 70%);
+            pointer-events: none; z-index: 1;
+            animation: stageFlicker 4s ease-in-out infinite;
+        }
+        @keyframes stageFlicker {
+            0%, 100% { opacity: 0.8; }
+            25% { opacity: 1; }
+            50% { opacity: 0.7; }
+            75% { opacity: 0.95; }
+        }
+
+        /* Clapperboard accent */
+        .clapper-accent {
+            position: absolute;
+            top: 25px; right: 60px;
+            width: 50px; height: 35px;
+            border: 2px solid rgba(204, 255, 0, 0.2);
+            border-radius: 4px;
+            pointer-events: none; z-index: 2;
+        }
+        .clapper-accent::before {
+            content: '';
+            position: absolute;
+            top: -12px; left: 0; right: 0;
+            height: 10px;
+            background: repeating-linear-gradient(
+                -45deg,
+                rgba(204, 255, 0, 0.15) 0px,
+                rgba(204, 255, 0, 0.15) 5px,
+                transparent 5px,
+                transparent 10px
+            );
+            border-radius: 2px 2px 0 0;
+        }
+
+        /* Enhanced icon animation */
+        .section-big-icon {
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+        @keyframes iconFloat {
+            0%, 100% { 
+                filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.4)); 
+                transform: translateY(0);
+            }
+            50% { 
+                filter: drop-shadow(0 0 50px rgba(204, 255, 0, 0.6)); 
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body class="lang-cn">
+
+<div id="deck-container">
+<div class="flip-container" id="flipContainer">
+    <!-- Glitch effect layers -->
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    
+    <!-- Base effects -->
+    <div class="halftone-layer-top"></div>
+    <div class="horizon-bloom-top"></div>
+    <div class="horizon-glow-top"></div>
+    <div class="halftone-layer-bottom"></div>
+    <div class="horizon-bloom-bottom"></div>
+    <div class="horizon-glow-bottom"></div>
+    
+    <!-- Film-specific effects -->
+    <div class="film-strip-left"></div>
+    <div class="film-strip-right"></div>
+    <div class="spotlight"></div>
+    <div class="stage-glow"></div>
+    <div class="clapper-accent"></div>
+    
+    <!-- Lens flares -->
+    <div class="lens-flare flare-1"></div>
+    <div class="lens-flare flare-2"></div>
+    <div class="lens-flare flare-3"></div>
+    <div class="lens-flare flare-4"></div>
+    <div class="lens-flare flare-5"></div>
+    
+    <div class="vignette"></div>
+    
+    <!-- Page transition overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <div class="content scroll-reveal-up">
+        <div class="section-big-icon"><i class="fa-solid fa-film icon-hover-bounce"></i></div>
+        <h1>
+            <span class="cn">动画/电影行业解决方案</span>
+            <span class="en">Film/Animation Solutions</span>
+        </h1>
+        <div class="solutions-list">
+            <div class="solutions-row">
+                <a href="case-film-previz.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                    <span class="sol-num">01</span>
+                    <i class="fa-solid fa-video icon-hover-bounce"></i>
+                    <span class="cn">影视预演加速</span><span class="en">Cinematic Previz</span>
+                </a>
+                <a href="case-film-stylized.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                    <span class="sol-num">02</span>
+                    <i class="fa-solid fa-palette icon-hover-bounce"></i>
+                    <span class="cn">风格化道具设计</span><span class="en">Stylized Prop Design</span>
+                </a>
+            </div>
+            <div class="solutions-row">
+                <a href="case-film-kitbash.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                    <span class="sol-num">03</span>
+                    <i class="fa-solid fa-shapes icon-hover-bounce"></i>
+                    <span class="cn">概念拼接辅助</span><span class="en">Concept Kitbashing</span>
+                </a>
+                <a href="case-film-texture.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                    <span class="sol-num">04</span>
+                    <i class="fa-solid fa-image icon-hover-bounce"></i>
+                    <span class="cn">虚拟场景纹理</span><span class="en">Virtual Set Texturing</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-back">
+        <a href="../index.html" class="btn magnetic-btn" title="返回 / Back">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    </div>
+    <div class="control-lang">
+        <button class="btn magnetic-btn" onclick="toggleLanguage()" title="切换语言 / Toggle Language">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+    </div>
+</div>
+</div>
+
+<script>
+    // Initialize language from localStorage or default to 'cn'
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    let isFlipping = false;
+    
+    // Apply initial language state
+    function applyLanguage() {
+        document.body.classList.remove('lang-cn', 'lang-en');
+        document.body.classList.add('lang-' + lang);
+    }
+    applyLanguage();
+    
+    function toggleLanguage() {
+        if (isFlipping) return;
+        isFlipping = true;
+        
+        const flipContainer = document.getElementById('flipContainer');
+        const deckContainer = document.getElementById('deck-container');
+        const langBtn = document.querySelector('.control-lang .btn');
+        
+        flipContainer.classList.add('glitching');
+        deckContainer.classList.add('punched');
+        if (langBtn) langBtn.classList.add('zapping');
+        
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            applyLanguage();
+        }, 150);
+        
+        setTimeout(() => {
+            flipContainer.classList.remove('glitching');
+            deckContainer.classList.remove('punched');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 300);
+    }
+
+    function navigateTo(event, element) {
+        event.preventDefault();
+        const href = element.getAttribute('href');
+        const transition = document.getElementById('pageTransition');
+        const deckContainer = document.getElementById('deck-container');
+        
+        // 添加案例导航过渡效果
+        element.classList.add('clicked-case');
+        deckContainer.classList.add('navigating-case');
+        transition.classList.add('case-nav');
+        
+        setTimeout(() => {
+            transition.classList.add('active');
+        }, 50);
+        
+        setTimeout(() => {
+            window.location.href = href;
+        }, 350);
+    }
+    
+    // 页面显示时清理过渡效果
+    window.addEventListener('pageshow', function(event) {
+        const transition = document.getElementById('pageTransition');
+        const deckContainer = document.getElementById('deck-container');
+        
+        transition.classList.remove('active', 'case-nav');
+        deckContainer.classList.remove('navigating-case');
+        document.querySelectorAll('.solution-item.clicked-case').forEach(item => {
+            item.classList.remove('clicked-case');
+        });
+    });
+
+    // Add click handlers to all solution items
+    document.querySelectorAll('.solution-item').forEach(item => {
+        item.addEventListener('click', (e) => navigateTo(e, item));
+    });
+    
+    // Back button also uses transition
+    document.querySelector('.btn[href]')?.addEventListener('click', function(e) {
+        navigateTo(e, this);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key.toLowerCase() === 'l') toggleLanguage();
+        if(e.key === 'Escape') {
+            const backBtn = document.querySelector('.btn[href]');
+            if(backBtn) navigateTo(new Event('click'), backBtn);
+        }
+        if(e.key >= '1' && e.key <= '4') {
+            const items = document.querySelectorAll('.solution-item');
+            const idx = parseInt(e.key) - 1;
+            if(items[idx]) navigateTo(new Event('click'), items[idx]);
+        }
+    });
+</script>
+
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

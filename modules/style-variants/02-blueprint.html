@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+<style>
+html { background: #080808; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #080808; font-family: Courier New, monospace;
+  display: flex; flex-direction: column;
+}
+.content { padding: 25pt 30pt; }
+.title-block { border: 2pt solid #CCFF00; padding: 12pt; margin-bottom: 18pt; display: inline-block; }
+h1 { color: #CCFF00; font-size: 20pt; margin: 0; letter-spacing: 2pt; }
+.ref-num { color: #888888; font-size: 9pt; margin: 4pt 0 0 0; }
+.main-area { display: flex; gap: 25pt; }
+.section { flex: 1; }
+.section-header { border-bottom: 1pt solid #CCFF00; padding-bottom: 6pt; margin-bottom: 12pt; }
+.section-title { color: #FFFFFF; font-size: 11pt; margin: 0; }
+.item { margin-bottom: 10pt; }
+.item-box { background: #111111; border-left: 2pt solid #888888; padding: 8pt 10pt; }
+.item-text { color: #AAAAAA; font-size: 9pt; margin: 0; }
+.dimension-line { display: flex; align-items: center; margin-top: 15pt; border-top: 1pt dashed #CCFF00; padding-top: 12pt; }
+.dim-box { background: #111111; border: 1pt solid #CCFF00; padding: 10pt 15pt; margin-right: 15pt; text-align: center; }
+.dim-value { color: #FFFFFF; font-size: 18pt; margin: 0; font-weight: bold; }
+.dim-label { color: #888888; font-size: 7pt; margin: 2pt 0 0 0; }
+.flow-diagram { flex: 1; display: flex; align-items: center; justify-content: center; }
+.flow-step { background: #111111; border: 1pt solid #CCFF00; padding: 6pt 10pt; }
+.flow-text { color: #CCFF00; font-size: 8pt; margin: 0; }
+.flow-arrow { color: #888888; font-size: 10pt; margin: 0 6pt; }
+.stamp { border: 1pt solid #CCFF00; padding: 6pt 12pt; margin-top: 10pt; display: inline-block; }
+.stamp-text { color: #CCFF00; font-size: 8pt; margin: 0; }
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="title-block">
+    <h1>ASSET BLOCKOUT ACCELERATION</h1>
+    <p class="ref-num">REF: GAMING-001 // CORE WORKFLOW</p>
+  </div>
+  <div class="main-area">
+    <div class="section">
+      <div class="section-header"><p class="section-title">PROBLEM ANALYSIS</p></div>
+      <div class="item"><div class="item-box"><p class="item-text">Manual blockout: 2-4 days/asset</p></div></div>
+      <div class="item"><div class="item-box"><p class="item-text">Senior talent on repetitive tasks</p></div></div>
+      <div class="item"><div class="item-box"><p class="item-text">2D-3D interpretation variance</p></div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><p class="section-title">MESHY SOLUTION</p></div>
+      <div class="item"><div class="item-box"><p class="item-text">AI: 80% complete high-poly base</p></div></div>
+      <div class="item"><div class="item-box"><p class="item-text">Direct to ZBrush refinement</p></div></div>
+      <div class="item"><div class="item-box"><p class="item-text">Instant volume visualization</p></div></div>
+    </div>
+  </div>
+  <div class="dimension-line">
+    <div class="dim-box">
+      <p class="dim-value">80%</p>
+      <p class="dim-label">TIME SAVED</p>
+    </div>
+    <div class="dim-box">
+      <p class="dim-value">3x</p>
+      <p class="dim-label">SPEED UP</p>
+    </div>
+    <div class="dim-box">
+      <p class="dim-value">1-2h</p>
+      <p class="dim-label">PER ASSET</p>
+    </div>
+    <div class="flow-diagram">
+      <div class="flow-step"><p class="flow-text">2D CONCEPT</p></div>
+      <p class="flow-arrow">-></p>
+      <div class="flow-step"><p class="flow-text">MESHY AI</p></div>
+      <p class="flow-arrow">-></p>
+      <div class="flow-step"><p class="flow-text">HIGH POLY</p></div>
+    </div>
+  </div>
+  <div class="stamp">
+    <p class="stamp-text">STYLE 02 // BLUEPRINT TECHNICAL</p>
+  </div>
+</div>
+</body>
+</html>

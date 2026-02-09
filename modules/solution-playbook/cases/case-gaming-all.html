@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="gaming">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏行业全案 | Meshy Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">
+    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+    <style>
+        :root {
+            --bg: #080808;
+            --accent: #CCFF00;
+            --red: #FF3333;
+            --text: #f0f0f0;
+            --sub: #888888;
+            --border: #333333;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            color: var(--text);
+        }
+
+        .cn { display: inline; }
+        .en { display: none; }
+        body.lang-en .cn { display: none !important; }
+        body.lang-en .en { display: inline !important; }
+        body.lang-en div.en, body.lang-en p.en { display: block !important; }
+
+        #deck {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            padding: 50px 70px;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.02);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        /* Animated backgrounds */
+        @keyframes dotFlow { 0% { background-position: 0 0; } 100% { background-position: 20px 20px; } }
+        @keyframes glowPulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            width: 130%; height: 130%;
+            pointer-events: none;
+            z-index: 0;
+            animation: glowPulse 6s ease-in-out infinite;
+        }
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(204,255,0,0.12) 2px, transparent 2px);
+            background-size: 18px 18px;
+            animation: dotFlow 4s linear infinite;
+        }
+
+        /* Vary background positions */
+        .slide:nth-child(3n+1)::before { top: -40%; left: -40%; background: radial-gradient(ellipse at 0% 0%, rgba(204,255,0,0.2) 0%, transparent 50%); }
+        .slide:nth-child(3n+1)::after { mask-image: linear-gradient(135deg, black 0%, transparent 40%); -webkit-mask-image: linear-gradient(135deg, black 0%, transparent 40%); }
+        .slide:nth-child(3n+2)::before { top: -40%; right: -40%; left: auto; background: radial-gradient(ellipse at 100% 0%, rgba(204,255,0,0.2) 0%, transparent 50%); }
+        .slide:nth-child(3n+2)::after { mask-image: linear-gradient(225deg, black 0%, transparent 40%); -webkit-mask-image: linear-gradient(225deg, black 0%, transparent 40%); }
+        .slide:nth-child(3n)::before { bottom: -40%; right: -40%; top: auto; left: auto; background: radial-gradient(ellipse at 100% 100%, rgba(204,255,0,0.2) 0%, transparent 50%); }
+        .slide:nth-child(3n)::after { mask-image: linear-gradient(315deg, black 0%, transparent 40%); -webkit-mask-image: linear-gradient(315deg, black 0%, transparent 40%); }
+
+        .slide > * { position: relative; z-index: 1; }
+
+        /* === COMMON COMPONENTS === */
+        .cover { justify-content: center; align-items: center; text-align: center; }
+        .icon-lg { width: 100px; height: 100px; border-radius: 50px; background: rgba(204,255,0,0.08); border: 1px solid rgba(204,255,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 44px; margin-bottom: 25px; }
+        .title-xl { font-size: 52px; font-weight: 800; margin-bottom: 12px; }
+        .subtitle { font-size: 20px; color: var(--sub); margin-bottom: 35px; }
+        .tag { background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.3); padding: 10px 24px; border-radius: 25px; color: var(--accent); font-weight: 600; font-size: 13px; }
+
+        .section-tag { font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: 2px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .slide-title { font-size: 32px; font-weight: 700; margin-bottom: 15px; }
+        .slide-desc { font-size: 15px; color: var(--sub); margin-bottom: 25px; line-height: 1.6; max-width: 900px; }
+
+        /* Timeline comparison */
+        .timeline-row { display: flex; align-items: center; gap: 15px; padding: 14px 18px; border-radius: 10px; background: rgba(0,0,0,0.5); margin-bottom: 10px; }
+        .pain-row { border: 1px solid rgba(255,51,51,0.3); }
+        .sol-row { border: 1px solid rgba(204,255,0,0.3); }
+        .timeline-label { min-width: 60px; text-align: center; font-size: 10px; }
+        .badge { width: 32px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin: 0 auto 4px; }
+        .pain-badge { background: rgba(255,51,51,0.2); color: var(--red); }
+        .sol-badge { background: rgba(204,255,0,0.2); color: var(--accent); }
+        .timeline-track { flex: 1; display: flex; gap: 4px; height: 44px; }
+        .block { border-radius: 6px; padding: 6px 8px; display: flex; flex-direction: column; justify-content: center; background: #1a1a1a; }
+        .pain-block { background: linear-gradient(135deg, rgba(255,51,51,0.2) 0%, rgba(255,51,51,0.05) 100%); border: 1px solid rgba(255,51,51,0.25); }
+        .sol-block { background: linear-gradient(135deg, rgba(204,255,0,0.2) 0%, rgba(204,255,0,0.05) 100%); border: 1px solid rgba(204,255,0,0.25); }
+        .block-t { font-size: 10px; font-weight: 600; }
+        .block-s { font-size: 8px; color: #777; }
+        .total { min-width: 60px; text-align: center; font-size: 14px; font-weight: 700; color: #666; }
+        .total-g { color: var(--accent); }
+        .arrow-down { text-align: center; color: var(--accent); font-size: 12px; margin: 6px 0; }
+
+        /* Metrics */
+        .metrics { display: flex; gap: 20px; justify-content: center; margin-top: auto; }
+        .metric { flex: 1; max-width: 280px; background: #111; border: 1px solid #333; border-radius: 12px; padding: 30px 20px; text-align: center; transition: border-color 0.3s; }
+        .metric:hover { border-color: var(--accent); }
+        .metric-val { font-size: 52px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+        .metric-label { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .metric-sub { font-size: 11px; color: #666; }
+
+        /* Two columns */
+        .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; flex: 1; }
+        .col-header { font-weight: 700; margin-bottom: 12px; font-size: 13px; }
+        .pain-header { color: var(--red); }
+        .sol-header { color: var(--accent); }
+        .card { padding: 18px; border-radius: 8px; margin-bottom: 12px; }
+        .pain-card { background: linear-gradient(90deg, rgba(255,51,51,0.08) 0%, transparent 100%); border-left: 3px solid var(--red); }
+        .sol-card { background: linear-gradient(90deg, rgba(204,255,0,0.08) 0%, transparent 100%); border-left: 3px solid var(--accent); }
+        .card-title { font-weight: 600; margin-bottom: 6px; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+        .card-desc { font-size: 12px; color: #aaa; line-height: 1.4; }
+
+        /* Features grid */
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px; }
+        .feature { background: #111; border: 1px solid #333; border-radius: 10px; padding: 25px 20px; text-align: center; transition: border-color 0.3s; }
+        .feature:hover { border-color: var(--accent); }
+        .feature-icon { font-size: 32px; margin-bottom: 12px; color: var(--accent); }
+        .feature-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+        .feature-desc { font-size: 11px; color: #888; line-height: 1.4; }
+
+        /* Comparison boxes */
+        .comparison { display: flex; gap: 30px; align-items: center; justify-content: center; flex: 1; }
+        .compare-box { flex: 1; max-width: 320px; background: #111; border: 1px solid #333; border-radius: 14px; padding: 35px 25px; text-align: center; }
+        .compare-box.old { border-color: rgba(255,51,51,0.3); }
+        .compare-box.new { border-color: rgba(204,255,0,0.3); }
+        .compare-label { font-size: 12px; font-weight: 700; margin-bottom: 15px; padding: 6px 16px; border-radius: 15px; display: inline-block; }
+        .compare-box.old .compare-label { background: rgba(255,51,51,0.2); color: var(--red); }
+        .compare-box.new .compare-label { background: rgba(204,255,0,0.2); color: var(--accent); }
+        .compare-icon { font-size: 48px; margin-bottom: 15px; opacity: 0.6; }
+        .compare-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .compare-desc { font-size: 13px; color: #888; line-height: 1.5; }
+        .arrow-big { font-size: 36px; color: var(--accent); }
+
+        /* NPC grid */
+        .npc-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+        .npc-item { background: #111; border: 1px solid #333; border-radius: 10px; padding: 20px 12px; text-align: center; transition: border-color 0.3s; }
+        .npc-item:hover { border-color: var(--accent); }
+        .npc-icon { font-size: 28px; margin-bottom: 8px; }
+        .npc-name { font-size: 11px; color: #888; }
+
+        /* Highlight box */
+        .highlight-box { background: rgba(204,255,0,0.05); border: 1px solid rgba(204,255,0,0.2); border-radius: 10px; padding: 20px 25px; margin-top: auto; }
+        .highlight-title { color: var(--accent); font-weight: 700; margin-bottom: 8px; font-size: 14px; }
+        .highlight-desc { font-size: 13px; color: #aaa; line-height: 1.5; }
+
+        /* Mini cards */
+        .mini-cards { display: flex; gap: 15px; margin-top: 15px; }
+        .mini-card { flex: 1; background: #111; border: 1px solid #333; border-radius: 8px; padding: 15px; text-align: center; }
+        .mini-card-icon { font-size: 20px; color: var(--accent); margin-bottom: 8px; }
+        .mini-card-title { font-size: 14px; font-weight: 600; }
+        .mini-card-sub { font-size: 10px; color: #666; margin-top: 4px; }
+
+        /* Section divider */
+        .section-divider { justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, rgba(204,255,0,0.08) 0%, transparent 60%), var(--bg); }
+        .section-number { font-size: 80px; font-weight: 900; color: var(--accent); opacity: 0.3; margin-bottom: 10px; }
+        .section-name { font-size: 40px; font-weight: 700; }
+
+        /* Progress & Controls */
+        .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--accent); transition: width 0.3s; z-index: 100; }
+        .controls { position: fixed; bottom: 20px; left: 30px; z-index: 100; display: flex; gap: 10px; }
+        .ctrl-btn { background: rgba(0,0,0,0.8); border: 1px solid #444; color: #fff; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; opacity: 0.7; transition: all 0.2s; }
+        .ctrl-btn:hover { opacity: 1; border-color: var(--accent); }
+        .slide-counter { position: fixed; bottom: 20px; right: 30px; font-size: 12px; color: #666; z-index: 100; }
+    </style>
+</head>
+<body class="lang-cn">
+    <div class="progress" id="progress"></div>
+    <div class="controls">
+        <button class="ctrl-btn" onclick="event.stopPropagation(); toggleLang()"><i class="fa-solid fa-globe"></i> <span class="cn">EN</span><span class="en">中</span></button>
+    </div>
+    <div class="slide-counter" id="counter">1 / 19</div>
+
+    <div id="deck">
+        <!-- ========== MAIN COVER ========== -->
+        <div class="slide cover active">
+            <div class="icon-lg">🎮</div>
+            <h1 class="title-xl"><span class="cn">游戏行业全案</span><span class="en">Gaming Industry Solutions</span></h1>
+            <p class="subtitle"><span class="cn">Meshy 3D AI 解决方案合集</span><span class="en">Complete Meshy 3D AI Solution Portfolio</span></p>
+            <div class="tag"><span class="cn">6 大解决方案</span><span class="en">6 SOLUTIONS</span></div>
+        </div>
+
+        <!-- ========== SOLUTION 1: RAPID PROTOTYPE ========== -->
+        <div class="slide section-divider">
+            <div class="section-number">01</div>
+            <div class="section-name"><span class="cn">快速原型验证</span><span class="en">Rapid Prototype Validation</span></div>
+            <p class="subtitle"><span class="cn">Whitebox/Demo 阶段解决方案</span><span class="en">Whitebox/Demo Stage Solution</span></p>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">🎮 <span class="cn">核心问题</span><span class="en">CORE PROBLEM</span></div>
+            <h2 class="slide-title"><span class="cn">白盒阶段的革命</span><span class="en">Revolution in Whitebox Stage</span></h2>
+            <p class="slide-desc"><span class="cn">传统方式：外包概念验证，等待周期长，修改成本高。Meshy 让策划可以直接生成可用资产。</span><span class="en">Traditional: outsource concept validation, long wait times, expensive revisions. Meshy lets planners generate usable assets directly.</span></p>
+            
+            <div class="timeline-row pain-row">
+                <div class="timeline-label"><div class="badge pain-badge">❌</div><span class="cn">传统</span><span class="en">Before</span></div>
+                <div class="timeline-track">
+                    <div class="block" style="flex:1.5"><div class="block-t"><span class="cn">概念</span><span class="en">Concept</span></div><div class="block-s">2-3d</div></div>
+                    <div class="block pain-block" style="flex:3"><div class="block-t"><span class="cn">外包制作</span><span class="en">Outsource</span></div><div class="block-s">1-2w</div></div>
+                    <div class="block pain-block" style="flex:2"><div class="block-t"><span class="cn">修改</span><span class="en">Revise</span></div><div class="block-s">3-5d</div></div>
+                    <div class="block" style="flex:1"><div class="block-t"><span class="cn">集成</span><span class="en">Integrate</span></div><div class="block-s">1-2d</div></div>
+                </div>
+                <div class="total">2-3<span class="cn">周</span><span class="en">wks</span></div>
+            </div>
+            <div class="arrow-down">⬇ Meshy AI</div>
+            <div class="timeline-row sol-row">
+                <div class="timeline-label"><div class="badge sol-badge">✓</div><span class="cn">现在</span><span class="en">Now</span></div>
+                <div class="timeline-track">
+                    <div class="block sol-block" style="flex:1"><div class="block-t"><span class="cn">AI生成</span><span class="en">AI Gen</span></div><div class="block-s">10m</div></div>
+                    <div class="block" style="flex:1"><div class="block-t"><span class="cn">调整</span><span class="en">Tweak</span></div><div class="block-s">1-2h</div></div>
+                    <div class="block" style="flex:1"><div class="block-t"><span class="cn">集成</span><span class="en">Integrate</span></div><div class="block-s">1d</div></div>
+                </div>
+                <div class="total total-g">1-2<span class="cn">天</span><span class="en">days</span></div>
+            </div>
+            
+            <div class="metrics" style="margin-top: 30px;">
+                <div class="metric"><div class="metric-val">90%</div><div class="metric-label"><span class="cn">时间节省</span><span class="en">Time Saved</span></div></div>
+                <div class="metric"><div class="metric-val">$0</div><div class="metric-label"><span class="cn">外包成本</span><span class="en">Outsource Cost</span></div></div>
+                <div class="metric"><div class="metric-val">2x</div><div class="metric-label"><span class="cn">迭代速度</span><span class="en">Iteration Speed</span></div></div>
+            </div>
+        </div>
+
+        <!-- ========== SOLUTION 2: ASSET PIPELINE ========== -->
+        <div class="slide section-divider">
+            <div class="section-number">02</div>
+            <div class="section-name"><span class="cn">资产生产管线</span><span class="en">Asset Production Pipeline</span></div>
+            <p class="subtitle"><span class="cn">高模到低模的加速方案</span><span class="en">High-to-Low Poly Acceleration</span></p>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">🎮 <span class="cn">核心问题</span><span class="en">CORE PROBLEM</span></div>
+            <h2 class="slide-title"><span class="cn">高模到低模的漫长之路</span><span class="en">The Long Road from High to Low Poly</span></h2>
+            <p class="slide-desc"><span class="cn">传统管线：高模雕刻 → ZBrush 精修 → Retopology → Substance 贴图。每个环节都需要专业人员。</span><span class="en">Traditional pipeline: High poly sculpt → ZBrush refine → Retopology → Substance texturing. Each step needs specialists.</span></p>
+            
+            <div class="timeline-row pain-row">
+                <div class="timeline-label"><div class="badge pain-badge">❌</div><span class="cn">传统</span><span class="en">Before</span></div>
+                <div class="timeline-track">
+                    <div class="block" style="flex:2"><div class="block-t"><span class="cn">概念</span><span class="en">Concept</span></div><div class="block-s">2-3d</div></div>
+                    <div class="block pain-block" style="flex:3"><div class="block-t"><span class="cn">高模</span><span class="en">Hi-Poly</span></div><div class="block-s">5-7d</div></div>
+                    <div class="block pain-block" style="flex:2"><div class="block-t"><span class="cn">拓扑</span><span class="en">Retopo</span></div><div class="block-s">2-3d</div></div>
+                    <div class="block pain-block" style="flex:2"><div class="block-t"><span class="cn">贴图</span><span class="en">Texture</span></div><div class="block-s">2-3d</div></div>
+                </div>
+                <div class="total">2-3<span class="cn">周</span><span class="en">wks</span></div>
+            </div>
+            <div class="arrow-down">⬇ Meshy AI</div>
+            <div class="timeline-row sol-row">
+                <div class="timeline-label"><div class="badge sol-badge">✓</div><span class="cn">现在</span><span class="en">Now</span></div>
+                <div class="timeline-track">
+                    <div class="block" style="flex:2"><div class="block-t"><span class="cn">概念</span><span class="en">Concept</span></div><div class="block-s">1d</div></div>
+                    <div class="block sol-block" style="flex:2"><div class="block-t"><span class="cn">AI高模</span><span class="en">AI Gen</span></div><div class="block-s">10m</div></div>
+                    <div class="block" style="flex:1.5"><div class="block-t"><span class="cn">精修</span><span class="en">Refine</span></div><div class="block-s">1-2d</div></div>
+                    <div class="block sol-block" style="flex:1.5"><div class="block-t"><span class="cn">AI贴图</span><span class="en">AI Tex</span></div><div class="block-s">5m</div></div>
+                </div>
+                <div class="total total-g">2-3<span class="cn">天</span><span class="en">days</span></div>
+            </div>
+            
+            <div class="metrics" style="margin-top: 30px;">
+                <div class="metric"><div class="metric-val">80%</div><div class="metric-label"><span class="cn">周期缩短</span><span class="en">Cycle Reduction</span></div></div>
+                <div class="metric"><div class="metric-val">3x</div><div class="metric-label"><span class="cn">产能提升</span><span class="en">Output Increase</span></div></div>
+                <div class="metric"><div class="metric-val">$0</div><div class="metric-label"><span class="cn">外包依赖</span><span class="en">No Outsourcing</span></div></div>
+            </div>
+        </div>
+
+        <!-- ========== SOLUTION 3: STYLIZED VARIATIONS ========== -->
+        <div class="slide section-divider">
+            <div class="section-number">03</div>
+            <div class="section-name"><span class="cn">风格化变体量产</span><span class="en">Stylized Variations</span></div>
+            <p class="subtitle"><span class="cn">批量换皮解决方案</span><span class="en">Batch Reskinning Solution</span></p>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">🎮 <span class="cn">核心问题</span><span class="en">CORE PROBLEM</span></div>
+            <h2 class="slide-title"><span class="cn">换皮变体的重复劳动</span><span class="en">Repetitive Work for Skin Variants</span></h2>
+            <p class="slide-desc"><span class="cn">同一角色/道具需要多种风格变体（火焰版、冰霜版、暗黑版），传统方式需要逐个手工制作。</span><span class="en">Same character/prop needs multiple style variants (fire, ice, dark). Traditional method requires manual work for each.</span></p>
+            
+            <div class="cols">
+                <div>
+                    <div class="col-header pain-header">🚫 <span class="cn">传统困境</span><span class="en">Traditional Pain</span></div>
+                    <div class="card pain-card">
+                        <div class="card-title">⏱️ <span class="cn">重复劳动</span><span class="en">Repetitive Work</span></div>
+                        <div class="card-desc"><span class="cn">每个变体都需要从头制作贴图和材质</span><span class="en">Each variant needs texture/material from scratch</span></div>
+                    </div>
+                    <div class="card pain-card">
+                        <div class="card-title">🎭 <span class="cn">风格不一致</span><span class="en">Style Inconsistency</span></div>
+                        <div class="card-desc"><span class="cn">外包制作常导致艺术风格碎片化</span><span class="en">Outsourcing often fragments art style</span></div>
+                    </div>
+                    <div class="card pain-card">
+                        <div class="card-title">💰 <span class="cn">成本高昂</span><span class="en">High Cost</span></div>
+                        <div class="card-desc"><span class="cn">每个变体都需要独立付费制作</span><span class="en">Each variant requires separate payment</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-header sol-header">✅ Meshy <span class="cn">方案</span><span class="en">Solution</span></div>
+                    <div class="card sol-card">
+                        <div class="card-title">⚡ <span class="cn">一键换皮</span><span class="en">One-Click Reskin</span></div>
+                        <div class="card-desc"><span class="cn">基于同一模型快速生成不同风格贴图</span><span class="en">Generate different style textures from same model</span></div>
+                    </div>
+                    <div class="card sol-card">
+                        <div class="card-title">🎨 <span class="cn">风格锁定</span><span class="en">Style Lock</span></div>
+                        <div class="card-desc"><span class="cn">AI 保持统一的艺术风格，无碎片化</span><span class="en">AI maintains consistent art style</span></div>
+                    </div>
+                    <div class="card sol-card">
+                        <div class="card-title">📦 <span class="cn">批量输出</span><span class="en">Batch Output</span></div>
+                        <div class="card-desc"><span class="cn">一天内完成 10+ 套变体制作</span><span class="en">Complete 10+ variants in one day</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">📈 <span class="cn">商业价值</span><span class="en">BUSINESS VALUE</span></div>
+            <h2 class="slide-title"><span class="cn">变体量产的效率革命</span><span class="en">Efficiency Revolution in Variant Production</span></h2>
+            <div class="metrics">
+                <div class="metric"><div class="metric-val">10x</div><div class="metric-label"><span class="cn">规模化产出</span><span class="en">Scale Output</span></div><div class="metric-sub"><span class="cn">资产产出能力提升</span><span class="en">Asset production capacity</span></div></div>
+                <div class="metric"><div class="metric-val">100%</div><div class="metric-label"><span class="cn">风格一致性</span><span class="en">Style Consistency</span></div><div class="metric-sub"><span class="cn">统一的 AI 艺术风格</span><span class="en">Unified AI art style</span></div></div>
+                <div class="metric"><div class="metric-val">1<span class="cn">天</span><span class="en">day</span></div><div class="metric-label"><span class="cn">10+ 套变体</span><span class="en">10+ Variants</span></div><div class="metric-sub"><span class="cn">爆发式产出速度</span><span class="en">Explosive output speed</span></div></div>
+            </div>
+        </div>
+
+        <!-- ========== SOLUTION 4: PBR TEXTURING ========== -->
+        <div class="slide section-divider">
+            <div class="section-number">04</div>
+            <div class="section-name"><span class="cn">PBR 纹理生成</span><span class="en">Seamless PBR Gen</span></div>
+            <p class="subtitle"><span class="cn">AI 驱动的材质解决方案</span><span class="en">AI-Driven Material Solution</span></p>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">🎮 <span class="cn">核心问题</span><span class="en">CORE PROBLEM</span></div>
+            <h2 class="slide-title"><span class="cn">为什么要为了烘焙而建高模？</span><span class="en">Why Build High Poly Just for Baking?</span></h2>
+            <p class="slide-desc"><span class="cn">传统流程需要先建高模，再烘焙法线贴图。Meshy 让你跳过高模直接生成 PBR 材质。</span><span class="en">Traditional workflow requires high poly first, then bake normal maps. Meshy lets you skip high poly.</span></p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title"><span class="cn">直接生成</span><span class="en">Direct Gen</span></div>
+                    <div class="feature-desc"><span class="cn">无需高模，直接生成 4K 法线/高度图</span><span class="en">No high poly needed, generate 4K normal/height maps directly</span></div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-title"><span class="cn">关键词驱动</span><span class="en">Keyword Driven</span></div>
+                    <div class="feature-desc"><span class="cn">AI 将关键词即时转化为纹理</span><span class="en">AI converts keywords to textures instantly</span></div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-title"><span class="cn">快速迭代</span><span class="en">Fast Iteration</span></div>
+                    <div class="feature-desc"><span class="cn">快速迭代风化、磨损等复杂材质效果</span><span class="en">Quickly iterate weathering, wear effects</span></div>
+                </div>
+            </div>
+            
+            <div class="mini-cards">
+                <div class="mini-card"><div class="mini-card-icon">⏱️</div><div class="mini-card-title">15 <span class="cn">分钟</span><span class="en">min</span></div><div class="mini-card-sub"><span class="cn">制作周期</span><span class="en">Production time</span></div></div>
+                <div class="mini-card"><div class="mini-card-icon">🖼️</div><div class="mini-card-title">4K</div><div class="mini-card-sub"><span class="cn">分辨率</span><span class="en">Resolution</span></div></div>
+                <div class="mini-card"><div class="mini-card-icon">📦</div><div class="mini-card-title">PBR</div><div class="mini-card-sub">Albedo/Normal/Roughness</div></div>
+            </div>
+        </div>
+
+        <!-- ========== SOLUTION 5: LEGACY MODERNIZATION ========== -->
+        <div class="slide section-divider">
+            <div class="section-number">05</div>
+            <div class="section-name"><span class="cn">旧资产重塑升级</span><span class="en">Legacy Asset Modernization</span></div>
+            <p class="subtitle"><span class="cn">老旧资产焕新方案</span><span class="en">Asset Refresh Solution</span></p>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">🎮 <span class="cn">核心问题</span><span class="en">CORE PROBLEM</span></div>
+            <h2 class="slide-title"><span class="cn">老旧资产如何焕发新生？</span><span class="en">How to Revive Legacy Assets?</span></h2>
+            <p class="slide-desc"><span class="cn">游戏公司积累了大量低模旧资产，手工升级成本高、周期长。Meshy 可以智能补全细节。</span><span class="en">Game companies have accumulated low-poly legacy assets. Manual upgrade is costly and slow. Meshy can intelligently fill in details.</span></p>
+            
+            <div class="comparison">
+                <div class="compare-box old">
+                    <div class="compare-label">BEFORE</div>
+                    <div class="compare-icon">📦</div>
+                    <div class="compare-title"><span class="cn">低模旧资产</span><span class="en">Low-Poly Legacy</span></div>
+                    <div class="compare-desc"><span class="cn">512px 贴图<br>低面数模型<br>缺乏细节</span><span class="en">512px textures<br>Low poly count<br>Lacking detail</span></div>
+                </div>
+                <div class="arrow-big">→</div>
+                <div class="compare-box new">
+                    <div class="compare-label">AFTER</div>
+                    <div class="compare-icon">✨</div>
+                    <div class="compare-title"><span class="cn">高清重制版</span><span class="en">HD Remaster</span></div>
+                    <div class="compare-desc"><span class="cn">4K PBR 贴图<br>AI 补全细节<br>现代化品质</span><span class="en">4K PBR textures<br>AI-filled details<br>Modern quality</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">📈 <span class="cn">商业价值</span><span class="en">BUSINESS VALUE</span></div>
+            <h2 class="slide-title"><span class="cn">激活沉睡资产的价值</span><span class="en">Unlock Value of Dormant Assets</span></h2>
+            <div class="metrics">
+                <div class="metric"><div class="metric-val">80%</div><div class="metric-label"><span class="cn">成本节省</span><span class="en">Cost Savings</span></div><div class="metric-sub"><span class="cn">vs 完全重制</span><span class="en">vs full remake</span></div></div>
+                <div class="metric"><div class="metric-val">4K</div><div class="metric-label"><span class="cn">贴图升级</span><span class="en">Texture Upgrade</span></div><div class="metric-sub"><span class="cn">从 512px 到 4096px</span><span class="en">From 512px to 4096px</span></div></div>
+                <div class="metric"><div class="metric-val">IP</div><div class="metric-label"><span class="cn">价值延续</span><span class="en">IP Value</span></div><div class="metric-sub"><span class="cn">经典资产再利用</span><span class="en">Classic asset reuse</span></div></div>
+            </div>
+        </div>
+
+        <!-- ========== SOLUTION 6: INFINITE NPC ========== -->
+        <div class="slide section-divider">
+            <div class="section-number">06</div>
+            <div class="section-name"><span class="cn">无限 NPC 量产</span><span class="en">Infinite NPC Generation</span></div>
+            <p class="subtitle"><span class="cn">告别"千人一面"</span><span class="en">Say Goodbye to Clone NPCs</span></p>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">🎮 <span class="cn">核心问题</span><span class="en">CORE PROBLEM</span></div>
+            <h2 class="slide-title"><span class="cn">告别"千人一面"的 NPC</span><span class="en">No More Identical NPCs</span></h2>
+            <p class="slide-desc"><span class="cn">开放世界游戏需要大量背景 NPC，传统方式只能复制粘贴，导致"撞脸"严重。</span><span class="en">Open world games need many background NPCs. Traditional copy-paste leads to clones everywhere.</span></p>
+            
+            <div class="npc-grid">
+                <div class="npc-item"><div class="npc-icon">👨‍🌾</div><div class="npc-name"><span class="cn">农夫</span><span class="en">Farmer</span> #1</div></div>
+                <div class="npc-item"><div class="npc-icon">👩‍🍳</div><div class="npc-name"><span class="cn">厨师</span><span class="en">Chef</span> #2</div></div>
+                <div class="npc-item"><div class="npc-icon">👨‍🔧</div><div class="npc-name"><span class="cn">工匠</span><span class="en">Smith</span> #3</div></div>
+                <div class="npc-item"><div class="npc-icon">👩‍🏫</div><div class="npc-name"><span class="cn">学者</span><span class="en">Scholar</span> #4</div></div>
+                <div class="npc-item"><div class="npc-icon">👨‍⚕️</div><div class="npc-name"><span class="cn">医者</span><span class="en">Healer</span> #5</div></div>
+                <div class="npc-item"><div class="npc-icon">👸</div><div class="npc-name"><span class="cn">贵族</span><span class="en">Noble</span> #6</div></div>
+                <div class="npc-item"><div class="npc-icon">🧙</div><div class="npc-name"><span class="cn">法师</span><span class="en">Mage</span> #7</div></div>
+                <div class="npc-item"><div class="npc-icon">⚔️</div><div class="npc-name"><span class="cn">战士</span><span class="en">Warrior</span> #8</div></div>
+                <div class="npc-item"><div class="npc-icon">🏹</div><div class="npc-name"><span class="cn">猎人</span><span class="en">Hunter</span> #9</div></div>
+                <div class="npc-item"><div class="npc-icon">🎭</div><div class="npc-name"><span class="cn">艺人</span><span class="en">Bard</span> #10</div></div>
+            </div>
+            
+            <div class="highlight-box">
+                <div class="highlight-title">✨ Meshy <span class="cn">方案</span><span class="en">Solution</span></div>
+                <div class="highlight-desc"><span class="cn">文本描述 → 独特 NPC 模型。支持批量生成，每个角色都有独特的服装、面部特征和配饰。针对群组模拟优化几何体。</span><span class="en">Text description → Unique NPC model. Batch generation support, each character with unique clothing, facial features, and accessories. Geometry optimized for crowd simulation.</span></div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="section-tag">📈 <span class="cn">商业价值</span><span class="en">BUSINESS VALUE</span></div>
+            <h2 class="slide-title"><span class="cn">用 AI 填满你的开放世界</span><span class="en">Fill Your Open World with AI</span></h2>
+            <div class="metrics">
+                <div class="metric"><div class="metric-val">∞</div><div class="metric-label"><span class="cn">无限变体</span><span class="en">Infinite Variants</span></div><div class="metric-sub"><span class="cn">每个角色都独特</span><span class="en">Each character unique</span></div></div>
+                <div class="metric"><div class="metric-val">100+</div><div class="metric-label"><span class="cn">批量生成</span><span class="en">Batch Gen</span></div><div class="metric-sub"><span class="cn">一天内完成</span><span class="en">In one day</span></div></div>
+                <div class="metric"><div class="metric-val">LOD</div><div class="metric-label"><span class="cn">优化输出</span><span class="en">Optimized</span></div><div class="metric-sub"><span class="cn">适配群组渲染</span><span class="en">Crowd-ready</span></div></div>
+            </div>
+        </div>
+
+        <!-- ========== END SLIDE ========== -->
+        <div class="slide cover">
+            <div class="icon-lg">🚀</div>
+            <h1 class="title-xl" style="font-size: 44px;"><span class="cn">开始你的 3D AI 之旅</span><span class="en">Start Your 3D AI Journey</span></h1>
+            <p class="subtitle"><span class="cn">联系我们获取定制解决方案</span><span class="en">Contact us for customized solutions</span></p>
+            <div class="tag">meshy.ai</div>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progress = document.getElementById('progress');
+        const counter = document.getElementById('counter');
+        let current = 0;
+        const total = slides.length;
+
+        function update() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === current));
+            progress.style.width = ((current + 1) / total * 100) + '%';
+            counter.textContent = `${current + 1} / ${total}`;
+        }
+
+        function toggleLang() {
+            document.body.classList.toggle('lang-en');
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { current = Math.min(current + 1, total - 1); update(); }
+            if (e.key === 'ArrowLeft') { current = Math.max(current - 1, 0); update(); }
+            if (e.key === 'l' || e.key === 'L') { toggleLang(); }
+        });
+
+        document.getElementById('deck').addEventListener('click', e => {
+            if (e.target.closest('.controls')) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            if (e.clientX - rect.left > rect.width / 2) current = Math.min(current + 1, total - 1);
+            else current = Math.max(current - 1, 0);
+            update();
+        });
+
+        update();
+    </script>
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

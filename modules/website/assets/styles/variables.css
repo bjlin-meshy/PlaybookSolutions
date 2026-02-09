@@ -1,0 +1,68 @@
+/**
+ * Design System Variables
+ * Playbook Website - 科技黑 + 霓虹绿
+ */
+
+:root {
+  /* ============================================
+     流式字体系统
+     ============================================ */
+  --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);
+  --text-base: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+  --text-lg: clamp(1rem, 0.9rem + 0.5vw, 1.15rem);
+  --text-xl: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  --text-2xl: clamp(1.3rem, 1.1rem + 1vw, 1.75rem);
+  --text-3xl: clamp(1.6rem, 1.3rem + 1.5vw, 2.25rem);
+  --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.25rem);
+  --text-5xl: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+
+  /* ============================================
+     流式间距系统
+     ============================================ */
+  --space-xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+  --space-sm: clamp(0.75rem, 0.6rem + 0.75vw, 1.25rem);
+  --space-md: clamp(1rem, 0.8rem + 1vw, 1.75rem);
+  --space-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+  --space-xl: clamp(2rem, 1.5rem + 2.5vw, 4rem);
+  --space-2xl: clamp(3rem, 2rem + 4vw, 6rem);
+
+  /* ============================================
+     动画时间曲线
+     ============================================ */
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* ============================================
+     品牌颜色 - 科技黑 + 霓虹绿
+     ============================================ */
+  --bg-core: #000000;
+  --bg-slide: #050505;
+  --bg-card: #0A0A0A;
+  --bg-hover: #111111;
+  --accent-primary: #CCFF00;
+  --accent-secondary: #00FFCC;
+  --accent-red: #FF3333;
+  --text-main: #FFFFFF;
+  --text-sub: #888888;
+  --text-muted: #555555;
+  --border-color: #222222;
+  --border-hover: #333333;
+
+  /* ============================================
+     光标效果
+     ============================================ */
+  --cursor-size: 20px;
+  --cursor-follower-size: 40px;
+  --cursor-color: var(--accent-primary);
+
+  /* ============================================
+     行业配色
+     ============================================ */
+  --color-gaming: #FF6B6B;
+  --color-film: #4ECDC4;
+  --color-manufacturing: #45B7D1;
+  --color-interior: #96CEB4;
+  --color-3dprinting: #FFEAA7;
+}

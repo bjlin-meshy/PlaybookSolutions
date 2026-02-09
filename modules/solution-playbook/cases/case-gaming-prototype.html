@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="gaming">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming - Rapid Prototype Validation | Meshy Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- English Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chinese Fonts (Noto Sans SC) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">
+    <style>
+        /* --- 1. CORE & RESET --- */
+        :root {
+            --bg-core: #000000;
+            --bg-slide: #080808;
+            /* Theme: Black + Neon Green */
+            --accent-primary: #CCFF00; /* 嫩绿/荧光绿 */
+            --accent-dim: #4ade80;     /* 辅助绿 */
+            --accent-red: #FF3333;     /* 警示红 */
+            --text-main: #f0f0f0;
+            --text-sub: #888888;
+            --border: #222222;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-core);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            transition: font-family 0.3s;
+        }
+
+        /* Chinese Font Override */
+        body.lang-cn {
+            font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+        }
+        body.lang-cn h1, body.lang-cn h2, body.lang-cn h3, body.lang-cn .metric-val {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        /* --- 2. LANGUAGE TOGGLE LOGIC --- */
+        .cn { display: none; }
+        body.lang-cn .en { display: none !important; }
+        body.lang-cn .cn { display: inline; }
+        body.lang-cn div.cn, body.lang-cn p.cn, body.lang-cn ul.cn { display: block; }
+        body.lang-cn span.cn { display: inline; }
+
+        /* --- 3. DECK CONTAINER --- */
+        #deck-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: var(--bg-slide);
+            border-radius: 0;
+            box-shadow: 0 0 150px rgba(204, 255, 0, 0.05);
+            border: 1px solid #333;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            perspective: 2000px;
+        }
+
+        /* GLITCH ELECTRIC SHOCK EFFECT */
+        .glitch-flash {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--accent-primary);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+
+        .glitch-scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 8px;
+            background: linear-gradient(to bottom, transparent, rgba(204, 255, 0, 0.9), rgba(255, 255, 255, 1), rgba(204, 255, 0, 0.9), transparent);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
+        }
+
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0) skewX(0deg); filter: none; }
+            10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); }
+            20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); }
+            30% { transform: translate(-4px, 0) skewX(0deg); filter: none; }
+            40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); }
+            50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); }
+            60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); }
+            70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); }
+            80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; }
+            90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); }
+            100% { transform: translate(0, 0) skewX(0deg); filter: none; }
+        }
+
+        @keyframes electricFlash {
+            0% { opacity: 0; } 5% { opacity: 0.8; } 10% { opacity: 0; } 15% { opacity: 0.6; } 20% { opacity: 0; } 35% { opacity: 0.9; } 40% { opacity: 0; } 55% { opacity: 0.4; } 60% { opacity: 0; } 100% { opacity: 0; }
+        }
+
+        @keyframes scanlineZap {
+            0% { top: -10px; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes rgbSplit {
+            0% { text-shadow: 0 0 0 transparent; }
+            20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); }
+            40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); }
+            60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); }
+            80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+
+        #deck-container.glitching { animation: glitchShake 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        #deck-container.glitching .slide.active { animation: rgbSplit 0.3s ease-out; }
+        #deck-container.glitching .glitch-flash { animation: electricFlash 0.3s ease-out; }
+        #deck-container.glitching .glitch-scanline { animation: scanlineZap 0.15s ease-out; }
+
+        .control-lang .btn.zapping { animation: buttonZap 0.3s ease-out; }
+        @keyframes buttonZap {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+            30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+        }
+
+        /* --- 4. SLIDE TRANSITIONS --- */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 60px 80px;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.05);
+            filter: blur(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease, visibility 0s 0.5s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            filter: blur(0);
+            transition-delay: 0s;
+            z-index: 10;
+        }
+
+        /* Staggered Animations - Enhanced with page entrance effects */
+        .slide .anim-el {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .slide.active .anim-el {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Override for section-big-icon - use dramatic entrance instead */
+        .slide.active .section-big-icon.anim-el {
+            animation: iconDropHero 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+        }
+        
+        @keyframes iconDropHero {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(-120px) rotateZ(-10deg);
+                filter: blur(8px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.15) translateY(15px) rotateZ(3deg);
+                filter: blur(0);
+            }
+            70% {
+                transform: scale(0.95) translateY(-8px) rotateZ(-2deg);
+            }
+            85% {
+                transform: scale(1.05) translateY(4px) rotateZ(1deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0) rotateZ(0);
+            }
+        }
+        
+        /* Icon glow pulse after entrance */
+        .slide.active .section-big-icon {
+            animation: 
+                iconDropHero 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                iconGlowPulse 3s ease-in-out 1s infinite !important;
+        }
+        
+        @keyframes iconGlowPulse {
+            0%, 100% {
+                box-shadow: 
+                    0 0 30px rgba(204, 255, 0, 0.1),
+                    0 0 60px rgba(204, 255, 0, 0.05);
+            }
+            50% {
+                box-shadow: 
+                    0 0 50px rgba(204, 255, 0, 0.4),
+                    0 0 100px rgba(204, 255, 0, 0.2),
+                    0 0 150px rgba(204, 255, 0, 0.1);
+            }
+        }
+        
+        /* Icon inner element bounce */
+        .slide.active .section-big-icon i {
+            animation: iconInnerWiggle 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.7s;
+            display: inline-block;
+        }
+        
+        @keyframes iconInnerWiggle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.15) rotate(-5deg); }
+            50% { transform: scale(0.9) rotate(5deg); }
+            75% { transform: scale(1.08) rotate(-2deg); }
+        }
+
+        .slide.active .delay-1 { transition-delay: 0.1s; }
+        .slide.active .delay-2 { transition-delay: 0.2s; }
+        .slide.active .delay-3 { transition-delay: 0.3s; }
+        .slide.active .delay-4 { transition-delay: 0.4s; }
+
+        /* Background animation keyframes */
+        @keyframes dotFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 24px 24px; }
+        }
+        
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        /* Base background glow - hidden, each slide has its own */
+        .bg-glow {
+            display: none;
+        }
+        
+        /* Per-slide background effects */
+        .slide::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            pointer-events: none;
+            z-index: 0;
+            animation: glowPulse 8s ease-in-out infinite;
+        }
+        
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: 
+                radial-gradient(circle, rgba(204, 255, 0, 0.06) 2px, transparent 2px);
+            background-size: 16px 16px;
+            animation: dotFlow 3s linear infinite;
+        }
+
+        /* Slide 1 & 2: Top-left */
+        .slide:nth-child(1)::before,
+        .slide:nth-child(2)::before {
+            top: -40%;
+            left: -40%;
+            background: radial-gradient(
+                ellipse at 0% 0%,
+                rgba(204, 255, 0, 0.25) 0%,
+                rgba(204, 255, 0, 0.12) 30%,
+                transparent 60%
+            );
+        }
+        .slide:nth-child(1)::after,
+        .slide:nth-child(2)::after {
+            mask-image: linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+            -webkit-mask-image: linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+        }
+
+        /* Slide 3 & 4: Top-right */
+        .slide:nth-child(3)::before,
+        .slide:nth-child(4)::before {
+            top: -40%;
+            right: -40%;
+            left: auto;
+            background: radial-gradient(
+                ellipse at 100% 0%,
+                rgba(204, 255, 0, 0.25) 0%,
+                rgba(204, 255, 0, 0.12) 30%,
+                transparent 60%
+            );
+        }
+        .slide:nth-child(3)::after,
+        .slide:nth-child(4)::after {
+            mask-image: linear-gradient(225deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+            -webkit-mask-image: linear-gradient(225deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+        }
+
+        /* Slide 5 & 6: Bottom-right */
+        .slide:nth-child(5)::before,
+        .slide:nth-child(6)::before {
+            bottom: -40%;
+            right: -40%;
+            top: auto;
+            left: auto;
+            background: radial-gradient(
+                ellipse at 100% 100%,
+                rgba(204, 255, 0, 0.25) 0%,
+                rgba(204, 255, 0, 0.12) 30%,
+                transparent 60%
+            );
+        }
+        .slide:nth-child(5)::after,
+        .slide:nth-child(6)::after {
+            mask-image: linear-gradient(315deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+            -webkit-mask-image: linear-gradient(315deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+        }
+
+        /* Slide 7 & 8: Bottom-left */
+        .slide:nth-child(7)::before,
+        .slide:nth-child(8)::before {
+            bottom: -40%;
+            left: -40%;
+            top: auto;
+            background: radial-gradient(
+                ellipse at 0% 100%,
+                rgba(204, 255, 0, 0.25) 0%,
+                rgba(204, 255, 0, 0.12) 30%,
+                transparent 60%
+            );
+        }
+        .slide:nth-child(7)::after,
+        .slide:nth-child(8)::after {
+            mask-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+            -webkit-mask-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 30%, transparent 50%);
+        }
+        
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 5. TYPOGRAPHY & LAYOUT --- */
+        h1, h2, h3 { font-family: 'Urbanist', sans-serif; margin: 0; color: white; }
+        
+        .section-tag {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .slide-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            min-height: 1.2em;
+        }
+        
+        .slide-desc {
+            font-size: 20px;
+            color: var(--text-sub);
+            max-width: 800px;
+            line-height: 1.5;
+            margin-bottom: 40px;
+        }
+
+        .cols-2 {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .cols-2-equal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            height: 100%;
+            align-items: stretch;
+        }
+
+        .cols-3-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        /* --- 6. CARDS & UI ELEMENTS --- */
+        .card {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .card:hover { border-color: var(--accent-primary); transform: translateY(-5px); }
+
+        .pain-card {
+            border-left: 3px solid var(--accent-red);
+            background: linear-gradient(90deg, rgba(255, 51, 51, 0.05) 0%, transparent 100%);
+            margin-bottom: 20px;
+            padding: 25px;
+            border-radius: 4px;
+            border-top: 1px solid #222;
+            border-right: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+
+        .sol-card {
+            border-left: 3px solid var(--accent-primary);
+            background: linear-gradient(90deg, rgba(204, 255, 0, 0.05) 0%, transparent 100%);
+            padding: 25px;
+            border-radius: 4px;
+            border-top: 1px solid #222;
+            border-right: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+
+        .metric-box {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            transition: transform 0.3s;
+        }
+        .metric-box:hover { transform: scale(1.02); border-color: var(--accent-primary); box-shadow: 0 0 20px rgba(204,255,0,0.1); }
+
+        .metric-val {
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            font-family: 'Urbanist', sans-serif;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(204,255,0,0.2);
+        }
+        
+        .metric-label { font-size: 20px; color: white; font-weight: 600; }
+        .metric-sub { font-size: 14px; color: var(--text-sub); margin-top: 5px; }
+
+        .icon-lg { font-size: 48px; margin-bottom: 20px; color: var(--accent-primary); }
+
+        ul { margin: 0; padding-left: 20px; }
+        li { margin-bottom: 10px; color: #bbb; font-size: 16px; line-height: 1.6; }
+        
+        /* Checkmark icon override to ensure they are green */
+        .fa-check { color: var(--accent-primary) !important; }
+
+        /* --- 7. OVERVIEW MODE --- */
+        body.overview-active #deck-container {
+            width: 100%; height: 100vh;
+            border-radius: 0; background: #000;
+            overflow-y: auto; padding: 40px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px; align-content: start;
+        }
+        body.overview-active .slide {
+            position: relative; width: 100%; height: 180px;
+            transform: scale(1) !important; opacity: 1 !important; visibility: visible !important;
+            filter: blur(0);
+            border: 1px solid #333; border-radius: 4px; padding: 15px;
+            cursor: pointer; overflow: hidden; font-size: 0.5em;
+            background: #080808; transition: border-color 0.2s;
+        }
+        body.overview-active .slide:hover { border-color: var(--accent-primary); }
+        body.overview-active .slide-content { pointer-events: none; }
+        body.overview-active .controls, body.overview-active .control-back, body.overview-active .control-lang, 
+        body.overview-active .bg-glow, body.overview-active .progress-bar { display: none; }
+
+        /* --- 8. CONTROLS --- */
+        .control-back { 
+            position: absolute; 
+            bottom: 20px; 
+            left: 30px; 
+            z-index: 100; 
+        }
+
+        .control-lang { 
+            position: absolute; 
+            top: 20px; 
+            right: 30px; 
+            z-index: 100; 
+        }
+
+        .btn {
+            background: #111; 
+            border: 1px solid #333; 
+            color: white;
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            cursor: pointer;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            transition: all var(--transition-normal) var(--ease-out); 
+            font-size: 18px;
+            will-change: transform, opacity;
+        }
+        .btn:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: black; transform: scale(1.05); }
+        .btn:active { transform: scale(0.95); }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .progress-bar { 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            height: 3px; 
+            background: var(--accent-primary); 
+            width: 0%; 
+            transition: width 0.3s; 
+            z-index: 100; 
+            box-shadow: 0 0 8px var(--accent-primary); 
+        }
+        
+        .section-big-icon {
+            font-size: 80px; margin-bottom: 30px; color: var(--accent-primary);
+            background: rgba(204,255,0,0.05); width: 160px; height: 160px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; border: 1px solid rgba(204,255,0,0.1);
+            box-shadow: 0 0 30px rgba(204,255,0,0.05);
+        }
+
+        /* --- 9. WORKFLOW DIAGRAM --- */
+        .workflow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .workflow-step {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            min-width: 150px;
+            transition: all 0.3s;
+        }
+
+        .workflow-step.highlight {
+            border-color: var(--accent-primary);
+            background: linear-gradient(180deg, rgba(204, 255, 0, 0.1) 0%, transparent 100%);
+        }
+
+        .workflow-step .step-num {
+            font-size: 12px;
+            color: var(--accent-primary);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .workflow-step .step-title {
+            font-size: 16px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .workflow-step .step-desc {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .workflow-arrow {
+            color: var(--accent-primary);
+            font-size: 24px;
+        }
+
+        /* --- 10. VISUAL SHOWCASE --- */
+        .showcase-card {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s;
+        }
+
+        .showcase-card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px rgba(204,255,0,0.1);
+        }
+
+        .showcase-icon {
+            font-size: 60px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .showcase-title {
+            font-size: 20px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .showcase-desc {
+            font-size: 14px;
+            color: var(--text-sub);
+        }
+
+        .placeholder-label {
+            background: rgba(204,255,0,0.1);
+            border: 1px dashed var(--accent-primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--accent-primary);
+            margin-top: 15px;
+        }
+
+        /* --- 11. WORKFLOW NAVIGATION BAR --- */
+        .workflow-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            border: 1px solid #222;
+        }
+
+        .workflow-step-mini {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .workflow-step-mini .step-indicator {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-sub);
+            background: #1a1a1a;
+            border: 1px solid #333;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step-mini .step-label {
+            font-size: 11px;
+            color: var(--text-sub);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step-mini.active {
+            background: rgba(204, 255, 0, 0.08);
+            transform: scale(1.1);
+        }
+
+        .workflow-step-mini.active .step-indicator {
+            background: var(--accent-primary);
+            color: black;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+        }
+
+        .workflow-step-mini.active .step-label {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .workflow-step-mini.completed .step-indicator {
+            background: rgba(204, 255, 0, 0.2);
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .workflow-connector {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #333 0%, #444 50%, #333 100%);
+            position: relative;
+        }
+
+        .workflow-step-mini.active + .workflow-connector,
+        .workflow-connector + .workflow-step-mini.active {
+            background: linear-gradient(90deg, var(--accent-primary) 0%, #555 100%);
+        }
+
+        /* --- 12. CASE CONTENT AREA --- */
+        .case-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .case-header {
+            margin-bottom: 20px;
+        }
+
+        .case-step-badge {
+            display: inline-block;
+            background: rgba(204, 255, 0, 0.1);
+            border: 1px solid rgba(204, 255, 0, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .case-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .case-grid .showcase-card {
+            height: auto;
+            padding: 25px;
+        }
+
+        .case-grid .showcase-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .case-grid .showcase-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .case-grid .showcase-desc {
+            font-size: 13px;
+        }
+
+        /* --- 13. SINGLE LARGE SHOWCASE CARD --- */
+        .case-single {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .showcase-card-large {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 50px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            transition: all 0.3s;
+        }
+
+        .showcase-card-large:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px rgba(204,255,0,0.1);
+        }
+
+        .showcase-card-large .showcase-icon {
+            font-size: 70px;
+            color: #444;
+            margin-bottom: 25px;
+        }
+
+        .showcase-card-large .showcase-title {
+            font-size: 24px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .showcase-card-large .showcase-desc {
+            font-size: 16px;
+            color: var(--text-sub);
+            max-width: 500px;
+            line-height: 1.5;
+        }
+
+        .showcase-card-large .placeholder-label {
+            margin-top: 25px;
+            font-size: 14px;
+            padding: 8px 20px;
+        }
+
+        /* --- 14. COMPLETED WORKFLOW STATES --- */
+        .workflow-connector.completed {
+            background: var(--accent-primary);
+        }
+
+        .workflow-step-mini.completed .step-indicator {
+            background: var(--accent-primary);
+            color: black;
+            border-color: var(--accent-primary);
+        }
+
+        .workflow-step-mini.completed .step-label {
+            color: var(--accent-dim);
+        }
+
+        /* Final badge style */
+        .case-step-badge.final {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: black;
+        }
+
+        /* ============================================
+           VERSION A: VS 对比冲突风格
+           ============================================ */
+        .versus-container {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            flex: 1;
+        }
+
+        .versus-side {
+            flex: 1;
+            padding: 30px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pain-side {
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.08) 0%, rgba(255, 51, 51, 0.02) 100%);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+        }
+
+        .sol-side {
+            background: linear-gradient(135deg, rgba(204, 255, 0, 0.08) 0%, rgba(204, 255, 0, 0.02) 100%);
+            border: 1px solid rgba(204, 255, 0, 0.2);
+        }
+
+        .versus-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .versus-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .pain-icon {
+            background: rgba(255, 51, 51, 0.2);
+            color: var(--accent-red);
+            border: 2px solid var(--accent-red);
+        }
+
+        .sol-icon {
+            background: rgba(204, 255, 0, 0.2);
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+        }
+
+        .versus-header h3 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .versus-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .vs-badge {
+            background: linear-gradient(135deg, #333 0%, #111 100%);
+            border: 2px solid #555;
+            color: white;
+            font-size: 20px;
+            font-weight: 800;
+            padding: 15px 20px;
+            border-radius: 12px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .versus-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .versus-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        .versus-item .item-icon {
+            font-size: 28px;
+            width: 50px;
+            text-align: center;
+        }
+
+        .versus-item .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .versus-item .item-desc {
+            font-size: 13px;
+            color: var(--text-sub);
+            margin-top: 3px;
+        }
+
+        /* ============================================
+           VERSION B: 时间线对比风格
+           ============================================ */
+        .timeline-compare {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .timeline-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .pain-row { border: 1px solid rgba(255, 51, 51, 0.2); }
+        .sol-row { border: 1px solid rgba(204, 255, 0, 0.2); }
+
+        .timeline-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-width: 80px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .timeline-badge {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .pain-badge { background: rgba(255,51,51,0.2); color: var(--accent-red); }
+        .sol-badge { background: rgba(204,255,0,0.2); color: var(--accent-primary); }
+
+        .timeline-track {
+            flex: 1;
+            display: flex;
+            gap: 4px;
+            height: 60px;
+        }
+
+        .timeline-block {
+            background: #222;
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .pain-block { 
+            background: linear-gradient(135deg, rgba(255,51,51,0.3) 0%, rgba(255,51,51,0.1) 100%);
+            border: 1px solid rgba(255,51,51,0.4);
+        }
+
+        .sol-block {
+            background: linear-gradient(135deg, rgba(204,255,0,0.3) 0%, rgba(204,255,0,0.1) 100%);
+            border: 1px solid rgba(204,255,0,0.4);
+        }
+
+        .sol-block-extra {
+            background: linear-gradient(135deg, rgba(204,255,0,0.15) 0%, transparent 100%);
+            border: 1px dashed rgba(204,255,0,0.4);
+        }
+
+        .block-title { font-size: 11px; color: white; font-weight: 600; }
+        .block-time { font-size: 10px; color: var(--text-sub); margin-top: 2px; }
+
+        .timeline-total {
+            min-width: 80px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-sub);
+        }
+
+        .timeline-total.highlight { color: var(--accent-primary); }
+
+        .timeline-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--accent-primary);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .key-points {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 20px;
+        }
+
+        .key-point {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .key-num {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-primary);
+        }
+
+        .key-text {
+            font-size: 14px;
+            color: var(--text-sub);
+        }
+
+        /* ============================================
+           VERSION C: 大图标冲击风格
+           ============================================ */
+        .impact-section {
+            padding: 25px 30px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+        }
+
+        .pain-impact {
+            background: linear-gradient(90deg, rgba(255,51,51,0.1) 0%, transparent 50%);
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .sol-impact {
+            background: linear-gradient(90deg, rgba(204,255,0,0.1) 0%, transparent 50%);
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .impact-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .impact-icon-large {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .pain-glow {
+            background: rgba(255,51,51,0.2);
+            color: var(--accent-red);
+            box-shadow: 0 0 30px rgba(255,51,51,0.3);
+        }
+
+        .sol-glow {
+            background: rgba(204,255,0,0.2);
+            color: var(--accent-primary);
+            box-shadow: 0 0 30px rgba(204,255,0,0.3);
+        }
+
+        .impact-title h2 {
+            font-size: 28px;
+            margin: 0 0 5px 0;
+        }
+
+        .impact-title p {
+            font-size: 15px;
+            color: var(--text-sub);
+            margin: 0;
+        }
+
+        .pain-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 20px;
+            margin-left: 95px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+        }
+
+        .stat-value.red { color: var(--accent-red); }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-top: 5px;
+        }
+
+        .impact-divider {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 10px 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #333, transparent);
+        }
+
+        .divider-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-primary);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .sol-features {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            margin-left: 95px;
+            flex-wrap: wrap;
+        }
+
+        .feature-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(204,255,0,0.1);
+            border: 1px solid rgba(204,255,0,0.3);
+            border-radius: 25px;
+            color: var(--accent-primary);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+    </style>
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+</head>
+<body class="lang-cn">
+
+<div id="deck-container">
+    <!-- Glitch effect layers -->
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    <div class="bg-glow"></div>
+    <div class="progress-bar" id="progress"></div>
+
+    <!-- MINIMAL CONTROLS - Back + Language -->
+    <div class="control-back" onclick="event.stopPropagation()">
+        <a href="case-gaming-solutions.html" class="btn magnetic-btn micro-ripple" onclick="event.stopPropagation();" title="Back to Solutions" style="text-decoration: none;">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    </div>
+    <div class="control-lang" onclick="event.stopPropagation()">
+        <button class="btn magnetic-btn" onclick="toggleLanguage(); event.stopPropagation();" title="Switch Language (L)">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+    </div>
+
+    <!-- ==================== SLIDE 1: SECTION COVER ==================== -->
+    <div class="slide active">
+        <div class="slide-content" style="justify-content:center; align-items:center;">
+            <div class="section-big-icon icon-hover-bounce anim-el delay-1"><i class="fa-solid fa-gamepad"></i></div>
+            <h1 class="anim-el delay-2" style="font-size: 56px; text-align: center;">
+                <span class="en">Rapid Prototype Validation</span>
+                <span class="cn">快速原型验证</span>
+            </h1>
+            <p class="anim-el delay-3" style="font-size: 24px; color: var(--text-sub); margin-top:20px; text-align: center;">
+                <span class="en">Whitebox Stage Solution for Game Development</span>
+                <span class="cn">游戏开发白盒 (Whitebox) 阶段解决方案</span>
+            </p>
+            <div class="anim-el delay-4" style="margin-top: 40px; display: flex; gap: 20px;">
+                <div style="background: rgba(204,255,0,0.1); border: 1px solid rgba(204,255,0,0.2); padding: 10px 25px; border-radius: 30px;">
+                    <span class="en" style="color: var(--accent-primary); font-weight: 600;">GAMING INDUSTRY</span>
+                    <span class="cn" style="color: var(--accent-primary); font-weight: 600;">游戏娱乐行业</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 2: 时间线对比风格 ==================== -->
+    <div class="slide" id="timeline-compare">
+        <div class="slide-content">
+            <div class="anim-el delay-1" style="margin-bottom: 25px;">
+                <div class="section-tag">
+                    <i class="fa-solid fa-gamepad"></i> 
+                    <span class="en">BEFORE & AFTER</span><span class="cn">前后对比</span>
+                </div>
+                <h2 style="font-size: 38px;">
+                    <span class="en">The Whitebox Revolution</span>
+                    <span class="cn">白盒阶段的革命</span>
+                </h2>
+            </div>
+
+            <!-- 时间线对比 -->
+            <div class="timeline-compare anim-el delay-2">
+                <!-- 传统流程 -->
+                <div class="timeline-row pain-row">
+                    <div class="timeline-label">
+                        <div class="timeline-badge pain-badge">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <span class="en">BEFORE</span><span class="cn">传统</span>
+                    </div>
+                    <div class="timeline-track">
+                        <div class="timeline-block" style="width: 30%;">
+                            <div class="block-title"><span class="en">Concept</span><span class="cn">概念</span></div>
+                            <div class="block-time">1 day</div>
+                        </div>
+                        <div class="timeline-block pain-block" style="width: 50%;">
+                            <div class="block-title"><span class="en">Placeholder Modeling</span><span class="cn">占位模型制作</span></div>
+                            <div class="block-time">3-5 days 😩</div>
+                        </div>
+                        <div class="timeline-block" style="width: 20%;">
+                            <div class="block-title"><span class="en">Test</span><span class="cn">测试</span></div>
+                            <div class="block-time">1 day</div>
+                        </div>
+                    </div>
+                    <div class="timeline-total">
+                        <span class="en">5-7 Days</span><span class="cn">5-7 天</span>
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div class="timeline-arrow">
+                    <i class="fa-solid fa-arrow-down"></i>
+                    <span>Meshy AI</span>
+                </div>
+
+                <!-- Meshy 流程 -->
+                <div class="timeline-row sol-row">
+                    <div class="timeline-label">
+                        <div class="timeline-badge sol-badge">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <span class="en">AFTER</span><span class="cn">现在</span>
+                    </div>
+                    <div class="timeline-track">
+                        <div class="timeline-block" style="width: 25%;">
+                            <div class="block-title"><span class="en">Concept</span><span class="cn">概念</span></div>
+                            <div class="block-time">1 day</div>
+                        </div>
+                        <div class="timeline-block sol-block" style="width: 15%;">
+                            <div class="block-title"><span class="en">AI Gen</span><span class="cn">AI生成</span></div>
+                            <div class="block-time">10 min ⚡</div>
+                        </div>
+                        <div class="timeline-block" style="width: 30%;">
+                            <div class="block-title"><span class="en">Iterate & Test</span><span class="cn">迭代测试</span></div>
+                            <div class="block-time">Same day</div>
+                        </div>
+                        <div class="timeline-block sol-block-extra" style="width: 30%;">
+                            <div class="block-title"><span class="en">+ More Iterations!</span><span class="cn">+ 更多迭代!</span></div>
+                            <div class="block-time">Bonus 🎉</div>
+                        </div>
+                    </div>
+                    <div class="timeline-total highlight">
+                        <span class="en">1-2 Days</span><span class="cn">1-2 天</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部要点 -->
+            <div class="key-points anim-el delay-3">
+                <div class="key-point">
+                    <span class="key-num">90%</span>
+                    <span class="key-text"><span class="en">Time Saved</span><span class="cn">时间节省</span></span>
+                </div>
+                <div class="key-point">
+                    <span class="key-num">2x</span>
+                    <span class="key-text"><span class="en">More Iterations</span><span class="cn">更多迭代</span></span>
+                </div>
+                <div class="key-point">
+                    <span class="key-num">$0</span>
+                    <span class="key-text"><span class="en">Asset Cost</span><span class="cn">资产成本</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 3: BUSINESS VALUE (METRICS ONLY) ==================== -->
+    <div class="slide">
+        <div class="slide-content" style="justify-content: center;">
+            <div class="section-tag anim-el delay-1">
+                <i class="fa-solid fa-chart-line"></i> 
+                <span class="en">BUSINESS VALUE</span><span class="cn">商业价值</span>
+            </div>
+            <p class="slide-desc anim-el delay-1" style="margin-bottom: 40px;">
+                <span class="en">This solution prioritizes extreme speed and validation efficiency over "perfect topology" or "4K textures".</span>
+                <span class="cn">此解决方案不追求"完美拓扑"或"4K贴图"，而是追求极致的速度与验证效率。</span>
+            </p>
+
+            <!-- Metrics Row - Larger -->
+            <div class="cols-3-metrics anim-el delay-2 scroll-reveal-up">
+                <div class="metric-box card-shine card-lift" style="padding: 50px 30px;">
+                    <div class="metric-val" style="font-size: 80px;">90%</div>
+                    <div class="metric-label" style="font-size: 22px;">
+                        <span class="en">Time Reduction</span>
+                        <span class="cn">资产生产时间缩减</span>
+                    </div>
+                    <div class="metric-sub" style="font-size: 16px; margin-top: 10px;">
+                        <span class="en">Days → Minutes</span>
+                        <span class="cn">数天 → 数分钟</span>
+                    </div>
+                </div>
+                <div class="metric-box card-shine card-lift" style="padding: 50px 30px;">
+                    <div class="metric-val" style="font-size: 80px;">$0</div>
+                    <div class="metric-label" style="font-size: 22px;">
+                        <span class="en">Outsource Cost</span>
+                        <span class="cn">外包成本</span>
+                    </div>
+                    <div class="metric-sub" style="font-size: 16px; margin-top: 10px;">
+                        <span class="en">No generic asset packs needed</span>
+                        <span class="cn">无需购买通用资产包</span>
+                    </div>
+                </div>
+                <div class="metric-box card-shine card-lift" style="padding: 50px 30px;">
+                    <div class="metric-val" style="font-size: 80px;">2x</div>
+                    <div class="metric-label" style="font-size: 22px;">
+                        <span class="en">Iteration Speed</span>
+                        <span class="cn">玩法迭代速度</span>
+                    </div>
+                    <div class="metric-sub" style="font-size: 16px; margin-top: 10px;">
+                        <span class="en">Fail fast, pivot faster</span>
+                        <span class="cn">快速试错，不行就换</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 4: STEP 01 - CONCEPT ==================== -->
+    <div class="slide case-slide" data-workflow-step="1">
+        <div class="slide-content">
+            <!-- Workflow Navigation Bar -->
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini active" data-step="1">
+                    <div class="step-indicator">01</div>
+                    <div class="step-label"><span class="en">Concept</span><span class="cn">策划/概念</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="2">
+                    <div class="step-indicator">02</div>
+                    <div class="step-label"><span class="en">Meshy Gen</span><span class="cn">Meshy 生成</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="3">
+                    <div class="step-indicator">03</div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="4">
+                    <div class="step-indicator">04</div>
+                    <div class="step-label"><span class="en">Validation</span><span class="cn">玩法验证</span></div>
+                </div>
+            </div>
+
+            <!-- Case Content -->
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge">
+                        <span class="en">STEP 01: CONCEPT & PLANNING</span>
+                        <span class="cn">步骤 01：策划与概念设计</span>
+                    </div>
+                    <h2 class="case-title">
+                        <span class="en">Define Gameplay Requirements & Level Style</span>
+                        <span class="cn">确定玩法需求与关卡风格</span>
+                    </h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift scroll-reveal-up" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                        <div class="showcase-title">
+                            <span class="en">Concept Art & Level Design Document</span>
+                            <span class="cn">概念图 & 关卡设计文档</span>
+                        </div>
+                        <div class="showcase-desc">
+                            <span class="en">Initial sketches, mood boards, and gameplay requirements that guide asset creation</span>
+                            <span class="cn">初始草图、情绪板和玩法需求文档，用于指导资产创建方向</span>
+                        </div>
+                        <div class="placeholder-label">
+                            <span class="en">Image Placeholder</span>
+                            <span class="cn">图片占位</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 5: STEP 02 - MESHY GENERATION ==================== -->
+    <div class="slide case-slide" data-workflow-step="2">
+        <div class="slide-content">
+            <!-- Workflow Navigation Bar -->
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini completed" data-step="1">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Concept</span><span class="cn">策划/概念</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini active" data-step="2">
+                    <div class="step-indicator">02</div>
+                    <div class="step-label"><span class="en">Meshy Gen</span><span class="cn">Meshy 生成</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="3">
+                    <div class="step-indicator">03</div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="4">
+                    <div class="step-indicator">04</div>
+                    <div class="step-label"><span class="en">Validation</span><span class="cn">玩法验证</span></div>
+                </div>
+            </div>
+
+            <!-- Case Content -->
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge">
+                        <span class="en">STEP 02: MESHY AI GENERATION</span>
+                        <span class="cn">步骤 02：MESHY AI 资产生成</span>
+                    </div>
+                    <h2 class="case-title">
+                        <span class="en">Text/Image to 3D Asset Creation</span>
+                        <span class="cn">文本/图像转 3D 资产创建</span>
+                    </h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift scroll-reveal-up" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div class="showcase-title">
+                            <span class="en">AI-Generated 3D Assets</span>
+                            <span class="cn">AI 生成的 3D 资产</span>
+                        </div>
+                        <div class="showcase-desc">
+                            <span class="en">Prompt-based generation of textured 3D models ready for game engine import</span>
+                            <span class="cn">基于提示词生成带贴图的 3D 模型，可直接导入游戏引擎</span>
+                        </div>
+                        <div class="placeholder-label">
+                            <span class="en">Image/Video Placeholder</span>
+                            <span class="cn">图片/视频占位</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 6: STEP 03 - ENGINE INTEGRATION ==================== -->
+    <div class="slide case-slide" data-workflow-step="3">
+        <div class="slide-content">
+            <!-- Workflow Navigation Bar -->
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini completed" data-step="1">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Concept</span><span class="cn">策划/概念</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="2">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Meshy Gen</span><span class="cn">Meshy 生成</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini active" data-step="3">
+                    <div class="step-indicator">03</div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step-mini" data-step="4">
+                    <div class="step-indicator">04</div>
+                    <div class="step-label"><span class="en">Validation</span><span class="cn">玩法验证</span></div>
+                </div>
+            </div>
+
+            <!-- Case Content -->
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge">
+                        <span class="en">STEP 03: ENGINE INTEGRATION</span>
+                        <span class="cn">步骤 03：游戏引擎集成</span>
+                    </div>
+                    <h2 class="case-title">
+                        <span class="en">Import to UE5 / Unity & Scene Building</span>
+                        <span class="cn">导入 UE5 / Unity 并构建场景</span>
+                    </h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift scroll-reveal-up" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-cubes"></i></div>
+                        <div class="showcase-title">
+                            <span class="en">Scene Assembly in Game Engine</span>
+                            <span class="cn">游戏引擎中的场景组装</span>
+                        </div>
+                        <div class="showcase-desc">
+                            <span class="en">Placing and arranging AI-generated assets to build complete game levels</span>
+                            <span class="cn">摆放和排列 AI 生成的资产，构建完整的游戏关卡</span>
+                        </div>
+                        <div class="placeholder-label">
+                            <span class="en">Image/Video Placeholder</span>
+                            <span class="cn">图片/视频占位</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 7: STEP 04 - VALIDATION ==================== -->
+    <div class="slide case-slide" data-workflow-step="4">
+        <div class="slide-content">
+            <!-- Workflow Navigation Bar -->
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini completed" data-step="1">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Concept</span><span class="cn">策划/概念</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="2">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Meshy Gen</span><span class="cn">Meshy 生成</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="3">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini active" data-step="4">
+                    <div class="step-indicator">04</div>
+                    <div class="step-label"><span class="en">Validation</span><span class="cn">玩法验证</span></div>
+                </div>
+            </div>
+
+            <!-- Case Content -->
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge">
+                        <span class="en">STEP 04: GAMEPLAY VALIDATION</span>
+                        <span class="cn">步骤 04：玩法验证</span>
+                    </div>
+                    <h2 class="case-title">
+                        <span class="en">Playtest & Iterate on Design</span>
+                        <span class="cn">游戏测试与设计迭代</span>
+                    </h2>
+                </div>
+                <div class="case-single">
+                    <div class="showcase-card-large card-shine card-lift scroll-reveal-up" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-gamepad"></i></div>
+                        <div class="showcase-title">
+                            <span class="en">In-Game Testing Session</span>
+                            <span class="cn">游戏内测试环节</span>
+                        </div>
+                        <div class="showcase-desc">
+                            <span class="en">Testing gameplay flow, adjusting parameters, and validating level design with real assets</span>
+                            <span class="cn">测试游戏流程，调整数值参数，使用真实资产验证关卡设计</span>
+                        </div>
+                        <div class="placeholder-label">
+                            <span class="en">Image/Video Placeholder</span>
+                            <span class="cn">图片/视频占位</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLIDE 8: FINAL RESULT ==================== -->
+    <div class="slide case-slide" data-workflow-step="final">
+        <div class="slide-content">
+            <!-- Workflow Navigation Bar - All Complete -->
+            <div class="workflow-nav anim-el delay-1">
+                <div class="workflow-step-mini completed" data-step="1">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Concept</span><span class="cn">策划/概念</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="2">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Meshy Gen</span><span class="cn">Meshy 生成</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="3">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Engine</span><span class="cn">引擎集成</span></div>
+                </div>
+                <div class="workflow-connector completed"></div>
+                <div class="workflow-step-mini completed" data-step="4">
+                    <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label"><span class="en">Validation</span><span class="cn">玩法验证</span></div>
+                </div>
+            </div>
+
+            <!-- Case Content - Final Showcase -->
+            <div class="case-content anim-el delay-2">
+                <div class="case-header">
+                    <div class="case-step-badge final">
+                        <span class="en">FINAL RESULT</span>
+                        <span class="cn">最终成果</span>
+                    </div>
+                    <h2 class="case-title">
+                        <span class="en">Complete Implementation Showcase</span>
+                        <span class="cn">完整落地效果展示</span>
+                    </h2>
+                </div>
+                <div class="case-grid">
+                    <!-- Left: Walkthrough -->
+                    <div class="showcase-card" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-person-walking"></i></div>
+                        <div class="showcase-title">
+                            <span class="en">Walkthrough Demo</span>
+                            <span class="cn">Walkthrough 场景漫游</span>
+                        </div>
+                        <div class="showcase-desc">
+                            <span class="en">First-person scene exploration showcasing AI-generated assets</span>
+                            <span class="cn">第一人称视角场景漫游，展示 AI 生成资产的实际效果</span>
+                        </div>
+                        <div class="placeholder-label">
+                            <span class="en">Video Placeholder</span>
+                            <span class="cn">视频占位</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: UE5 Render -->
+                    <div class="showcase-card" micro-tilt>
+                        <div class="showcase-icon"><i class="fa-solid fa-cube"></i></div>
+                        <div class="showcase-title">
+                            <span class="en">UE5 Real-time Render</span>
+                            <span class="cn">UE5 即时渲染效果</span>
+                        </div>
+                        <div class="showcase-desc">
+                            <span class="en">High-fidelity Unreal Engine 5 visualization with Lumen lighting</span>
+                            <span class="cn">Unreal Engine 5 高保真可视化，配合 Lumen 光照</span>
+                        </div>
+                        <div class="placeholder-label">
+                            <span class="en">Video Placeholder</span>
+                            <span class="cn">视频占位</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progress');
+    const deckContainer = document.getElementById('deck-container');
+    let current = 0;
+    const total = slides.length;
+    // Initialize language from localStorage or default to 'cn'
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    let isFlipping = false;
+    
+    // Apply initial language state
+    function applyLanguage() {
+        document.body.classList.remove('lang-cn', 'lang-en');
+        document.body.classList.add('lang-' + lang);
+    }
+    applyLanguage();
+
+    function update() {
+        slides.forEach((slide, idx) => {
+            slide.classList.remove('active', 'prev');
+            if(idx === current) {
+                slide.classList.add('active');
+            } else if (idx < current) {
+                slide.classList.add('prev');
+            }
+        });
+        
+        const percent = ((current + 1) / total) * 100;
+        progressBar.style.width = percent + '%';
+    }
+
+    function toggleLanguage() {
+        if (isFlipping) return;
+        isFlipping = true;
+        
+        const deckContainer = document.getElementById('deck-container');
+        const langBtn = document.querySelector('.control-lang .btn');
+        
+        deckContainer.classList.add('glitching');
+        if (langBtn) langBtn.classList.add('zapping');
+        
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            applyLanguage();
+        }, 150);
+        
+        setTimeout(() => {
+            deckContainer.classList.remove('glitching');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 300);
+    }
+
+    function nextSlide() {
+        if(current < total - 1) {
+            current++;
+            update();
+        } else {
+            // 最后一页再点击，返回目录
+            window.location.href = 'case-gaming-solutions.html';
+        }
+    }
+
+    function prevSlide() {
+        if(current > 0) {
+            current--;
+            update();
+        }
+    }
+
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch((e) => {
+                console.log("Fullscreen not allowed in this environment: ", e);
+            });
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+        if(e.key === 'ArrowLeft') prevSlide();
+        if(e.key.toLowerCase() === 'f') toggleFullScreen();
+        if(e.key.toLowerCase() === 'l') toggleLanguage();
+        if(e.key === 'Escape') window.location.href = 'case-gaming-solutions.html';
+    });
+
+    // Click navigation (click right side = next, left side = prev)
+    deckContainer.addEventListener('click', (e) => {
+        const rect = deckContainer.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        if(clickX > rect.width / 2) {
+            nextSlide();
+        } else {
+            prevSlide();
+        }
+    });
+
+    update();
+</script>
+
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

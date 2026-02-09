@@ -1,0 +1,90 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Hawaii Trip
+X-WR-TIMEZONE:Pacific/Honolulu
+
+BEGIN:VEVENT
+SUMMARY:HNL 接机与酒店入住
+DTSTART;TZID=Pacific/Honolulu:20260202T140000
+DTEND;TZID=Pacific/Honolulu:20260202T150000
+LOCATION:Waikiki Beach Marriott Resort & Spa
+DESCRIPTION:交通：15座梅赛德斯Sprinter面包车\n接机：如果下午2:00左右到达\n送机/酒店：威基基海滩万豪度假酒店 (办理入住)\n餐饮（自理）：\n- 午餐（如果早到）：$40/人\n- 晚餐：$50/人
+STATUS:CONFIRMED
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:半日游
+DTSTART;TZID=Pacific/Honolulu:20260203T090000
+DTEND;TZID=Pacific/Honolulu:20260203T150000
+LOCATION:Waikiki Beach Marriott Resort & Spa
+DESCRIPTION:（58座巴士 | 约6小时 | 含午餐）\n早餐：自理（$20/人）\n上午9:00 威基基海滩万豪酒店接车\n停靠点：钻石头山观景台 → 恐龙湾（车览；周一/周二公园关闭）→ 喷水口 → 努阿努帕里大风口\n下午3:00前送回威基基海滩万豪酒店
+STATUS:CONFIRMED
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:团体午餐 (Jade Dynasty)
+DTSTART;TZID=Pacific/Honolulu:20260203T133000
+DTEND;TZID=Pacific/Honolulu:20260203T143000
+LOCATION:Jade Dynasty Seafood Restaurant
+DESCRIPTION:团体午餐：玉王朝海鲜酒楼 (Jade Dynasty Seafood Restaurant)\n下午1:30
+STATUS:CONFIRMED
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Meshy 年度会议
+DTSTART;TZID=Pacific/Honolulu:20260203T153000
+DTEND;TZID=Pacific/Honolulu:20260203T183000
+LOCATION:Salon 1–2, Waikiki Beach Marriott Resort & Spa
+DESCRIPTION:Meshy Annual Meeting @ Salon 1–2
+STATUS:CONFIRMED
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Queensbreak 团体晚宴
+DTSTART;TZID=Pacific/Honolulu:20260203T183000
+DTEND;TZID=Pacific/Honolulu:20260203T190000
+LOCATION:Queensbreak
+DESCRIPTION:团体晚宴 @ Queensbreak (3道菜 + 1份饮料)
+STATUS:CONFIRMED
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:古兰尼牧场体验
+DTSTART;TZID=Pacific/Honolulu:20260204T064500
+DTEND;TZID=Pacific/Honolulu:20260204T163000
+LOCATION:Kualoa Ranch
+DESCRIPTION:（58座大巴 | 含自助午餐）\n早餐：自理（$20/人）\n集合：约早上6:45在威基基海滩万豪酒店大堂/入口集合，然后一起步行至Twin Fin\n早上7:00 Twin Fin Waikiki Hotel前接车\n下午4:30 送回 Twin Fin Waikiki Hotel
+STATUS:CONFIRMED
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:Hyatt 餐厅团体晚宴
+DTSTART;TZID=Pacific/Honolulu:20260204T173000
+DTEND;TZID=Pacific/Honolulu:20260204T183000
+LOCATION:The Buffet at Hyatt
+DESCRIPTION:团体晚宴 @ The Buffet at Hyatt (海鲜自助 + 1份饮料)
+STATUS:CONFIRMED
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:波利尼西亚文化中心与卢奥晚宴
+DTSTART;TZID=Pacific/Honolulu:20260205T103000
+DTEND;TZID=Pacific/Honolulu:20260205T220000
+LOCATION:Polynesian Cultural Center
+DESCRIPTION:（58座大巴 | 含晚餐）\n早午餐：自理\n- 我们在PCC吃午餐的时间不多，请吃顿丰盛的早午餐或随身携带零食以防饥饿。\n- 团体晚餐约在下午5:00。\n上午10:30 威基基海滩万豪酒店接车\n晚上10:00 送回威基基海滩万豪酒店
+STATUS:CONFIRMED
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:酒店退房
+DTSTART;VALUE=DATE:20260206
+DTEND;VALUE=DATE:20260207
+LOCATION:Waikiki Beach Marriott Resort & Spa
+DESCRIPTION:办理酒店退房手续
+STATUS:CONFIRMED
+END:VEVENT
+
+END:VCALENDAR

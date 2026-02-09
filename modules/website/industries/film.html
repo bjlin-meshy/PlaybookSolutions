@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film & Animation Solutions | Meshy AI</title>
+    <link rel="stylesheet" href="../assets/styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-film: #4ECDC4;
+            --color-film-dark: #3BA99C;
+            --color-film-light: #7EDDD6;
+            --color-film-glow: rgba(78, 205, 196, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, rgba(78, 205, 196, 0.1) 0%, transparent 100%);
+        }
+
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-film);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-film), var(--color-film-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            max-width: 600px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-film);
+            text-decoration: none;
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s, color 0.3s;
+        }
+
+        .nav-back:hover {
+            opacity: 1;
+            color: var(--color-film);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Industries Grid */
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Case Card */
+        .case-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-film), var(--color-film-light));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .case-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-film);
+            box-shadow: 0 20px 40px rgba(78, 205, 196, 0.15);
+        }
+
+        .case-card:hover::before {
+            opacity: 1;
+        }
+
+        .case-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--color-film-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--color-film);
+        }
+
+        .case-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .case-card-subtitle {
+            font-size: 0.9rem;
+            color: var(--color-film);
+            margin-bottom: 1rem;
+        }
+
+        .case-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Metrics */
+        .case-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-tag {
+            background: rgba(78, 205, 196, 0.15);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--color-film);
+        }
+
+        /* Pain Points & Solutions */
+        .case-details {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .detail-section {
+            margin-bottom: 1rem;
+        }
+
+        .detail-section h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+        }
+
+        .detail-section h4.pain {
+            color: #ff6b6b;
+        }
+
+        .detail-section h4.solution {
+            color: var(--color-film);
+        }
+
+        .detail-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .detail-list li {
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .detail-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: inherit;
+        }
+
+        .detail-list.pain li::before {
+            color: #ff6b6b;
+        }
+
+        .detail-list.solution li::before {
+            color: var(--color-film);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        .footer-link {
+            color: var(--color-film);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(78, 205, 196, 0.2);
+            border: 1px solid var(--color-film);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: var(--color-film);
+            cursor: pointer;
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+
+        .lang-toggle:hover {
+            background: rgba(78, 205, 196, 0.3);
+        }
+
+        /* Language Display */
+        body.lang-en .cn { display: none; }
+        body.lang-cn .en { display: none; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-icon {
+                font-size: 3rem;
+            }
+
+            .industries-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body data-ambient="medium" class="lang-en">
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="../index.html" class="nav-logo">
+            <span class="en">Meshy AI</span>
+            <span class="cn">Meshy AI</span>
+        </a>
+        <a href="../index.html" class="nav-back">
+            <i class="fas fa-arrow-left"></i>
+            <span class="en">Back to Home</span>
+            <span class="cn">返回首页</span>
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" data-scroll-animate>
+        <i class="fas fa-film hero-icon" style="color: var(--color-film);"></i>
+        <h1>
+            <span class="en">Film & Animation</span>
+            <span class="cn">影视动画</span>
+        </h1>
+        <p>
+            <span class="en">AI-powered 3D solutions for the film and animation industry</span>
+            <span class="cn">为影视动画行业提供 AI 驱动的 3D 解决方案</span>
+        </p>
+    </section>
+
+    <!-- Case Studies Grid -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title" data-scroll-animate>
+                <h2>
+                    <span class="en">Solutions</span>
+                    <span class="cn">解决方案</span>
+                </h2>
+                <p>
+                    <span class="en">Explore how Meshy AI transforms film & animation workflows</span>
+                    <span class="cn">探索 Meshy AI 如何改变影视动画工作流程</span>
+                </p>
+            </div>
+
+            <div class="industries-grid">
+
+                <!-- Case 1: Cinematic Previz Acceleration -->
+                <div class="case-card" data-scroll-animate data-tilt data-ripple>
+                    <div class="case-card-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>
+                        <span class="en">Cinematic Previz Acceleration</span>
+                        <span class="cn">预演可视化加速</span>
+                    </h3>
+                    <div class="case-card-subtitle">
+                        <span class="en">From Director's Vision to 3D Reality</span>
+                        <span class="cn">从导演构思到 3D 现实</span>
+                    </div>
+                    <p>
+                        <span class="en">Transform storyboards into immersive 3D previs sequences with AI-generated assets, enabling directors to visualize scenes before expensive production begins.</span>
+                        <span class="cn">使用 AI 生成的资产将故事板转化为沉浸式 3D 预演序列，使导演在昂贵的制作开始前就能可视化场景。</span>
+                    </p>
+                    <div class="case-metrics">
+                        <span class="metric-tag">
+                            <span class="en">Real-time Assets</span>
+                            <span class="cn">实时资产供应</span>
+                        </span>
+                        <span class="metric-tag">
+                            <span class="en">3x Communication</span>
+                            <span class="cn">3倍沟通效率</span>
+                        </span>
+                        <span class="metric-tag">
+                            <span class="en">↓50% Previz Time</span>
+                            <span class="cn">预演时间减半</span>
+                        </span>
+                    </div>
+                    <div class="case-details">
+                        <div class="detail-section">
+                            <h4 class="pain">
+                                <span class="en">Pain Points</span>
+                                <span class="cn">痛点</span>
+                            </h4>
+                            <ul class="detail-list pain">
+                                <li>
+                                    <span class="en">Grey cubes placeholder blocking creative vision</span>
+                                    <span class="cn">灰色方块占位符阻碍创意表达</span>
+                                </li>
+                                <li>
+                                    <span class="en">Asset bottleneck slowing previz iteration</span>
+                                    <span class="cn">资产瓶颈减缓预演迭代</span>
+                                </li>
+                                <li>
+                                    <span class="en">Flat storyboards limiting communication</span>
+                                    <span class="cn">平面故事板限制沟通效果</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <h4 class="solution">
+                                <span class="en">Meshy Solutions</span>
+                                <span class="cn">Meshy 解决方案</span>
+                            </h4>
+                            <ul class="detail-list solution">
+                                <li>
+                                    <span class="en">Instant textured props from descriptions</span>
+                                    <span class="cn">根据描述即时生成纹理道具</span>
+                                </li>
+                                <li>
+                                    <span class="en">Rapid set iteration and exploration</span>
+                                    <span class="cn">快速场景迭代和探索</span>
+                                </li>
+                                <li>
+                                    <span class="en">Enhanced visual communication with stakeholders</span>
+                                    <span class="cn">增强与利益相关者的视觉沟通</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2: Concept Design Assistant -->
+                <div class="case-card" data-scroll-animate data-tilt data-ripple>
+                    <div class="case-card-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>
+                        <span class="en">Concept Design Assistant</span>
+                        <span class="cn">概念设计助手</span>
+                    </h3>
+                    <div class="case-card-subtitle">
+                        <span class="en">Set Dressing & Crowd Generation</span>
+                        <span class="cn">场景布置与人群生成</span>
+                    </div>
+                    <p>
+                        <span class="en">Fill environments with unique props and generate diverse crowd elements instantly, eliminating repetitive asset creation and expensive crowd modeling.</span>
+                        <span class="cn">用独特道具填充环境并即时生成多样化的人群元素，消除重复资产创建和昂贵的人群建模。</span>
+                    </p>
+                    <div class="case-metrics">
+                        <span class="metric-tag">
+                            <span class="en">100% Variety</span>
+                            <span class="cn">100% 多样性</span>
+                        </span>
+                        <span class="metric-tag">
+                            <span class="en">$0 Extra Asset Cost</span>
+                            <span class="cn">零额外资产成本</span>
+                        </span>
+                        <span class="metric-tag">
+                            <span class="en">Infinite Filler Library</span>
+                            <span class="cn">无限填充库</span>
+                        </span>
+                    </div>
+                    <div class="case-details">
+                        <div class="detail-section">
+                            <h4 class="pain">
+                                <span class="en">Pain Points</span>
+                                <span class="cn">痛点</span>
+                            </h4>
+                            <ul class="detail-list pain">
+                                <li>
+                                    <span class="en">Empty backgrounds needing expensive filling</span>
+                                    <span class="cn">空旷背景需要昂贵填充</span>
+                                </li>
+                                <li>
+                                    <span class="en">Crowd modeling costs and time</span>
+                                    <span class="cn">人群建模成本和时间</span>
+                                </li>
+                                <li>
+                                    <span class="en">Repeated assets breaking immersion</span>
+                                    <span class="cn">重复资产破坏沉浸感</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <h4 class="solution">
+                                <span class="en">Meshy Solutions</span>
+                                <span class="cn">Meshy 解决方案</span>
+                            </h4>
+                            <ul class="detail-list solution">
+                                <li>
+                                    <span class="en">Infinite unique filler assets on demand</span>
+                                    <span class="cn">按需生成无限独特填充资产</span>
+                                </li>
+                                <li>
+                                    <span class="en">Diverse crowd generation in minutes</span>
+                                    <span class="cn">数分钟内生成多样化人群</span>
+                                </li>
+                                <li>
+                                    <span class="en">Every element unique, no repetition</span>
+                                    <span class="cn">每个元素独特，无重复</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3: Stylized Prop Design -->
+                <div class="case-card" data-scroll-animate data-tilt data-ripple>
+                    <div class="case-card-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>
+                        <span class="en">Stylized Prop Design</span>
+                        <span class="cn">风格化道具设计</span>
+                    </h3>
+                    <div class="case-card-subtitle">
+                        <span class="en">Art Direction & Style Consistency</span>
+                        <span class="cn">美术指导与风格一致性</span>
+                    </div>
+                    <p>
+                        <span class="en">Maintain perfect art direction consistency across hundreds of assets while scaling production exponentially. One style definition, unlimited variants.</span>
+                        <span class="cn">在数百个资产中保持完美的美术指导一致性，同时指数级扩展生产。一种风格定义，无限变体。</span>
+                    </p>
+                    <div class="case-metrics">
+                        <span class="metric-tag">
+                            <span class="en">1 Day = 10+ Variants</span>
+                            <span class="cn">1天 = 10+ 变体</span>
+                        </span>
+                        <span class="metric-tag">
+                            <span class="en">100% Style Consistency</span>
+                            <span class="cn">100% 风格一致</span>
+                        </span>
+                        <span class="metric-tag">
+                            <span class="en">Explosive Productivity</span>
+                            <span class="cn">生产力爆发</span>
+                        </span>
+                    </div>
+                    <div class="case-details">
+                        <div class="detail-section">
+                            <h4 class="pain">
+                                <span class="en">Pain Points</span>
+                                <span class="cn">痛点</span>
+                            </h4>
+                            <ul class="detail-list pain">
+                                <li>
+                                    <span class="en">Fragmented art styles across assets</span>
+                                    <span class="cn">资产间风格碎片化</span>
+                                </li>
+                                <li>
+                                    <span class="en">Slow iteration blocking creativity</span>
+                                    <span class="cn">迭代缓慢阻碍创意</span>
+                                </li>
+                                <li>
+                                    <span class="en">Repetitive manual labor</span>
+                                    <span class="cn">重复性手工劳动</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <h4 class="solution">
+                                <span class="en">Meshy Solutions</span>
+                                <span class="cn">Meshy 解决方案</span>
+                            </h4>
+                            <ul class="detail-list solution">
+                                <li>
+                                    <span class="en">Style standardization from reference</span>
+                                    <span class="cn">从参考中标准化风格</span>
+                                </li>
+                                <li>
+                                    <span class="en">Exponential production scaling</span>
+                                    <span class="cn">指数级生产扩展</span>
+                                </li>
+                                <li>
+                                    <span class="en">Precise local refinement control</span>
+                                    <span class="cn">精确局部细化控制</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 4: Virtual Set Texturing -->
+                <div class="case-card" data-scroll-animate data-tilt data-ripple>
+                    <div class="case-card-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>
+                        <span class="en">Virtual Set Texturing</span>
+                        <span class="cn">虚拟场景纹理化</span>
+                    </h3>
+                    <div class="case-card-subtitle">
+                        <span class="en">Matte Painting to 3D Geometry</span>
+                        <span class="cn">数字绘景转 3D 几何体</span>
+                    </div>
+                    <p>
+                        <span class="en">Convert 2D matte paintings into full 3D geometry with proper depth and parallax, enabling dynamic camera moves and enhanced compositing workflows.</span>
+                        <span class="cn">将 2D 数字绘景转换为具有正确深度和视差的完整 3D 几何体，实现动态摄像机运动和增强的合成工作流程。</span>
+                    </p>
+                    <div class="case-metrics">
+                        <span class="metric-tag">
+                            <span class="en">Instant Geometry Gen</span>
+                            <span class="cn">即时几何体生成</span>
+                        </span>
+                        <span class="metric-tag">
+                            <span class="en">Nuke Workflow Ready</span>
+                            <span class="cn">Nuke 工作流就绪</span>
+                        </span>
+                        <span class="metric-tag">
+                            <span class="en">3D Depth Enhanced</span>
+                            <span class="cn">3D 深度增强</span>
+                        </span>
+                    </div>
+                    <div class="case-details">
+                        <div class="detail-section">
+                            <h4 class="pain">
+                                <span class="en">Pain Points</span>
+                                <span class="cn">痛点</span>
+                            </h4>
+                            <ul class="detail-list pain">
+                                <li>
+                                    <span class="en">Tedious projection setup for 2.5D</span>
+                                    <span class="cn">繁琐的 2.5D 投影设置</span>
+                                </li>
+                                <li>
+                                    <span class="en">Irregular shapes hard to project</span>
+                                    <span class="cn">不规则形状难以投影</span>
+                                </li>
+                                <li>
+                                    <span class="en">Limited camera movement options</span>
+                                    <span class="cn">有限的摄像机运动选项</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <h4 class="solution">
+                                <span class="en">Meshy Solutions</span>
+                                <span class="cn">Meshy 解决方案</span>
+                            </h4>
+                            <ul class="detail-list solution">
+                                <li>
+                                    <span class="en">Instant 3D geometry from images</span>
+                                    <span class="cn">从图像即时生成 3D 几何体</span>
+                                </li>
+                                <li>
+                                    <span class="en">Nuke/AE compatible export</span>
+                                    <span class="cn">兼容 Nuke/AE 导出</span>
+                                </li>
+                                <li>
+                                    <span class="en">Enhanced parallax and depth</span>
+                                    <span class="cn">增强视差和深度</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section" style="text-align: center;">
+        <div class="container" data-scroll-animate>
+            <h2>
+                <span class="en">Ready to Transform Your Production?</span>
+                <span class="cn">准备好改变您的制作流程了吗？</span>
+            </h2>
+            <p style="max-width: 600px; margin: 1rem auto 2rem; opacity: 0.7;">
+                <span class="en">Join leading studios using Meshy AI to accelerate their creative workflows.</span>
+                <span class="cn">加入使用 Meshy AI 加速创意工作流程的领先工作室。</span>
+            </p>
+            <a href="#contact" class="cta-button" style="display: inline-block; background: var(--color-film); color: #000; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: bold; transition: all 0.3s;">
+                <span class="en">Get Started</span>
+                <span class="cn">开始使用</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            <span class="en">© 2026 Meshy AI. All rights reserved. | <a href="../index.html" class="footer-link">Back to Industries</a></span>
+            <span class="cn">© 2026 Meshy AI. 保留所有权利。 | <a href="../index.html" class="footer-link">返回行业列表</a></span>
+        </p>
+    </footer>
+
+    <!-- Language Toggle Button -->
+    <button class="lang-toggle" onclick="toggleLanguage()">
+        <span class="en">中文</span>
+        <span class="cn">EN</span>
+    </button>
+
+    <!-- Scripts -->
+    <script src="../assets/scripts/ambient.js"></script>
+    <script src="../assets/scripts/main.js"></script>
+    <script>
+        // Language Toggle
+        function toggleLanguage() {
+            document.body.classList.toggle('lang-en');
+            document.body.classList.toggle('lang-cn');
+        }
+
+        // Initialize with English
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!document.body.classList.contains('lang-en') && !document.body.classList.contains('lang-cn')) {
+                document.body.classList.add('lang-en');
+            }
+        });
+    </script>
+</body>
+</html>

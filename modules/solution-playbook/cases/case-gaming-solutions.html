@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="gaming">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Industry Solutions | Meshy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/mobile-effects.css">
+    <link rel="stylesheet" href="../assets/css/cursor-effects.css">
+    <link rel="stylesheet" href="../assets/css/micro-interactions.css">
+    <link rel="stylesheet" href="../assets/css/visual-effects.css">
+    <link rel="stylesheet" href="../assets/css/page-animations.css">
+    <link rel="stylesheet" href="../assets/css/industry-themes.css">
+    <style>
+        :root {
+            --bg-core: #000000;
+            --bg-slide: #050505;
+            --accent-primary: #CCFF00;
+            --text-main: #f0f0f0;
+            --text-sub: #888888;
+            /* Unified transition timings */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            /* 视觉增强变量 - Visual Enhancement */
+            --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* 视差强度 */
+            --parallax-slow: 0.3;
+            --parallax-fast: 0.8;
+            
+            /* 光标效果 */
+            --cursor-size: 20px;
+            --cursor-follower-size: 40px;
+            --cursor-color: var(--accent-primary);
+            
+            /* 动画持续时间 */
+            --animation-duration-fast: 0.2s;
+            --animation-duration-normal: 0.4s;
+            --animation-duration-slow: 0.8s;
+            
+            /* 粒子效果 */
+            --particle-count: 30;
+            --particle-size: 4px;
+            --particle-color: var(--accent-primary);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            background-color: var(--bg-core);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+        }
+
+        body.lang-cn { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+        .cn { display: none; }
+        body.lang-cn .en { display: none !important; }
+        body.lang-cn .cn { display: inline; }
+
+        #deck-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            perspective: 2000px;
+        }
+
+        .flip-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: var(--bg-slide);
+            border: 1px solid #222;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* GLITCH ELECTRIC SHOCK EFFECT */
+        .glitch-flash {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--accent-primary);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: overlay;
+        }
+
+        .glitch-scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 8px;
+            background: linear-gradient(to bottom, transparent, rgba(204, 255, 0, 0.9), rgba(255, 255, 255, 1), rgba(204, 255, 0, 0.9), transparent);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
+        }
+
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0) skewX(0deg); filter: none; }
+            10% { transform: translate(-8px, 2px) skewX(-2deg); filter: hue-rotate(90deg); }
+            20% { transform: translate(8px, -2px) skewX(2deg); filter: hue-rotate(-90deg) saturate(2); }
+            30% { transform: translate(-4px, 0) skewX(0deg); filter: none; }
+            40% { transform: translate(6px, 1px) skewX(1deg); filter: hue-rotate(180deg); }
+            50% { transform: translate(0, -3px) skewX(-1deg); filter: brightness(2); }
+            60% { transform: translate(-6px, 2px) skewX(2deg); filter: hue-rotate(-45deg); }
+            70% { transform: translate(4px, 0) skewX(0deg); filter: saturate(3); }
+            80% { transform: translate(-2px, -1px) skewX(-1deg); filter: none; }
+            90% { transform: translate(2px, 1px) skewX(1deg); filter: brightness(1.5); }
+            100% { transform: translate(0, 0) skewX(0deg); filter: none; }
+        }
+
+        @keyframes electricFlash {
+            0% { opacity: 0; }
+            5% { opacity: 0.8; }
+            10% { opacity: 0; }
+            15% { opacity: 0.6; }
+            20% { opacity: 0; }
+            35% { opacity: 0.9; }
+            40% { opacity: 0; }
+            55% { opacity: 0.4; }
+            60% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes scanlineZap {
+            0% { top: -10px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes rgbSplit {
+            0% { text-shadow: 0 0 0 transparent; }
+            20% { text-shadow: -3px 0 0 rgba(255, 0, 0, 0.7), 3px 0 0 rgba(0, 255, 255, 0.7); }
+            40% { text-shadow: 3px 0 0 rgba(255, 0, 0, 0.7), -3px 0 0 rgba(0, 255, 255, 0.7); }
+            60% { text-shadow: -2px 0 0 rgba(255, 0, 0, 0.5), 2px 0 0 rgba(0, 255, 255, 0.5); }
+            80% { text-shadow: 1px 0 0 rgba(255, 0, 0, 0.3), -1px 0 0 rgba(0, 255, 255, 0.3); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+
+        .flip-container.glitching { animation: glitchShake 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .flip-container.glitching .content { animation: rgbSplit 0.3s ease-out; }
+        .flip-container.glitching .glitch-flash { animation: electricFlash 0.3s ease-out; }
+        .flip-container.glitching .glitch-scanline { animation: scanlineZap 0.15s ease-out; }
+
+        .control-lang .btn.zapping { animation: buttonZap 0.3s ease-out; }
+        @keyframes buttonZap {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+            30% { transform: scale(0.9); box-shadow: 0 0 30px rgba(204, 255, 0, 0.8); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(204, 255, 0, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+        }
+
+        @keyframes screenPunch {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        #deck-container.punched { animation: screenPunch 0.15s ease-out; }
+
+        /* Controls */
+        .control-back {
+            position: absolute;
+            bottom: 25px;
+            left: 35px;
+            z-index: 100;
+        }
+        .control-lang {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            z-index: 100;
+        }
+        .btn {
+            background: rgba(20,20,20,0.8);
+            border: 1px solid #333;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all var(--transition-normal) var(--ease-out);
+            opacity: 0.7;
+            text-decoration: none;
+            will-change: transform, opacity;
+        }
+        .btn:hover {
+            opacity: 1;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: black;
+            transform: scale(1.05);
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+        }
+        .section-big-icon {
+            font-size: 72px;
+            color: var(--accent-primary);
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.4));
+        }
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+        }
+        .solutions-list {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            gap: 14px 18px;
+        }
+        .solution-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all var(--transition-normal) var(--ease-out);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp var(--transition-slow) ease forwards;
+            will-change: transform, opacity, box-shadow;
+        }
+        .solutions-list .solution-item:nth-child(1) { animation-delay: 0.05s; }
+        .solutions-list .solution-item:nth-child(2) { animation-delay: 0.1s; }
+        .solutions-list .solution-item:nth-child(3) { animation-delay: 0.15s; }
+        .solutions-list .solution-item:nth-child(4) { animation-delay: 0.2s; }
+        .solutions-list .solution-item:nth-child(5) { animation-delay: 0.25s; }
+        .solutions-list .solution-item:nth-child(6) { animation-delay: 0.3s; }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .solution-item.wip {
+            animation-name: fadeInUpWip;
+        }
+        @keyframes fadeInUpWip {
+            to { opacity: 0.5; transform: translateY(0); }
+        }
+        .solution-item:hover {
+            border-color: var(--accent-primary);
+            background: rgba(204, 255, 0, 0.1);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(204, 255, 0, 0.18);
+        }
+        .solution-item:active {
+            transform: scale(0.97);
+        }
+        .solution-item i { font-size: 14px; color: var(--text-sub); transition: all var(--transition-normal) var(--ease-out); }
+        .solution-item:hover i { color: var(--accent-primary); transform: scale(1.1); }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        .sol-num { font-size: 11px; font-weight: 700; color: var(--text-sub); }
+        .solution-item:hover .sol-num { color: var(--accent-primary); }
+        .solution-item.wip { opacity: 0.5; }
+        .solution-item.wip:hover { opacity: 0.8; }
+
+        /* Page transition overlay */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-core);
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.35s ease-out;
+        }
+        .page-transition.active {
+            opacity: 1;
+        }
+        .page-transition::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.6), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease 0.1s;
+        }
+        .page-transition.active::after {
+            opacity: 1;
+        }
+
+        /* 案例导航过渡效果 - 滑动缩放 */
+        @keyframes caseSlideIn {
+            0% { 
+                transform: translateX(100%) scale(0.95);
+                opacity: 0;
+            }
+            100% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes contentSlideOut {
+            0% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateX(-30%) scale(0.95);
+                opacity: 0;
+                filter: blur(4px);
+            }
+        }
+
+        .page-transition.case-nav {
+            background: linear-gradient(90deg, transparent 0%, var(--bg-core) 30%, var(--bg-core) 100%);
+        }
+
+        .page-transition.case-nav.active {
+            animation: caseSlideIn 0.35s ease-out forwards;
+        }
+
+        #deck-container.navigating-case {
+            animation: contentSlideOut 0.35s ease-out forwards;
+        }
+
+        .solution-item.clicked-case {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.6);
+            transition: all 0.15s ease-out;
+        }
+
+        /* ============================================
+           BACKGROUND EFFECTS
+           ============================================ */
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.85; transform: translateX(-50%) scale(1.02); }
+        }
+        @keyframes horizonPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* TOP: Halftone dot pattern - subtle green dots */
+        .halftone-layer-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background-image: radial-gradient(circle, rgba(204, 255, 0, 0.15) 1.5px, transparent 1.5px);
+            background-size: 10px 10px;
+            mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, 
+                rgba(0,0,0,0.5) 0%, 
+                rgba(0,0,0,0.2) 40%, 
+                transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, 
+                rgba(0,0,0,0.5) 0%, 
+                rgba(0,0,0,0.2) 40%, 
+                transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .horizon-glow-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(204, 255, 0, 0.2) 20%, 
+                rgba(204, 255, 0, 0.5) 50%, 
+                rgba(204, 255, 0, 0.2) 80%, 
+                transparent 100%);
+            box-shadow: 0 0 40px 15px rgba(204, 255, 0, 0.12);
+            animation: horizonPulse 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .horizon-bloom-top {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 120px;
+            background: radial-gradient(ellipse at 50% 0%, 
+                rgba(204, 255, 0, 0.15) 0%, 
+                rgba(204, 255, 0, 0.05) 40%,
+                transparent 70%);
+            animation: softPulse 5s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* BOTTOM: Halftone dot pattern - black dots (negative) */
+        .halftone-layer-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 280px;
+            background-image: radial-gradient(circle, #000000 2.5px, transparent 2.5px);
+            background-size: 10px 10px;
+            mask-image: radial-gradient(ellipse 80% 100% at 50% 100%, 
+                rgba(0,0,0,0.7) 0%, 
+                rgba(0,0,0,0.4) 30%, 
+                rgba(0,0,0,0.15) 50%,
+                transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 100% at 50% 100%, 
+                rgba(0,0,0,0.7) 0%, 
+                rgba(0,0,0,0.4) 30%, 
+                rgba(0,0,0,0.15) 50%,
+                transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .horizon-glow-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(204, 255, 0, 0.4) 20%, 
+                rgba(204, 255, 0, 0.9) 50%, 
+                rgba(204, 255, 0, 0.4) 80%, 
+                transparent 100%);
+            box-shadow: 0 0 80px 30px rgba(204, 255, 0, 0.25);
+            animation: horizonPulse 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .horizon-bloom-bottom {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 200px;
+            background: radial-gradient(ellipse at 50% 100%, 
+                rgba(204, 255, 0, 0.3) 0%, 
+                rgba(204, 255, 0, 0.12) 35%,
+                transparent 65%);
+            animation: softPulse 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Vignette */
+        .vignette {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(0,0,0,0.35) 100%);
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        /* ============================================
+           ENHANCED DYNAMIC ELEMENTS - Gaming Theme
+           ============================================ */
+        
+        /* Animated grid lines */
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(204, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(204, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridShift 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes gridShift {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
+
+        /* Floating geometric shapes */
+        .floating-shape {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        .shape-1 {
+            width: 120px; height: 120px;
+            top: 8%; left: 5%;
+            border: 2px solid rgba(204, 255, 0, 0.15);
+            border-radius: 50%;
+            animation: float1 12s ease-in-out infinite, pulse1 4s ease-in-out infinite;
+        }
+        .shape-2 {
+            width: 80px; height: 80px;
+            top: 70%; right: 8%;
+            border: 2px solid rgba(204, 255, 0, 0.12);
+            transform: rotate(45deg);
+            animation: float2 10s ease-in-out infinite, pulse2 5s ease-in-out infinite;
+        }
+        .shape-3 {
+            width: 60px; height: 60px;
+            top: 20%; right: 12%;
+            background: radial-gradient(circle, rgba(204, 255, 0, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float3 8s ease-in-out infinite;
+        }
+        .shape-4 {
+            width: 100px; height: 100px;
+            bottom: 15%; left: 10%;
+            border: 1px solid rgba(204, 255, 0, 0.1);
+            border-radius: 20%;
+            transform: rotate(15deg);
+            animation: float4 14s ease-in-out infinite, spin1 30s linear infinite;
+        }
+        .shape-5 {
+            width: 40px; height: 40px;
+            top: 50%; left: 3%;
+            background: rgba(204, 255, 0, 0.1);
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            animation: float5 9s ease-in-out infinite;
+        }
+        .shape-6 {
+            width: 70px; height: 70px;
+            bottom: 25%; right: 5%;
+            border: 1px dashed rgba(204, 255, 0, 0.15);
+            border-radius: 50%;
+            animation: float6 11s ease-in-out infinite, spin2 25s linear infinite reverse;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-15px) translateX(10px); }
+            50% { transform: translateY(5px) translateX(-5px); }
+            75% { transform: translateY(-10px) translateX(5px); }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(-20px); }
+        }
+        @keyframes float3 {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.2) translateY(-10px); }
+        }
+        @keyframes float4 {
+            0%, 100% { transform: rotate(15deg) translateY(0); }
+            50% { transform: rotate(15deg) translateY(15px); }
+        }
+        @keyframes float5 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(10deg); }
+        }
+        @keyframes float6 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+        }
+        @keyframes pulse1 {
+            0%, 100% { opacity: 0.6; box-shadow: 0 0 0 rgba(204, 255, 0, 0); }
+            50% { opacity: 0.9; box-shadow: 0 0 20px rgba(204, 255, 0, 0.2); }
+        }
+        @keyframes pulse2 {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+        @keyframes spin1 {
+            0% { transform: rotate(15deg); }
+            100% { transform: rotate(375deg); }
+        }
+        @keyframes spin2 {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Corner accent decorations */
+        .corner-accent {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .corner-accent.top-left {
+            top: 0; left: 0;
+            border-top: 2px solid rgba(204, 255, 0, 0.2);
+            border-left: 2px solid rgba(204, 255, 0, 0.2);
+            background: linear-gradient(135deg, rgba(204, 255, 0, 0.05) 0%, transparent 50%);
+        }
+        .corner-accent.bottom-right {
+            bottom: 0; right: 0;
+            border-bottom: 2px solid rgba(204, 255, 0, 0.2);
+            border-right: 2px solid rgba(204, 255, 0, 0.2);
+            background: linear-gradient(315deg, rgba(204, 255, 0, 0.05) 0%, transparent 50%);
+        }
+
+        /* Animated border glow */
+        .border-glow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .border-glow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.4), transparent);
+            animation: borderGlowHorizontal 4s ease-in-out infinite;
+        }
+        .border-glow::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, rgba(204, 255, 0, 0.3), transparent);
+            animation: borderGlowVertical 5s ease-in-out infinite;
+        }
+        @keyframes borderGlowHorizontal {
+            0%, 100% { opacity: 0.3; transform: scaleX(0.5); }
+            50% { opacity: 1; transform: scaleX(1); }
+        }
+        @keyframes borderGlowVertical {
+            0%, 100% { opacity: 0.2; transform: scaleY(0.5); }
+            50% { opacity: 0.8; transform: scaleY(1); }
+        }
+
+        /* Scanline effect (subtle) */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Enhanced icon glow */
+        .section-big-icon {
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+        @keyframes iconPulse {
+            0%, 100% { 
+                filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.4)); 
+                transform: scale(1);
+            }
+            50% { 
+                filter: drop-shadow(0 0 50px rgba(204, 255, 0, 0.6)); 
+                transform: scale(1.02);
+            }
+        }
+
+        /* Enhanced solution cards */
+        .solution-item {
+            position: relative;
+            overflow: hidden;
+        }
+        .solution-item::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: -100%;
+            width: 200%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.5), transparent);
+            transform: translateY(-50%);
+            transition: left 0.5s ease;
+            opacity: 0;
+        }
+        .solution-item:hover::before {
+            left: 100%;
+            opacity: 1;
+        }
+    </style>
+    <link rel="stylesheet" href="../assets/css/scroll-effects.css">
+</head>
+<body class="lang-cn">
+
+<div id="deck-container">
+<div class="flip-container" id="flipContainer">
+    <!-- Glitch effect layers -->
+    <div class="glitch-flash"></div>
+    <div class="glitch-scanline"></div>
+    
+    <!-- Grid overlay -->
+    <div class="grid-overlay"></div>
+    
+    <!-- Top effects -->
+    <div class="halftone-layer-top"></div>
+    <div class="horizon-bloom-top"></div>
+    <div class="horizon-glow-top"></div>
+    
+    <!-- Bottom effects -->
+    <div class="halftone-layer-bottom"></div>
+    <div class="horizon-bloom-bottom"></div>
+    <div class="horizon-glow-bottom"></div>
+    
+    <!-- Floating geometric shapes -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+    <div class="floating-shape shape-5"></div>
+    <div class="floating-shape shape-6"></div>
+    
+    <!-- Corner accents -->
+    <div class="corner-accent top-left"></div>
+    <div class="corner-accent bottom-right"></div>
+    
+    <!-- Border glow -->
+    <div class="border-glow"></div>
+    
+    <!-- Vignette -->
+    <div class="vignette"></div>
+    
+    <!-- Scanlines -->
+    <div class="scanlines"></div>
+    
+    <!-- Page transition overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="section-big-icon scroll-reveal-up"><i class="fa-solid fa-gamepad icon-hover-bounce"></i></div>
+        <h1 class="scroll-reveal-up">
+            <span class="cn">游戏行业解决方案</span>
+            <span class="en">Gaming Industry Solutions</span>
+        </h1>
+        <div class="solutions-list scroll-reveal-up">
+            <a href="case-gaming-prototype.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                <span class="sol-num">01</span>
+                <i class="fa-solid fa-rocket icon-hover-bounce"></i>
+                <span class="cn">快速原型验证</span><span class="en">Rapid Prototype</span>
+            </a>
+            <a href="case-gaming-blockout.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                <span class="sol-num">02</span>
+                <i class="fa-solid fa-cubes icon-hover-bounce"></i>
+                <span class="cn">资产起型加速</span><span class="en">Asset Blockout</span>
+            </a>
+            <a href="case-gaming-stylized.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                <span class="sol-num">03</span>
+                <i class="fa-solid fa-palette icon-hover-bounce"></i>
+                <span class="cn">风格化资产量产</span><span class="en">Stylized Assets</span>
+            </a>
+            <a href="case-gaming-pbr.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                <span class="sol-num">04</span>
+                <i class="fa-solid fa-image icon-hover-bounce"></i>
+                <span class="cn">连续贴图铺设</span><span class="en">PBR Textures</span>
+            </a>
+            <a href="case-gaming-concept.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                <span class="sol-num">05</span>
+                <i class="fa-solid fa-wand-magic-sparkles icon-hover-bounce"></i>
+                <span class="cn">概念图到 3D</span><span class="en">Concept to 3D</span>
+            </a>
+            <a href="case-gaming-detail.html" class="solution-item ready card-shine card-lift micro-tilt micro-bounce micro-ripple">
+                <span class="sol-num">06</span>
+                <i class="fa-solid fa-gem icon-hover-bounce"></i>
+                <span class="cn">粗模精修</span><span class="en">Blockout Refine</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="control-back">
+        <a href="../index.html" class="btn magnetic-btn micro-ripple" title="返回 / Back">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    </div>
+    <div class="control-lang">
+        <button class="btn magnetic-btn micro-ripple" onclick="toggleLanguage()" title="切换语言 / Toggle Language">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+    </div>
+</div>
+</div>
+
+<script>
+    // Initialize language from localStorage or default to 'cn'
+    let lang = localStorage.getItem('meshy-playbook-lang') || 'cn';
+    let isFlipping = false;
+    
+    // Apply initial language state
+    function applyLanguage() {
+        document.body.classList.remove('lang-cn', 'lang-en');
+        document.body.classList.add('lang-' + lang);
+    }
+    applyLanguage();
+    
+    function toggleLanguage() {
+        if (isFlipping) return;
+        isFlipping = true;
+        
+        const flipContainer = document.getElementById('flipContainer');
+        const deckContainer = document.getElementById('deck-container');
+        const langBtn = document.querySelector('.control-lang .btn');
+        
+        flipContainer.classList.add('glitching');
+        deckContainer.classList.add('punched');
+        if (langBtn) langBtn.classList.add('zapping');
+        
+        setTimeout(() => {
+            lang = (lang === 'en') ? 'cn' : 'en';
+            localStorage.setItem('meshy-playbook-lang', lang);
+            applyLanguage();
+        }, 150);
+        
+        setTimeout(() => {
+            flipContainer.classList.remove('glitching');
+            deckContainer.classList.remove('punched');
+            if (langBtn) langBtn.classList.remove('zapping');
+            isFlipping = false;
+        }, 300);
+    }
+
+    function navigateTo(event, element) {
+        event.preventDefault();
+        const href = element.getAttribute('href');
+        const transition = document.getElementById('pageTransition');
+        const deckContainer = document.getElementById('deck-container');
+        
+        // 添加案例导航过渡效果
+        element.classList.add('clicked-case');
+        deckContainer.classList.add('navigating-case');
+        transition.classList.add('case-nav');
+        
+        setTimeout(() => {
+            transition.classList.add('active');
+        }, 50);
+        
+        setTimeout(() => {
+            window.location.href = href;
+        }, 350);
+    }
+    
+    // 页面显示时清理过渡效果
+    window.addEventListener('pageshow', function(event) {
+        const transition = document.getElementById('pageTransition');
+        const deckContainer = document.getElementById('deck-container');
+        
+        transition.classList.remove('active', 'case-nav');
+        deckContainer.classList.remove('navigating-case');
+        document.querySelectorAll('.solution-item.clicked-case').forEach(item => {
+            item.classList.remove('clicked-case');
+        });
+    });
+
+    // Add click handlers to all solution items
+    document.querySelectorAll('.solution-item').forEach(item => {
+        item.addEventListener('click', (e) => navigateTo(e, item));
+    });
+    
+    // Back button also uses transition
+    document.querySelector('.btn[href]')?.addEventListener('click', function(e) {
+        navigateTo(e, this);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key.toLowerCase() === 'l') toggleLanguage();
+        if(e.key === 'Escape') {
+            const backBtn = document.querySelector('.btn[href]');
+            if(backBtn) navigateTo(new Event('click'), backBtn);
+        }
+        if(e.key >= '1' && e.key <= '6') {
+            const items = document.querySelectorAll('.solution-item');
+            const idx = parseInt(e.key) - 1;
+            if(items[idx]) navigateTo(new Event('click'), items[idx]);
+        }
+    });
+</script>
+
+<script src="../assets/js/mobile-effects.js"></script>
+<script src="../assets/js/cursor-effects.js"></script>
+<script src="../assets/js/scroll-effects.js"></script>
+<script src="../assets/js/micro-interactions.js"></script>
+<script src="../assets/js/feature-detection.js"></script>
+<script src="../assets/js/visual-effects.js"></script>
+<script src="../assets/js/page-animations.js"></script>
+</body>
+</html>

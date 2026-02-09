@@ -1,0 +1,95 @@
+---
+description: Playbook Website 设计规范
+globs: ["**/*.html", "**/*.css", "**/*.js"]
+alwaysApply: true
+---
+
+# Playbook Website 设计规范
+
+## 核心风格
+
+- **配色**: 科技黑 (#000000) + 霓虹绿 (#CCFF00)
+- **字体**: Inter (英文), Noto Sans SC (中文)
+- **风格**: 现代科技感、专业商务
+
+## CSS 变量使用
+
+### 字体
+
+```css
+font-size: var(--text-base);  /* 正文 */
+font-size: var(--text-xl);    /* 标题 */
+font-size: var(--text-4xl);   /* 大标题 */
+```
+
+### 间距
+
+```css
+padding: var(--space-md);     /* 常规间距 */
+gap: var(--space-lg);         /* 卡片间距 */
+margin: var(--space-xl) 0;    /* 区块间距 */
+```
+
+### 颜色
+
+```css
+background: var(--bg-core);        /* 主背景 */
+background: var(--bg-card);        /* 卡片背景 */
+color: var(--accent-primary);      /* 强调色 */
+border-color: var(--border-color); /* 边框 */
+```
+
+## 动画效果
+
+### 必须添加的效果
+
+1. **滚动动画**: 所有卡片添加 `data-scroll-animate="fade-up"`
+2. **涟漪效果**: 按钮添加 `data-ripple`
+3. **倾斜效果**: 交互卡片添加 `data-tilt`
+
+### 示例
+
+```html
+<div class="industry-card" data-scroll-animate="fade-up" data-tilt data-ripple>
+    <i class="fas fa-gamepad industry-icon"></i>
+    <h3 class="industry-title">Gaming</h3>
+</div>
+```
+
+## 双语支持
+
+```html
+<span class="en">English Text</span>
+<span class="cn">中文文本</span>
+```
+
+## 行业配色
+
+| 行业 | CSS 变量 | 色值 |
+|------|---------|------|
+| Gaming | --color-gaming | #FF6B6B |
+| Film | --color-film | #4ECDC4 |
+| Manufacturing | --color-manufacturing | #45B7D1 |
+| Interior | --color-interior | #96CEB4 |
+| 3D Printing | --color-3dprinting | #FFEAA7 |
+
+## 文件结构
+
+```
+assets/
+├── styles/
+│   ├── variables.css   # CSS 变量
+│   ├── animations.css  # 动画效果
+│   ├── ambient.css     # 环境动画
+│   └── main.css        # 主样式
+└── scripts/
+    ├── ambient.js      # 环境效果
+    └── main.js         # 交互逻辑
+```
+
+## 注意事项
+
+1. 所有页面必须引入 main.css
+2. 所有页面必须初始化 ambient effects
+3. 移动端禁用重动画（自动检测 prefers-reduced-motion）
+4. 保持页面间导航一致性

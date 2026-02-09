@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturing Solutions | Meshy AI</title>
+    <link rel="stylesheet" href="../assets/styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --industry-color: var(--color-manufacturing);
+        }
+        
+        .hero-icon {
+            font-size: 4rem;
+            color: var(--color-manufacturing);
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(69, 183, 209, 0.5));
+        }
+        
+        .solution-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(69, 183, 209, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-manufacturing), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .solution-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-manufacturing);
+            box-shadow: 0 20px 40px rgba(69, 183, 209, 0.15);
+        }
+        
+        .solution-card:hover::before {
+            opacity: 1;
+        }
+        
+        .solution-tag {
+            display: inline-block;
+            background: rgba(69, 183, 209, 0.15);
+            color: var(--color-manufacturing);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+        
+        .solution-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--color-text);
+        }
+        
+        .solution-desc {
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .pain-points, .meshy-solutions, .business-value {
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-manufacturing);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-label i {
+            font-size: 0.9rem;
+        }
+        
+        .pain-list, .solution-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .pain-list li, .solution-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .pain-list li::before {
+            content: '×';
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .solution-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-manufacturing);
+            font-weight: bold;
+        }
+        
+        .value-text {
+            background: linear-gradient(135deg, rgba(69, 183, 209, 0.1), rgba(69, 183, 209, 0.05));
+            border-left: 3px solid var(--color-manufacturing);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            color: var(--color-text);
+            font-style: italic;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .metric-item {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--color-manufacturing);
+            display: block;
+        }
+        
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 480px) {
+            .solutions-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body data-ambient="medium">
+    <!-- Ambient Background -->
+    <div class="ambient-bg"></div>
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="../index.html" class="nav-logo">
+            <i class="fas fa-cube"></i>
+            <span>Meshy AI</span>
+        </a>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-link">
+                <i class="fas fa-arrow-left"></i>
+                <span class="en">Back to Home</span>
+                <span class="cn">返回首页</span>
+            </a>
+        </div>
+        <button class="lang-toggle" onclick="toggleLanguage()">
+            <span class="en">中文</span>
+            <span class="cn">EN</span>
+        </button>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" style="min-height: 60vh;" data-scroll-animate>
+        <i class="fas fa-industry hero-icon"></i>
+        <h1>
+            <span class="en">Manufacturing</span>
+            <span class="cn">制造业</span>
+        </h1>
+        <p class="hero-subtitle">
+            <span class="en">AI-Powered Design Solutions for Modern Manufacturing</span>
+            <span class="cn">面向现代制造业的 AI 驱动设计解决方案</span>
+        </p>
+    </section>
+    
+    <!-- Solutions Grid -->
+    <section class="solutions-section">
+        <div class="solutions-grid">
+            
+            <!-- Case 1: Rapid ID Ideation -->
+            <article class="solution-card" data-scroll-animate data-tilt data-ripple>
+                <span class="solution-tag">
+                    <span class="en">Industrial Design</span>
+                    <span class="cn">工业设计</span>
+                </span>
+                <h2 class="solution-title">
+                    <span class="en">Rapid ID Ideation</span>
+                    <span class="cn">快速工业设计构思</span>
+                </h2>
+                <p class="solution-desc">
+                    <span class="en">Accelerate industrial design ideation with AI-generated 3D concepts from 2D sketches</span>
+                    <span class="cn">通过 AI 将 2D 草图生成 3D 概念，加速工业设计构思</span>
+                </p>
+                
+                <div class="pain-points">
+                    <div class="section-label">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span class="en">Pain Points</span>
+                        <span class="cn">痛点</span>
+                    </div>
+                    <ul class="pain-list">
+                        <li>
+                            <span class="en">Time-consuming manual 3D modeling from sketches</span>
+                            <span class="cn">从草图手动建模耗时长</span>
+                        </li>
+                        <li>
+                            <span class="en">Limited iterations due to resource constraints</span>
+                            <span class="cn">资源限制导致迭代次数有限</span>
+                        </li>
+                        <li>
+                            <span class="en">Gap between 2D concepts and 3D visualization</span>
+                            <span class="cn">2D 概念与 3D 可视化之间存在差距</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="meshy-solutions">
+                    <div class="section-label">
+                        <i class="fas fa-magic"></i>
+                        <span class="en">Meshy Solutions</span>
+                        <span class="cn">Meshy 解决方案</span>
+                    </div>
+                    <ul class="solution-list">
+                        <li>
+                            <span class="en">Image-to-3D: Convert sketches to 3D models instantly</span>
+                            <span class="cn">图片转 3D：即时将草图转换为 3D 模型</span>
+                        </li>
+                        <li>
+                            <span class="en">Text-to-3D: Generate concepts from descriptions</span>
+                            <span class="cn">文字转 3D：从描述生成概念</span>
+                        </li>
+                        <li>
+                            <span class="en">Rapid iteration with AI-powered refinement</span>
+                            <span class="cn">AI 驱动的快速迭代优化</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="business-value">
+                    <div class="section-label">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="en">Business Value</span>
+                        <span class="cn">商业价值</span>
+                    </div>
+                    <div class="value-text">
+                        <span class="en">"Transform design workflow with 10x faster ideation cycles"</span>
+                        <span class="cn">"以 10 倍速度的构思周期变革设计工作流程"</span>
+                    </div>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-value">90%</span>
+                        <span class="metric-label">
+                            <span class="en">Time Saved</span>
+                            <span class="cn">时间节省</span>
+                        </span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-value">10x</span>
+                        <span class="metric-label">
+                            <span class="en">More Iterations</span>
+                            <span class="cn">更多迭代</span>
+                        </span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-value">50%</span>
+                        <span class="metric-label">
+                            <span class="en">Cost Reduction</span>
+                            <span class="cn">成本降低</span>
+                        </span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Case 2: CMF Exploration -->
+            <article class="solution-card" data-scroll-animate data-tilt data-ripple>
+                <span class="solution-tag">
+                    <span class="en">CMF Design</span>
+                    <span class="cn">CMF 设计</span>
+                </span>
+                <h2 class="solution-title">
+                    <span class="en">CMF Exploration</span>
+                    <span class="cn">CMF 探索</span>
+                </h2>
+                <p class="solution-desc">
+                    <span class="en">Explore Color, Material, and Finish options with AI-generated realistic renders</span>
+                    <span class="cn">通过 AI 生成的逼真渲染探索颜色、材质和表面处理选项</span>
+                </p>
+                
+                <div class="pain-points">
+                    <div class="section-label">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span class="en">Pain Points</span>
+                        <span class="cn">痛点</span>
+                    </div>
+                    <ul class="pain-list">
+                        <li>
+                            <span class="en">Physical prototypes expensive for CMF testing</span>
+                            <span class="cn">用于 CMF 测试的实体原型成本高昂</span>
+                        </li>
+                        <li>
+                            <span class="en">Limited material library in traditional software</span>
+                            <span class="cn">传统软件中材质库有限</span>
+                        </li>
+                        <li>
+                            <span class="en">Slow iteration between design and manufacturing</span>
+                            <span class="cn">设计与制造之间迭代缓慢</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="meshy-solutions">
+                    <div class="section-label">
+                        <i class="fas fa-magic"></i>
+                        <span class="en">Meshy Solutions</span>
+                        <span class="cn">Meshy 解决方案</span>
+                    </div>
+                    <ul class="solution-list">
+                        <li>
+                            <span class="en">AI Texturing: Apply realistic materials to 3D models</span>
+                            <span class="cn">AI 贴图：为 3D 模型应用逼真材质</span>
+                        </li>
+                        <li>
+                            <span class="en">Text-to-Texture: Generate custom materials from descriptions</span>
+                            <span class="cn">文字转贴图：从描述生成自定义材质</span>
+                        </li>
+                        <li>
+                            <span class="en">Instant CMF variations for client presentations</span>
+                            <span class="cn">即时 CMF 变体用于客户演示</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="business-value">
+                    <div class="section-label">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="en">Business Value</span>
+                        <span class="cn">商业价值</span>
+                    </div>
+                    <div class="value-text">
+                        <span class="en">"Reduce prototype costs by 80% with virtual CMF exploration"</span>
+                        <span class="cn">"通过虚拟 CMF 探索将原型成本降低 80%"</span>
+                    </div>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-value">80%</span>
+                        <span class="metric-label">
+                            <span class="en">Prototype Cost Cut</span>
+                            <span class="cn">原型成本削减</span>
+                        </span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-value">100+</span>
+                        <span class="metric-label">
+                            <span class="en">Material Options</span>
+                            <span class="cn">材质选项</span>
+                        </span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-value">5x</span>
+                        <span class="metric-label">
+                            <span class="en">Faster Decisions</span>
+                            <span class="cn">更快决策</span>
+                        </span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Case 3: Heritage Revitalization -->
+            <article class="solution-card" data-scroll-animate data-tilt data-ripple>
+                <span class="solution-tag">
+                    <span class="en">Cultural Products</span>
+                    <span class="cn">文化产品</span>
+                </span>
+                <h2 class="solution-title">
+                    <span class="en">Heritage Revitalization</span>
+                    <span class="cn">文化遗产活化</span>
+                </h2>
+                <p class="solution-desc">
+                    <span class="en">Transform cultural artifacts into modern merchandise with AI-powered stylization</span>
+                    <span class="cn">通过 AI 风格化将文化文物转化为现代商品</span>
+                </p>
+                
+                <div class="pain-points">
+                    <div class="section-label">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span class="en">Pain Points</span>
+                        <span class="cn">痛点</span>
+                    </div>
+                    <ul class="pain-list">
+                        <li>
+                            <span class="en">Balancing authenticity with modern appeal</span>
+                            <span class="cn">平衡真实性与现代吸引力</span>
+                        </li>
+                        <li>
+                            <span class="en">High cost of 3D scanning and modeling artifacts</span>
+                            <span class="cn">3D 扫描和建模文物成本高</span>
+                        </li>
+                        <li>
+                            <span class="en">Limited stylization options in traditional workflow</span>
+                            <span class="cn">传统工作流程中风格化选项有限</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="meshy-solutions">
+                    <div class="section-label">
+                        <i class="fas fa-magic"></i>
+                        <span class="en">Meshy Solutions</span>
+                        <span class="cn">Meshy 解决方案</span>
+                    </div>
+                    <ul class="solution-list">
+                        <li>
+                            <span class="en">Image-to-3D: Convert artifact photos to 3D models</span>
+                            <span class="cn">图片转 3D：将文物照片转换为 3D 模型</span>
+                        </li>
+                        <li>
+                            <span class="en">AI Stylization: Create Q-version and modern interpretations</span>
+                            <span class="cn">AI 风格化：创建 Q 版和现代诠释</span>
+                        </li>
+                        <li>
+                            <span class="en">Batch processing for merchandise collections</span>
+                            <span class="cn">商品系列的批量处理</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="business-value">
+                    <div class="section-label">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="en">Business Value</span>
+                        <span class="cn">商业价值</span>
+                    </div>
+                    <div class="value-text">
+                        <span class="en">"Unlock cultural IP value with AI-powered product development"</span>
+                        <span class="cn">"通过 AI 驱动的产品开发释放文化 IP 价值"</span>
+                    </div>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-value">70%</span>
+                        <span class="metric-label">
+                            <span class="en">Dev Cost Saved</span>
+                            <span class="cn">开发成本节省</span>
+                        </span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-value">3x</span>
+                        <span class="metric-label">
+                            <span class="en">Product Range</span>
+                            <span class="cn">产品范围</span>
+                        </span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-value">2 Weeks</span>
+                        <span class="metric-label">
+                            <span class="en">To Market</span>
+                            <span class="cn">上市时间</span>
+                        </span>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Case 4: Blind Box Series Design -->
+            <article class="solution-card" data-scroll-animate data-tilt data-ripple>
+                <span class="solution-tag">
+                    <span class="en">Collectibles</span>
+                    <span class="cn">收藏品</span>
+                </span>
+                <h2 class="solution-title">
+                    <span class="en">Blind Box Series Design</span>
+                    <span class="cn">盲盒系列设计</span>
+                </h2>
+                <p class="solution-desc">
+                    <span class="en">Create complete blind box collections with AI-generated character variations</span>
+                    <span class="cn">通过 AI 生成的角色变体创建完整的盲盒系列</span>
+                </p>
+                
+                <div class="pain-points">
+                    <div class="section-label">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span class="en">Pain Points</span>
+                        <span class="cn">痛点</span>
+                    </div>
+                    <ul class="pain-list">
+                        <li>
+                            <span class="en">High design cost for multiple character variations</span>
+                            <span class="cn">多个角色变体的设计成本高</span>
+                        </li>
+                        <li>
+                            <span class="en">Time pressure for seasonal collection releases</span>
+                            <span class="cn">季节性系列发布的时间压力</span>
+                        </li>
+                        <li>
+                            <span class="en">Maintaining style consistency across series</span>
+                            <span class="cn">保持系列风格一致性</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="meshy-solutions">
+                    <div class="section-label">
+                        <i class="fas fa-magic"></i>
+                        <span class="en">Meshy Solutions</span>
+                        <span class="cn">Meshy 解决方案</span>
+                    </div>
+                    <ul class="solution-list">
+                        <li>
+                            <span class="en">Text-to-3D: Generate character concepts from descriptions</span>
+                            <span class="cn">文字转 3D：从描述生成角色概念</span>
+                        </li>
+                        <li>
+                            <span class="en">Style Transfer: Ensure consistency across the series</span>
+                            <span class="cn">风格迁移：确保系列一致性</span>
+                        </li>
+                        <li>
+                            <span class="en">Batch generation for rapid collection development</span>
+                            <span class="cn">批量生成用于快速系列开发</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="business-value">
+                    <div class="section-label">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="en">Business Value</span>
+                        <span class="cn">商业价值</span>
+                    </div>
+                    <div class="value-text">
+                        <span class="en">"Launch 4x more collections annually with AI-assisted design"</span>
+                        <span class="cn">"借助 AI 辅助设计，每年推出 4 倍多的系列"</span>
+                    </div>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-value">85%</span>
+                        <span class="metric-label">
+                            <span class="en">Design Time Cut</span>
+                            <span class="cn">设计时间削减</span>
+                        </span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-value">4x</span>
+                        <span class="metric-label">
+                            <span class="en">More Collections</span>
+                            <span class="cn">更多系列</span>
+                        </span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-value">60%</span>
+                        <span class="metric-label">
+                            <span class="en">Cost Reduction</span>
+                            <span class="cn">成本降低</span>
+                        </span>
+                    </div>
+                </div>
+            </article>
+            
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-cube"></i>
+                <span>Meshy AI</span>
+            </div>
+            <p class="footer-tagline">
+                <span class="en">Empowering Manufacturing with AI-Powered 3D Design</span>
+                <span class="cn">以 AI 驱动的 3D 设计赋能制造业</span>
+            </p>
+            <div class="footer-links">
+                <a href="../index.html">
+                    <span class="en">All Industries</span>
+                    <span class="cn">所有行业</span>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Meshy AI. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="../assets/scripts/ambient.js"></script>
+    <script src="../assets/scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+/* ============================================
+   ADVANCED INTERACTIONS - CSS
+   ============================================ */
+
+:root {
+  --magnetic-distance: 100px;
+  --magnetic-displacement: 15px;
+  --glow-color: rgba(204, 255, 0, 0.15);
+  --glow-size: 200px;
+  --tilt-max: 15deg;
+  --ripple-color: rgba(204, 255, 0, 0.4);
+  --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .magnetic-btn,
+  .industry-item,
+  .case-card,
+  .card-shine,
+  .enhanced-ripple {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  #mouse-glow-canvas {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   1. Magnetic Button Effect
+   ============================================ */
+
+.magnetic-btn,
+.industry-item {
+  will-change: transform;
+  transition: transform 0.3s var(--transition-smooth);
+  transform-style: preserve-3d;
+}
+
+.magnetic-btn:hover,
+.industry-item:hover {
+  /* Transform applied via JS */
+}
+
+/* ============================================
+   2. Mouse Glow Tracking
+   ============================================ */
+
+#mouse-glow-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ============================================
+   3. Enhanced Page Transition
+   ============================================ */
+
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  animation: glitchFlash 0.3s ease-out;
+}
+
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(204, 255, 0, 0.8);
+  box-shadow: 0 0 10px rgba(204, 255, 0, 0.5);
+  animation: scanlineMove 0.3s linear;
+}
+
+@keyframes scanlineMove {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes glitchFlash {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+  20%, 80% {
+    opacity: 0.3;
+  }
+  30%, 70% {
+    opacity: 0.8;
+  }
+  40%, 60% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   4. Enhanced Card 3D Tilt
+   ============================================ */
+
+.industry-item,
+.case-card {
+  will-change: transform;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+  position: relative;
+}
+
+.card-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 55%,
+    transparent 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1;
+}
+
+.industry-item:hover .card-shine,
+.case-card:hover .card-shine {
+  opacity: 1;
+}
+
+/* Disable tilt on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .industry-item,
+  .case-card {
+    transform: none !important;
+  }
+  
+  .card-shine {
+    display: none;
+  }
+}
+
+/* ============================================
+   5. Enhanced Ripple Effect
+   ============================================ */
+
+.enhanced-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--ripple-color);
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  z-index: 10;
+  animation: enhancedRipple 0.8s ease-out;
+}
+
+@keyframes enhancedRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Ensure parent elements can contain ripples */
+.industry-item,
+.case-card,
+.magnetic-btn,
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+/* GPU acceleration hints */
+.magnetic-btn,
+.industry-item,
+.case-card {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Performance optimization */
+@media (prefers-reduced-motion: no-preference) {
+  .magnetic-btn,
+  .industry-item,
+  .case-card {
+    will-change: transform;
+  }
+}

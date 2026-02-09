@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meshy Solutions Master Hub</title>
+    <style>
+        :root {
+            /* Core Colors (Blue Version) */
+            --bg-dark: #0F1115;
+            --bg-sidebar: #0a0c10;
+            --card-bg: #161B22;
+            --section-header-bg: #1F2937;
+            --text-main: #E5E7EB;
+            --text-sub: #9CA3AF;
+            --accent-blue: #3B82F6;
+            --accent-green: #10B981;
+            --accent-red: #EF4444;
+            --border: #374151;
+            --nav-hover: #1f2937;
+            --active-item: #1c2333;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            padding: 0 25px 25px 25px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand span { color: var(--accent-blue); }
+
+        .nav-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            color: var(--text-sub);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover { background-color: var(--nav-hover); color: white; }
+        .nav-item.active {
+            background-color: var(--active-item);
+            color: var(--accent-blue);
+            border-left: 3px solid var(--accent-blue);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            scroll-behavior: smooth;
+        }
+
+        .industry-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+        .industry-title {
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            color: white;
+        }
+        .industry-desc {
+            color: var(--text-sub);
+            font-size: 1.1rem;
+            max-width: 800px;
+            line-height: 1.5;
+        }
+
+        /* Solution Module */
+        .solution-module {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .module-header {
+            background-color: var(--section-header-bg);
+            padding: 15px 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .module-title::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 20px;
+            background-color: var(--accent-blue);
+            border-radius: 2px;
+        }
+        .tag {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .tag-core { background: var(--accent-blue); color: white; }
+        .tag-unique { background: var(--accent-green); color: black; }
+        .tag-reuse { background: #4B5563; color: white; }
+
+        .module-body {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .pain-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .solution-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        .pain-box .box-title { color: var(--accent-red); }
+        .solution-box .box-title { color: var(--accent-green); }
+        
+        ul { margin: 0; padding-left: 20px; color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; }
+        li { margin-bottom: 8px; }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        .metric-item {
+            background: #111;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .metric-val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            margin-bottom: 5px;
+        }
+        .metric-lbl {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        .metric-desc {
+            color: var(--text-sub);
+            font-size: 0.8rem;
+        }
+
+        .visual-area {
+            background: #000;
+            border: 1px dashed #444;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            min-height: 100px;
+        }
+        .visual-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .visual-icon { font-size: 2rem; margin-bottom: 5px; }
+        .visual-arrow { font-size: 1.5rem; color: #444; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            ⚡ Meshy <span>Hub</span>
+        </div>
+        
+        <div class="nav-item active" onclick="loadIndustry('gaming', this)">
+            <span>🎮</span> Gaming
+        </div>
+        <div class="nav-item" onclick="loadIndustry('manufacturing', this)">
+            <span>🏭</span> Manufacturing & Culture
+        </div>
+        <div class="nav-item" onclick="loadIndustry('film', this)">
+            <span>🎬</span> Film & Animation
+        </div>
+        <div class="nav-item" onclick="loadIndustry('interior', this)">
+            <span>🛋️</span> Interior Design
+        </div>
+        <div class="nav-item" onclick="loadIndustry('printing', this)">
+            <span>🖨️</span> 3D Printing
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-container">
+        <!-- Content Injected via JS -->
+    </main>
+
+    <script>
+        // --- DATA STORE (Fully Expanded: 4+ Modules Per Industry) ---
+        const db = {
+            gaming: {
+                title: "Gaming Industry Solutions",
+                desc: "End-to-end acceleration from concept prototyping to final asset polish.",
+                modules: [
+                    {
+                        title: "Asset Blockout Acceleration",
+                        tag: "Core Workflow", tagClass: "tag-core",
+                        painPoints: [
+                            "Artists waste days on basic sculpting (blockout) before styling.",
+                            "Senior talent is stuck doing 'dirty work' instead of polishing.",
+                            "2D-to-3D interpretation errors cause rework."
+                        ],
+                        solutions: [
+                            "AI generates 80% complete high-poly bases in minutes.",
+                            "Skip blockout, go straight to ZBrush refinement.",
+                            "Instant volume visualization from concept art."
+                        ],
+                        metrics: [
+                            { val: "4h vs 3d", lbl: "Per Asset", desc: "Production time slashed" },
+                            { val: "+70%", lbl: "Efficiency", desc: "Sculpting speed boost" },
+                            { val: "↓ Cost", lbl: "Outsourcing", desc: "Less external reliance" }
+                        ],
+                        visual: [
+                            { icon: "🖼️", text: "2D Concept" },
+                            { icon: "⚡", text: "Meshy AI" },
+                            { icon: "🗿", text: "High Poly Base" }
+                        ]
+                    },
+                    {
+                        title: "Stylized Variations",
+                        tag: "Unique Value", tagClass: "tag-unique",
+                        painPoints: [
+                            "Creating 10 variants (fire, ice, ruined) is repetitive labor.",
+                            "Outsourcing leads to fragmented art styles.",
+                            "Iteration cycles for 'reskinning' take days."
+                        ],
+                        solutions: [
+                            "Generate infinite variants from one master model.",
+                            "Local Refine fixes details without breaking the base.",
+                            "100% style consistency via Reference Image control."
+                        ],
+                        metrics: [
+                            { val: "10x", lbl: "Scale", desc: "Asset production capacity" },
+                            { val: "100%", lbl: "Consistency", desc: "Unified art style" },
+                            { val: "1 Day", lbl: "10+ Sets", desc: "Explosive output" }
+                        ],
+                        visual: [
+                            { icon: "🏰", text: "Master Model" },
+                            { icon: "🎨", text: "Style Ref" },
+                            { icon: "🔥❄️🌿", text: "Batch Variants" }
+                        ]
+                    },
+                    {
+                        title: "Seamless PBR Texturing",
+                        tag: "Reuse", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Modeling high-poly geometry just to bake trim sheets.",
+                            "Designers lack 2D painting skills for complex textures.",
+                            "Expensive revisions for changing materials."
+                        ],
+                        solutions: [
+                            "Generate 4K normal/height visuals directly (No Modeling).",
+                            "AI Design Assistant converts keywords to textures.",
+                            "Rapid iteration of weathering and material types."
+                        ],
+                        metrics: [
+                            { val: "Skip", lbl: "High Poly", desc: "Direct visual generation" },
+                            { val: "15m", lbl: "Turnaround", desc: "vs 2 Days manual work" },
+                            { val: "4K", lbl: "Resolution", desc: "Production ready maps" }
+                        ],
+                        visual: [
+                            { icon: "✨", text: "AI Visual Gen" },
+                            { icon: "🔄", text: "PBR Convert" },
+                            { icon: "🧱", text: "Game Ready Material" }
+                        ]
+                    },
+                    {
+                         title: "Rapid Prototyping",
+                         tag: "Core Workflow", tagClass: "tag-core",
+                         painPoints: [
+                             "Level designers use ugly greyboxes that fail to convey atmosphere.",
+                             "Waste time modeling placeholder assets that get deleted.",
+                             "Hard to get stakeholder buy-in with low-fidelity demos."
+                         ],
+                         solutions: [
+                             "Instant generation of textured props for immersive whiteboxing.",
+                             "Generate 50+ props in hours to populate scenes.",
+                             "Validate gameplay feel immediately with visuals."
+                         ],
+                         metrics: [
+                             { val: "90%", lbl: "Time Saved", desc: "Days to Minutes" },
+                             { val: "0", lbl: "Asset Cost", desc: "No asset packs needed" },
+                             { val: "2x", lbl: "Iteration", desc: "Fail fast, pivot faster" }
+                         ],
+                         visual: [
+                             { icon: "📝", text: "Text Prompt" },
+                             { icon: "🎲", text: "3D Prop" },
+                             { icon: "🎮", text: "Game Engine" }
+                         ]
+                    }
+                ]
+            },
+            manufacturing: {
+                title: "Manufacturing & Culture",
+                desc: "Empowering IP revitalization, blind box series, and rapid industrial ideation.",
+                modules: [
+                    {
+                        title: "Blind Box Series Design",
+                        tag: "Unique Value", tagClass: "tag-unique",
+                        painPoints: [
+                            "Designing a full series (12 figures) is time-consuming.",
+                            "Manual modeling of accessories for each variant is slow.",
+                            "Hard to visualize the 'Hidden Edition' quickly."
+                        ],
+                        solutions: [
+                            "Keep base mold, AI-generate prop/outfit variations.",
+                            "Local Refine for rapid accessory swapping.",
+                            "Visualize a full 12-figure series in 24 hours."
+                        ],
+                        metrics: [
+                            { val: "24h", lbl: "Full Series", desc: "From concept to lineup" },
+                            { val: "∞", lbl: "Variations", desc: "Endless ideation" },
+                            { val: "Fast", lbl: "Time-to-Market", desc: "Trend response" }
+                        ],
+                        visual: [
+                            { icon: "🧸", text: "Base Figure" },
+                            { icon: "🖌️", text: "Local Refine" },
+                            { icon: "📦📦📦", text: "Full Blind Box Series" }
+                        ]
+                    },
+                    {
+                        title: "Heritage Revitalization",
+                        tag: "New Market", tagClass: "tag-unique",
+                        painPoints: [
+                            "Museums have photos but no 3D data of artifacts.",
+                            "Scanning is expensive and can damage artifacts.",
+                            "Lack of merchandisable 3D assets (fridge magnets, toys)."
+                        ],
+                        solutions: [
+                            "Photo-to-3D converts archives into 3D merchandise.",
+                            "Style Transfer to create Q-version IP products.",
+                            "Zero-contact digitization process."
+                        ],
+                        metrics: [
+                            { val: "Zero", lbl: "Scan Cost", desc: "Photo-based workflow" },
+                            { val: "New", lbl: "Revenue", desc: "IP monetization" },
+                            { val: "Safe", lbl: "No Contact", desc: "Artifact safety" }
+                        ],
+                        visual: [
+                            { icon: "📷", text: "Artifact Photo" },
+                            { icon: "⚡", text: "AI Processing" },
+                            { icon: "🎁", text: "3D Merchandise" }
+                        ]
+                    },
+                    {
+                        title: "Rapid ID Ideation",
+                        tag: "Reuse", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Sketching is fast, but converting sketches to 3D for volume check is slow.",
+                            "Designers struggle to communicate volume with 2D drawings.",
+                            "Waiting for CAD modelers creates bottlenecks."
+                        ],
+                        solutions: [
+                            "Sketch-to-3D visualization for instant form validation.",
+                            "Check volume and proportions in 3D immediately.",
+                            "Iterate forms rapidly before committing to CAD."
+                        ],
+                        metrics: [
+                            { val: "30m", lbl: "Validation", desc: "vs Days of CAD" },
+                            { val: "Fast", lbl: "Iterate", desc: "Explore more options" },
+                            { val: "Visual", lbl: "Check", desc: "Form factor review" }
+                        ],
+                        visual: [
+                            { icon: "✏️", text: "2D Sketch" },
+                            { icon: "🔄", text: "Meshy AI" },
+                            { icon: "🧊", text: "3D Volume" }
+                        ]
+                    },
+                    {
+                        title: "CMF Exploration (Material & Finish)",
+                        tag: "Reuse", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Physical CMF prototyping is extremely expensive.",
+                            "Waiting for Keyshot rendering to test simple colorways.",
+                            "Hard to visualize material combinations on white models."
+                        ],
+                        solutions: [
+                            "Apply AI texturing to white models instantly.",
+                            "Test 50+ material combos (Wood/Metal/Plastic) in minutes.",
+                            "No UV unwrapping required for quick visualization."
+                        ],
+                        metrics: [
+                            { val: "50+", lbl: "Combos", desc: "Explore in 1 hour" },
+                            { val: "$0", lbl: "Proto Cost", desc: "Virtual verification" },
+                            { val: "Instant", lbl: "Feedback", desc: "Real-time review" }
+                        ],
+                        visual: [
+                            { icon: "⚪", text: "White Model" },
+                            { icon: "🎨", text: "AI Texture" },
+                            { icon: "🔴🔵🟡", text: "Colorways" }
+                        ]
+                    }
+                ]
+            },
+            film: {
+                title: "Film & Animation",
+                desc: "Efficient background asset filling and matte painting geometry generation.",
+                modules: [
+                    {
+                        title: "Crowd Asset Filling",
+                        tag: "Unique Value", tagClass: "tag-unique",
+                        painPoints: [
+                            "Background crowds require high variety but low detail.",
+                            "Manual character modeling for 'extras' is too expensive.",
+                            "Repeated assets look fake in wide shots."
+                        ],
+                        solutions: [
+                            "Mass-generate diverse low-poly characters.",
+                            "Infinite clothing/face variations via text prompt.",
+                            "Instancing-friendly geometry for crowd sims."
+                        ],
+                        metrics: [
+                            { val: "100%", lbl: "Variety", desc: "No two look alike" },
+                            { val: "Low", lbl: "Polycount", desc: "Optimized for crowds" },
+                            { val: "Fast", lbl: "Populate", desc: "Fill scenes instantly" }
+                        ],
+                        visual: [
+                            { icon: "📝", text: "Prompt List" },
+                            { icon: "🧟‍♂️", text: "Low Poly Gen" },
+                            { icon: "🎬", text: "Crowd Scene" }
+                        ]
+                    },
+                    {
+                        title: "Matte Painting Geometry",
+                        tag: "Workflow", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Creating 3D projection geo for 2.5D shots is tedious.",
+                            "Modeling irregular shapes (rubble, mountains) takes time.",
+                            "Compositors rely on simple planes, limiting camera moves."
+                        ],
+                        solutions: [
+                            "Turn matte paintings into rough 3D geometry instantly.",
+                            "Perfect for Camera Projection in Nuke/AE.",
+                            "Adds depth and parallax to flat images."
+                        ],
+                        metrics: [
+                            { val: "Instant", lbl: "Geometry", desc: "From 2D image" },
+                            { val: "Nuke", lbl: "Ready", desc: "Projection workflow" },
+                            { val: "Depth", lbl: "Enhanced", desc: "Better parallax" }
+                        ],
+                        visual: [
+                            { icon: "🖼️", text: "Matte Painting" },
+                            { icon: "📐", text: "Rough Geo" },
+                            { icon: "🎥", text: "Camera Projection" }
+                        ]
+                    },
+                    {
+                        title: "Cinematic Previz Assets",
+                        tag: "Reuse", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Directors struggle to visualize shots with just grey cubes.",
+                            "Waiting for art dept assets slows down Layout/Previz.",
+                            "Storyboards lack spatial depth information."
+                        ],
+                        solutions: [
+                            "Instantly fill scenes with rough textured props.",
+                            "Rapidly iterate set designs during storyboarding.",
+                            "Better communication between Director and DoP."
+                        ],
+                        metrics: [
+                            { val: "Speed", lbl: "Real-time", desc: "Asset on demand" },
+                            { val: "Clarity", lbl: "Visuals", desc: "Better than cubes" },
+                            { val: "Layout", lbl: "Ready", desc: "Blocking & Staging" }
+                        ],
+                        visual: [
+                            { icon: "🎬", text: "Storyboard" },
+                            { icon: "⚡", text: "Meshy Gen" },
+                            { icon: "🎥", text: "3D Layout" }
+                        ]
+                    },
+                    {
+                        title: "Environment Set Dressing",
+                        tag: "Reuse", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Hero assets get all the budget; backgrounds look empty.",
+                            "Modeling piles of trash, rubble, or distant buildings is boring.",
+                            "Purchasing asset packs is expensive and generic."
+                        ],
+                        solutions: [
+                            "Generate infinite 'filler' assets (rubble, boxes, rocks).",
+                            "Unique background elements that don't look repeated.",
+                            "Fills the frame with rich detail at zero modeling cost."
+                        ],
+                        metrics: [
+                            { val: "High", lbl: "Density", desc: "Rich backgrounds" },
+                            { val: "$0", lbl: "Cost", desc: "No purchased packs" },
+                            { val: "Unique", lbl: "Look", desc: "Custom to scene" }
+                        ],
+                        visual: [
+                            { icon: "🏙️", text: "Empty Street" },
+                            { icon: "📦🧱", text: "AI Filler Props" },
+                            { icon: "✨", text: "Rich Detail" }
+                        ]
+                    }
+                ]
+            },
+            interior: {
+                title: "Interior Design",
+                desc: "Overcoming CAD limitations with organic soft goods and bespoke decor.",
+                modules: [
+                    {
+                        title: "Organic Soft Goods",
+                        tag: "Unique Value", tagClass: "tag-unique",
+                        painPoints: [
+                            "CAD tools (SketchUp) fail at natural cloth wrinkles.",
+                            "Scenes look stiff and 'fake' without organic details.",
+                            "Simulating cloth physics is too technical/slow."
+                        ],
+                        solutions: [
+                            "Text-to-Softbody generates natural, messy cloth.",
+                            "Add 'lived-in' feel (messy bed, curtains) instantly.",
+                            "No physics simulation required."
+                        ],
+                        metrics: [
+                            { val: "No", lbl: "Physics Sim", desc: "Zero technical barrier" },
+                            { val: "100%", lbl: "Realism", desc: "Natural folds" },
+                            { val: "Fast", lbl: "Staging", desc: "Instant atmosphere" }
+                        ],
+                        visual: [
+                            { icon: "🛏️", text: "Stiff CAD Model" },
+                            { icon: "✨", text: "AI Softbody" },
+                            { icon: "🏡", text: "Cozy Interior" }
+                        ]
+                    },
+                    {
+                        title: "Bespoke Decor",
+                        tag: "Reuse", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Luxury projects need unique art, but libraries are generic.",
+                            "Custom modeling for a vase/statue is over-budget.",
+                            "Hard to demonstrate unique taste with stock assets."
+                        ],
+                        solutions: [
+                            "Generate one-of-a-kind art based on mood boards.",
+                            "Create unique sculptures/vases in minutes.",
+                            "Visualise 'Bespoke' without the cost."
+                        ],
+                        metrics: [
+                            { val: "Unique", lbl: "Design", desc: "One of a kind" },
+                            { val: "High", lbl: "Value", desc: "Premium presentation" },
+                            { val: "∞", lbl: "Library", desc: "Never repeat assets" }
+                        ],
+                        visual: [
+                            { icon: "🎨", text: "Mood Board" },
+                            { icon: "🏺", text: "Custom Decor" },
+                            { icon: "✨", text: "Luxury Scene" }
+                        ]
+                    },
+                    {
+                        title: "Custom Surface & Fabric",
+                        tag: "Reuse", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Stock textures (wallpaper/rugs) don't match the design vision.",
+                            "Finding high-res textures of specific patterns is hard.",
+                            "Imported photos look flat without normal maps."
+                        ],
+                        solutions: [
+                            "Turn a photo of a fabric swatch into a seamless texture.",
+                            "Auto-generate Normal/Roughness maps for realism.",
+                            "Create exclusive wallpapers or rug patterns instantly."
+                        ],
+                        metrics: [
+                            { val: "Custom", lbl: "Patterns", desc: "Match any vision" },
+                            { val: "PBR", lbl: "Ready", desc: "Render compatible" },
+                            { val: "Fast", lbl: "Sourcing", desc: "Stop searching" }
+                        ],
+                        visual: [
+                            { icon: "📸", text: "Fabric Photo" },
+                            { icon: "🔄", text: "AI Seamless" },
+                            { icon: "🧶", text: "3D Material" }
+                        ]
+                    },
+                    {
+                        title: "Rapid Virtual Staging",
+                        tag: "Reuse", tagClass: "tag-reuse",
+                        painPoints: [
+                            "Empty rooms are hard to sell in Real Estate.",
+                            "Modeling furniture just for staging is too expensive.",
+                            "Purchasing staging furniture assets adds up."
+                        ],
+                        solutions: [
+                            "Quickly fill scanned rooms (LiDAR) with AI furniture.",
+                            "Doesn't need perfect geometry, just visual volume.",
+                            "Stage a whole house in an afternoon."
+                        ],
+                        metrics: [
+                            { val: "Speed", lbl: "Staging", desc: "Minutes per room" },
+                            { val: "Low", lbl: "Cost", desc: "No asset fees" },
+                            { val: "High", lbl: "Impact", desc: "Better sales conversion" }
+                        ],
+                        visual: [
+                            { icon: "🏚️", text: "Empty Scan" },
+                            { icon: "🛋️", text: "AI Furniture" },
+                            { icon: "🏡", text: "Staged Home" }
+                        ]
+                    }
+                ]
+            },
+            printing: {
+                title: "3D Printing & C2M",
+                desc: "From user creativity to physical delivery: The C2M Engine.",
+                modules: [
+                    {
+                        title: "AI-Powered C2M Engine",
+                        tag: "Core Workflow", tagClass: "tag-core",
+                        painPoints: [
+                            "Customization is expensive due to manual modeling.",
+                            "Users have ideas but zero modeling skills.",
+                            "File repair for printing is technical and slow."
+                        ],
+                        solutions: [
+                            "Zero-modeling engine: User Prompt → Physical Delivery.",
+                            "Built-in Printability Guard (Auto-Repair).",
+                            "Seamless API connection to Print Farms."
+                        ],
+                        metrics: [
+                            { val: "$0", lbl: "Model Cost", desc: "Replaces manual labor" },
+                            { val: "Global", lbl: "Delivery", desc: "Distributed manufacturing" },
+                            { val: "Auto", lbl: "Repair", desc: "Manifold check" }
+                        ],
+                        visual: [
+                            { icon: "💡", text: "User Idea" },
+                            { icon: "⚙️", text: "Auto Repair" },
+                            { icon: "🚚", text: "Physical Product" }
+                        ]
+                    },
+                    {
+                        title: "Full-Color Customization",
+                        tag: "Unique Value", tagClass: "tag-unique",
+                        painPoints: [
+                            "Standard printing is monochrome; boring.",
+                            "Hand-painting miniatures takes hours.",
+                            "Most AIs generate geometry but lose color info."
+                        ],
+                        solutions: [
+                            "Native support for .3MF and Vertex Color.",
+                            "Compatible with Bambu Lab AMS multicolor printing.",
+                            "WYSIWYG: What you see on screen is what you print."
+                        ],
+                        metrics: [
+                            { val: ".3MF", lbl: "Format", desc: "Full color data" },
+                            { val: "Full", lbl: "Color", desc: "No hand painting" },
+                            { val: "Ready", lbl: "To Print", desc: "Slicer compatible" }
+                        ]
+                    },
+                    {
+                        title: "Digital Twin Souvenirs",
+                        tag: "New Market", tagClass: "tag-unique",
+                        painPoints: [
+                            "Pet owners want custom statues, but sculpting costs $500+.",
+                            "Wedding cake toppers are usually generic plastic figures.",
+                            "Mass customization is impossible with manual labor."
+                        ],
+                        solutions: [
+                            "Photo-to-3D: Create custom figurines from 2D photos.",
+                            "Affordable 'Digital Twin' service for pets/humans.",
+                            "Scalable business model for vertical markets."
+                        ],
+                        metrics: [
+                            { val: "Low", lbl: "Price", desc: "Mass market ready" },
+                            { val: "High", lbl: "Emotion", desc: "Personal connection" },
+                            { val: "Scalable", lbl: "Volume", desc: "Automated pipeline" }
+                        ],
+                        visual: [
+                            { icon: "🐶", text: "Pet Photo" },
+                            { icon: "⚡", text: "AI Clone" },
+                            { icon: "🗿", text: "Printed Statue" }
+                        ]
+                    },
+                    {
+                        title: "Scan Repair & Completion",
+                        tag: "Core Workflow", tagClass: "tag-core",
+                        painPoints: [
+                            "3D Scans often have holes, missing limbs, or noise.",
+                            "Fixing scans requires advanced ZBrush/MeshLab skills.",
+                            "Raw scans are rarely printable directly."
+                        ],
+                        solutions: [
+                            "AI 'heals' the mesh and hallucinates missing details.",
+                            "Semantic completion (e.g., fixing a missing ear).",
+                            "Auto-retouches surfaces for better print quality."
+                        ],
+                        metrics: [
+                            { val: "Auto", lbl: "Healing", desc: "Fix mesh holes" },
+                            { val: "Better", lbl: "Surface", desc: "Smooths noise" },
+                            { val: "Print", lbl: "Ready", desc: "Watertight mesh" }
+                        ],
+                        visual: [
+                            { icon: "🔍", text: "Broken Scan" },
+                            { icon: "🩹", text: "AI Repair" },
+                            { icon: "✅", text: "Perfect Print" }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // --- RENDER LOGIC ---
+        // Attached to window to prevent ReferenceError
+        window.loadIndustry = function(key, navEl) {
+            // Update Navigation UI
+            if (navEl) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                navEl.classList.add('active');
+            }
+
+            const data = db[key];
+            if (!data) return;
+
+            const container = document.getElementById('main-container');
+            
+            // Clear container
+            container.innerHTML = '';
+
+            // 1. Build Industry Header
+            let html = `
+                <div class="industry-header">
+                    <h1 class="industry-title">${data.title}</h1>
+                    <p class="industry-desc">${data.desc}</p>
+                </div>
+            `;
+
+            // 2. Build Modules
+            // Using defensive programming (|| []) to avoid "undefined" errors
+            (data.modules || []).forEach(mod => {
+                // Generate LI items for Pain Points
+                const painList = (mod.painPoints || []).map(p => `<li>${p}</li>`).join('');
+                // Generate LI items for Solutions
+                const solList = (mod.solutions || []).map(s => `<li>${s}</li>`).join('');
+                
+                // Generate Metrics HTML
+                const metricsHtml = (mod.metrics || []).map(m => `
+                    <div class="metric-item">
+                        <span class="metric-val">${m.val}</span>
+                        <span class="metric-lbl">${m.lbl}</span>
+                        <span class="metric-desc">${m.desc}</span>
+                    </div>
+                `).join('');
+
+                // Generate Visual HTML
+                const visualHtml = (mod.visual || []).map((v, i) => `
+                    <div class="visual-step">
+                        <div class="visual-icon">${v.icon}</div>
+                        <div>${v.text}</div>
+                    </div>
+                    ${i < (mod.visual || []).length - 1 ? '<div class="visual-arrow">→</div>' : ''}
+                `).join('');
+
+                html += `
+                    <div class="solution-module">
+                        <div class="module-header">
+                            <div class="module-title">${mod.title}</div>
+                            <span class="tag ${mod.tagClass}">${mod.tag}</span>
+                        </div>
+                        <div class="module-body">
+                            <!-- Comparison Grid -->
+                            <div class="comparison-grid">
+                                <div class="pain-box">
+                                    <div class="box-title">🚫 The Challenge</div>
+                                    <ul>${painList}</ul>
+                                </div>
+                                <div class="solution-box">
+                                    <div class="box-title">✅ Meshy Solution</div>
+                                    <ul>${solList}</ul>
+                                </div>
+                            </div>
+
+                            <!-- Metrics Grid -->
+                            <div class="metrics-grid">
+                                ${metricsHtml}
+                            </div>
+
+                            <!-- Visual Workflow -->
+                            <div class="visual-area">
+                                ${visualHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        };
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load first tab by default
+            const firstNav = document.querySelector('.nav-item');
+            if(firstNav) {
+                // Manually call it to start
+                window.loadIndustry('gaming', firstNav);
+            }
+        });
+
+    </script>
+</body>
+</html>

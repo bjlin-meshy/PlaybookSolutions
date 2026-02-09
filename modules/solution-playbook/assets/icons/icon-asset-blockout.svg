@@ -1,0 +1,67 @@
+<!-- D§w‹  / Asset Blockout Acceleration -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <!-- ;rØ -->
+    <linearGradient id="blockout-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C8FF00"/>
+      <stop offset="100%" stop-color="#9ACC00"/>
+    </linearGradient>
+    
+    <!-- ê5ÑIHœ -->
+    <filter id="blockout-glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 	²¨; -->
+    <style>
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-2px); }
+      }
+      .pulse { animation: pulse 2s ease-in-out infinite; }
+      .float { animation: float 3s ease-in-out infinite; }
+    </style>
+  </defs>
+  
+  <!-- ÌoË¹SƒÜ	 -->
+  <g class="float" style="animation-delay: 0.3s;">
+    <path d="M42 28L52 34V46L42 52L32 46V34L42 28Z" fill="url(#blockout-gradient)" opacity="0.3"/>
+    <path d="M42 28L52 34L42 40L32 34L42 28Z" fill="#C8FF00" opacity="0.5"/>
+  </g>
+  
+  <!-- ;Ë¹S -->
+  <g class="float">
+    <!-- Ë¹Sób -->
+    <path d="M30 32L42 39V53L30 60L18 53V39L30 32Z" fill="url(#blockout-gradient)" opacity="0.8"/>
+    <!-- Ë¹Svb -->
+    <path d="M30 32L42 39L30 46L18 39L30 32Z" fill="#C8FF00"/>
+    <!-- Ë¹Sæb -->
+    <path d="M18 39L30 46V60L18 53V39Z" fill="#A8D900" opacity="0.9"/>
+  </g>
+  
+  <!-- ê5&÷ -->
+  <g filter="url(#blockout-glow)" class="pulse">
+    <path d="M16 8L10 20H16L12 28L22 16H16L20 8H16Z" fill="#C8FF00"/>
+  </g>
+  
+  <!-- ¦¿ -->
+  <g opacity="0.6" class="pulse" style="animation-delay: 0.5s;">
+    <line x1="48" y1="20" x2="58" y2="20" stroke="#C8FF00" stroke-width="2" stroke-linecap="round"/>
+    <line x1="50" y1="26" x2="60" y2="26" stroke="#C8FF00" stroke-width="2" stroke-linecap="round"/>
+    <line x1="48" y1="32" x2="56" y2="32" stroke="#C8FF00" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  
+  <!-- IÅp -->
+  <g class="pulse" style="animation-delay: 1s;">
+    <circle cx="54" cy="12" r="2" fill="#C8FF00"/>
+    <circle cx="8" cy="36" r="1.5" fill="#C8FF00" opacity="0.6"/>
+  </g>
+</svg>

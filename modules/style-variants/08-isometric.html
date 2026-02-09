@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+<style>
+html { background: #080808; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #080808; font-family: 'Inter', Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.content { padding: 20pt 25pt; }
+.header { margin-bottom: 12pt; }
+h1 { color: #FFFFFF; font-size: 22pt; margin: 0; font-weight: 600; }
+.accent { color: #CCFF00; }
+.subtitle { color: #888888; font-size: 9pt; margin: 4pt 0 0 0; }
+.iso-grid { display: flex; gap: 15pt; }
+.iso-column { flex: 1; }
+.iso-box { background: #111111; border: 1pt solid #333333; padding: 12pt; margin-bottom: 10pt; position: relative; }
+.iso-box-accent { border-color: #CCFF00; background: #0A1A0A; }
+.box-label { position: absolute; top: -8pt; left: 10pt; background: #080808; padding: 0 5pt; }
+.label-text { color: #888888; font-size: 7pt; margin: 0; text-transform: uppercase; }
+.label-accent { color: #CCFF00; }
+.box-content { color: #AAAAAA; font-size: 9pt; margin: 0; }
+.metrics-section { display: flex; gap: 12pt; margin-top: 12pt; }
+.metric-iso { flex: 1; background: #111111; border: 1pt solid #CCFF00; padding: 12pt; text-align: center; }
+.metric-value { color: #CCFF00; font-size: 20pt; margin: 0; font-weight: 700; }
+.metric-label { color: #888888; font-size: 7pt; margin: 3pt 0 0 0; }
+.flow-section { margin-top: 10pt; padding: 10pt; background: #111111; border: 1pt solid #333333; }
+.flow-row { display: flex; align-items: center; justify-content: center; gap: 10pt; }
+.flow-node { background: #1A1A1A; border: 1pt solid #333333; padding: 6pt 12pt; }
+.flow-text { color: #888888; font-size: 8pt; margin: 0; }
+.flow-node-active { border-color: #CCFF00; }
+.flow-text-active { color: #CCFF00; }
+.flow-arrow { color: #CCFF00; font-size: 12pt; }
+.tag { color: #666666; font-size: 7pt; margin: 8pt 0 0 0; text-align: right; }
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="header">
+    <h1>Asset <span class="accent">Blockout</span> Acceleration</h1>
+    <p class="subtitle">Gaming Industry Solution | Core Workflow | Meshy AI</p>
+  </div>
+  <div class="iso-grid">
+    <div class="iso-column">
+      <div class="iso-box"><div class="box-label"><p class="label-text">Pain 01</p></div><p class="box-content">Manual blockout takes 2-4 days per asset</p></div>
+      <div class="iso-box"><div class="box-label"><p class="label-text">Pain 02</p></div><p class="box-content">Senior talent stuck on repetitive tasks</p></div>
+      <div class="iso-box"><div class="box-label"><p class="label-text">Pain 03</p></div><p class="box-content">2D to 3D interpretation causes rework</p></div>
+    </div>
+    <div class="iso-column">
+      <div class="iso-box iso-box-accent"><div class="box-label"><p class="label-text label-accent">Fix 01</p></div><p class="box-content">AI generates 80% complete high-poly bases</p></div>
+      <div class="iso-box iso-box-accent"><div class="box-label"><p class="label-text label-accent">Fix 02</p></div><p class="box-content">Skip blockout, straight to ZBrush polish</p></div>
+      <div class="iso-box iso-box-accent"><div class="box-label"><p class="label-text label-accent">Fix 03</p></div><p class="box-content">Instant volume visualization from concepts</p></div>
+    </div>
+  </div>
+  <div class="metrics-section">
+    <div class="metric-iso"><p class="metric-value">80%</p><p class="metric-label">Time Saved</p></div>
+    <div class="metric-iso"><p class="metric-value">3x</p><p class="metric-label">Speed Boost</p></div>
+    <div class="metric-iso"><p class="metric-value">1-2h</p><p class="metric-label">Per Asset</p></div>
+  </div>
+  <div class="flow-section">
+    <div class="flow-row">
+      <div class="flow-node"><p class="flow-text">2D Concept</p></div>
+      <p class="flow-arrow">-></p>
+      <div class="flow-node flow-node-active"><p class="flow-text flow-text-active">Meshy AI</p></div>
+      <p class="flow-arrow">-></p>
+      <div class="flow-node"><p class="flow-text">High Poly</p></div>
+      <p class="flow-arrow">-></p>
+      <div class="flow-node"><p class="flow-text">ZBrush</p></div>
+      <p class="flow-arrow">-></p>
+      <div class="flow-node"><p class="flow-text">Game Ready</p></div>
+    </div>
+  </div>
+  <p class="tag">STYLE 08 // ISOMETRIC BLOCKS</p>
+</div>
+</body>
+</html>

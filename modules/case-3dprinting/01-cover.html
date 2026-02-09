@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+<style>
+html { background: #080808; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #080808; font-family: 'Inter', Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.content { padding: 15pt 30pt; display: flex; flex-direction: column; height: 100%; position: relative; }
+.glow-corner { position: absolute; top: -50pt; left: -50pt; width: 200pt; height: 200pt; background: #CCFF00; opacity: 0.08; border-radius: 50%; }
+.tag-wrapper { display: inline-block; background: #CCFF00; padding: 4pt 14pt; margin-bottom: 8pt; }
+.tag { color: #080808; font-size: 9pt; font-weight: 700; margin: 0; letter-spacing: 2pt; }
+h1 { color: #FFFFFF; font-size: 34pt; margin: 0 0 4pt 0; font-weight: 700; }
+.accent-text { color: #CCFF00; }
+.subtitle { color: #888888; font-size: 11pt; margin: 0 0 12pt 0; }
+.hero-section { flex: 1; display: flex; align-items: center; justify-content: center; }
+.hero-card { background: #0D0D0D; border: 1pt solid #222222; padding: 22pt 50pt; text-align: center; position: relative; }
+.hero-glow { position: absolute; top: -1pt; left: 30%; right: 30%; height: 1pt; background: #CCFF00; }
+.hero-icon { color: #CCFF00; font-size: 40pt; margin-bottom: 10pt; }
+.hero-title { color: #FFFFFF; font-size: 16pt; margin: 0 0 6pt 0; font-weight: 600; }
+.hero-desc { color: #888888; font-size: 10pt; margin: 0; }
+.badge-row { display: flex; gap: 10pt; justify-content: center; margin-top: 10pt; }
+.badge { background: #111111; border: 1pt solid #333333; padding: 6pt 16pt; }
+.badge-text { color: #CCFF00; font-size: 8pt; margin: 0; font-weight: 600; letter-spacing: 1pt; }
+.stats-row { display: flex; gap: 30pt; justify-content: center; margin-top: 12pt; }
+.stat-item { text-align: center; }
+.stat-value { color: #CCFF00; font-size: 20pt; margin: 0; font-weight: 700; }
+.stat-label { color: #666666; font-size: 7pt; margin: 0; }
+.footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8pt; }
+.footer-left { color: #444444; font-size: 7pt; }
+.footer-right { color: #444444; font-size: 7pt; }
+</style>
+</head>
+<body>
+<div class="content">
+  <div class="glow-corner"></div>
+  <div class="tag-wrapper"><p class="tag">MESHY AI</p></div>
+  <h1>Full-Color <span class="accent-text">Miniature</span> Customization</h1>
+  <p class="subtitle">AI-Powered 3D Print-Ready Asset Pipeline</p>
+  <div class="hero-section">
+    <div class="hero-card">
+      <div class="hero-glow"></div>
+      <p class="hero-icon">//</p>
+      <p class="hero-title">3D Printing Industry Solution</p>
+      <p class="hero-desc">From customer request to print-ready file in under 30 minutes</p>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-item">
+      <p class="stat-value">10x</p>
+      <p class="stat-label">FASTER</p>
+    </div>
+    <div class="stat-item">
+      <p class="stat-value">3MF</p>
+      <p class="stat-label">NATIVE</p>
+    </div>
+    <div class="stat-item">
+      <p class="stat-value">$0</p>
+      <p class="stat-label">PAINTING</p>
+    </div>
+  </div>
+  <div class="footer">
+    <p class="footer-left">MESHY SOLUTIONS PLAYBOOK</p>
+    <p class="footer-right">01 // COVER</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+===============================================================================
+        HAPPY NEW YEAR 2026 CARD - DESIGN IMPROVEMENT GUIDE
+===============================================================================
+
+Design: Option 3 (Pixar-style 3D characters with sunset background)
+Tool: Google Gemini
+Date: January 31, 2026
+
+-------------------------------------------------------------------------------
+                         OVERALL ASSESSMENT
+-------------------------------------------------------------------------------
+
+Current Score: 6.5/10
+
+The design has strong foundational elements — charming 3D characters, 
+cinematic lighting, and a warm emotional tone. However, several issues 
+need to be addressed before final use.
+
+-------------------------------------------------------------------------------
+                      CRITICAL ISSUES (MUST FIX)
+-------------------------------------------------------------------------------
+
+1. CHINESE TEXT ERROR [CRITICAL]
+   - Current: "新年KAR乐" (broken characters)
+   - Correct: "新年快乐" (Happy New Year)
+   - Impact: This error could appear unprofessional or culturally insensitive
+
+2. MISSING BRAND IDENTITY [CRITICAL]
+   - Current: No Meshy AI logo or brand identifier
+   - Needed: Recipients should know this is from Meshy AI
+
+===============================================================================
+                     GEMINI MODIFICATION PROMPTS
+===============================================================================
+
+Run these prompts in Gemini in order. Copy and paste directly.
+
+-------------------------------------------------------------------------------
+PROMPT 1: Fix Chinese Text (Critical)
+-------------------------------------------------------------------------------
+
+Fix the Chinese text at the bottom of the image. Change "新年KAR乐" to correctly display "新年快乐" (Happy New Year in Chinese). Make sure the Chinese characters are properly rendered and clearly legible.
+
+-------------------------------------------------------------------------------
+PROMPT 2: Add Meshy AI Branding
+-------------------------------------------------------------------------------
+
+Add a small, elegant white logo that says "Meshy" in the bottom right corner of the image. Place it subtly below the main scene, approximately 1/10th the width of the image. Keep it minimal and professional, with clean sans-serif typography.
+
+-------------------------------------------------------------------------------
+PROMPT 3: Simplify Background
+-------------------------------------------------------------------------------
+
+Make the roller coaster in the background less prominent. Blur it slightly and reduce its color saturation so it blends more into the sunset sky. Keep the focus on the two characters in the foreground. The sunset colors and mountains should remain vivid.
+
+-------------------------------------------------------------------------------
+PROMPT 4: Enhance Typography
+-------------------------------------------------------------------------------
+
+Improve the text styling: Make the header "2026: OUR BEST CHAPTER YET" slightly larger with a subtle white glow behind it for better readability against the sky. For the footer text "HAPPY NEW YEAR / BONNE ANNÉE / 新年快乐", use a cleaner, more elegant font style with more spacing between the words.
+
+-------------------------------------------------------------------------------
+PROMPT 5: Add Vignette (Optional Polish)
+-------------------------------------------------------------------------------
+
+Add a subtle dark vignette around the edges of the image to draw the eye toward the center where the two characters are. Keep the vignette soft and natural-looking, not too dramatic.
+
+===============================================================================
+                  ALTERNATIVE: ONE-SHOT COMBINED PROMPT
+===============================================================================
+
+If you prefer to make all changes at once, use this:
+
+Please make these improvements to the image:
+1. Fix the Chinese text at the bottom - change "新年KAR乐" to correctly show "新年快乐"
+2. Add a small white "Meshy" logo in the bottom right corner
+3. Blur the roller coaster slightly and reduce its saturation so it's less distracting
+4. Add a subtle white glow behind the header text "2026: OUR BEST CHAPTER YET" for better readability
+5. Add a soft vignette around the edges to focus attention on the characters
+
+Keep the warm sunset colors, the two characters, and the overall celebratory mood intact.
+
+===============================================================================
+                         PRIORITY SUMMARY
+===============================================================================
+
+[MUST FIX]   Chinese text error    -> Correct "新年KAR乐" to "新年快乐"
+[MUST FIX]   No branding           -> Add Meshy AI logo (bottom-right, white)
+[SHOULD FIX] Background noise      -> Reduce roller coaster (blur/desaturate)
+[SHOULD FIX] Footer typography     -> Switch to cleaner font, add spacing
+[OPTIONAL]   Visual hierarchy      -> Add vignette, subtle text shadow
+
+===============================================================================
+                       TIPS FOR BEST RESULTS
+===============================================================================
+
+1. Run prompts one at a time - Gives control to accept/reject each change
+2. Save versions between major edits - Lets you backtrack if needed
+3. Be specific about what to keep - Prevents altering elements you like
+4. If Chinese text fix fails in Gemini - Export and fix in Figma/Photoshop 
+   using a proper Chinese font (Noto Sans SC or Source Han Sans)
+
+===============================================================================
+                      WHAT WORKS WELL (KEEP THESE)
+===============================================================================
+
+[OK] Pixar-style 3D character quality
+[OK] Warm sunset color palette (orange to purple to deep blue)
+[OK] Cultural diversity representation (French + Chinese)
+[OK] Tagline "Our Best Chapter Yet" - confident and optimistic
+[OK] Sparklers in characters' hands - celebratory mood
+
+===============================================================================
+
+Generated by Visual Director Review

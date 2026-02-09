@@ -1,0 +1,90 @@
+<!-- Î‚õþ03D / Concept to 3D -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="c3d-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFB800"/>
+      <stop offset="100%" stop-color="#FF9500"/>
+    </linearGradient>
+    
+    <linearGradient id="c3d-cube" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD060"/>
+      <stop offset="100%" stop-color="#FFB800"/>
+    </linearGradient>
+    
+    <filter id="c3d-glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <style>
+      @keyframes transform-3d {
+        0% { transform: rotateY(0deg); }
+        100% { transform: rotateY(360deg); }
+      }
+      @keyframes unfold {
+        0%, 20% { transform: perspective(100px) rotateX(0deg); }
+        80%, 100% { transform: perspective(100px) rotateX(-30deg); }
+      }
+      @keyframes arrow-pulse {
+        0%, 100% { transform: translateX(0); opacity: 1; }
+        50% { transform: translateX(2px); opacity: 0.6; }
+      }
+      @keyframes magic-spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .arrow-pulse { animation: arrow-pulse 1s ease-in-out infinite; }
+      .magic { animation: magic-spin 4s linear infinite; transform-origin: 32px 32px; }
+    </style>
+  </defs>
+  
+  <!-- 2D ‚õþæ§	 -->
+  <g filter="url(#c3d-glow)">
+    <rect x="6" y="22" width="16" height="20" rx="2" fill="none" stroke="url(#c3d-gradient)" stroke-width="2"/>
+    <!-- þG…¹: -->
+    <circle cx="14" cy="28" r="3" fill="#FFB800" opacity="0.6"/>
+    <rect x="9" y="34" width="10" height="2" rx="1" fill="#FFB800" opacity="0.4"/>
+    <rect x="9" y="38" width="6" height="2" rx="1" fill="#FFB800" opacity="0.4"/>
+  </g>
+  
+  <!-- lb­4 -->
+  <g class="arrow-pulse" filter="url(#c3d-glow)">
+    <path d="M26 32L34 32M30 28L34 32L30 36" stroke="#FFB800" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- TÕÒ -->
+  <g filter="url(#c3d-glow)">
+    <line x1="28" y1="18" x2="36" y2="10" stroke="#FFB800" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="37" cy="9" r="3" fill="#FFD060"/>
+  </g>
+  
+  <!-- TÕ¯Õ	 -->
+  <g class="magic" opacity="0.8">
+    <path d="M42 6L43 8L45 8L43.5 9.5L44 12L42 10.5L40 12L40.5 9.5L39 8L41 8Z" fill="#FFB800"/>
+  </g>
+  
+  <!-- 3D Ë¹Só§	 -->
+  <g filter="url(#c3d-glow)">
+    <!-- Ë¹S•b -->
+    <path d="M48 34L56 40V52L48 58L40 52V40L48 34Z" fill="url(#c3d-cube)" opacity="0.9"/>
+    <!-- Ë¹Svb -->
+    <path d="M48 34L56 40L48 46L40 40L48 34Z" fill="#FFD060"/>
+    <!-- Ë¹Sæb -->
+    <path d="M40 40L48 46V58L40 52V40Z" fill="#E5A500" opacity="0.85"/>
+  </g>
+  
+  <!-- ô¦Æ -->
+  <g opacity="0.7">
+    <text x="14" y="52" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#FFB800" text-anchor="middle">2D</text>
+    <text x="48" y="26" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#FFB800" text-anchor="middle">3D</text>
+  </g>
+  
+  <!-- IÅp -->
+  <g filter="url(#c3d-glow)">
+    <circle cx="58" cy="18" r="2" fill="#FFB800" opacity="0.6"/>
+    <circle cx="52" cy="24" r="1.5" fill="#FFB800" opacity="0.4"/>
+  </g>
+</svg>

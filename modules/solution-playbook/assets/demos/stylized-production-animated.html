@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <title>特定风格化资产量产 - Animated Demo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0f1a0a 70%, #1a2a10 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* ==================== */
+        /* SPARKLE 星光闪烁效果 */
+        /* ==================== */
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0; 
+                transform: scale(0.3) rotate(0deg); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1) rotate(180deg); 
+            }
+        }
+        
+        @keyframes sparkle-pulse {
+            0%, 100% { 
+                box-shadow: 0 0 4px 2px rgba(200, 255, 0, 0.6);
+            }
+            50% { 
+                box-shadow: 0 0 12px 6px rgba(200, 255, 0, 0.9);
+            }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #C8FF00 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        .sparkle::before,
+        .sparkle::after {
+            content: '';
+            position: absolute;
+            background: #C8FF00;
+        }
+        
+        .sparkle::before {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .sparkle::after {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        /* 多个星光位置 */
+        .sparkle:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 25%; left: 85%; animation-delay: 0.4s; }
+        .sparkle:nth-child(3) { top: 60%; left: 5%; animation-delay: 0.8s; }
+        .sparkle:nth-child(4) { top: 75%; left: 90%; animation-delay: 1.2s; }
+        .sparkle:nth-child(5) { top: 40%; left: 15%; animation-delay: 1.6s; }
+        .sparkle:nth-child(6) { top: 20%; left: 70%; animation-delay: 0.3s; }
+        .sparkle:nth-child(7) { top: 80%; left: 20%; animation-delay: 0.9s; }
+        .sparkle:nth-child(8) { top: 50%; left: 92%; animation-delay: 1.4s; }
+        
+        /* 小星光变体 */
+        .sparkle.small {
+            width: 4px;
+            height: 4px;
+        }
+        
+        .sparkle.small::before {
+            width: 1px;
+        }
+        
+        .sparkle.small::after {
+            height: 1px;
+        }
+        
+        /* ==================== */
+        /* SHINE 光线扫过效果 */
+        /* ==================== */
+        @keyframes shine-sweep {
+            0% { 
+                transform: translateX(-200%) rotate(25deg); 
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% { 
+                transform: translateX(200%) rotate(25deg); 
+                opacity: 0;
+            }
+        }
+        
+        .shine-container {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .shine-line {
+            position: absolute;
+            top: -50%;
+            left: 0;
+            width: 100px;
+            height: 200%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(200, 255, 0, 0.03) 25%,
+                rgba(200, 255, 0, 0.15) 50%,
+                rgba(200, 255, 0, 0.03) 75%,
+                transparent 100%
+            );
+            transform: rotate(25deg);
+            animation: shine-sweep 6s ease-in-out infinite;
+        }
+        
+        .shine-line:nth-child(2) {
+            animation-delay: 3s;
+            width: 60px;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(200, 255, 0, 0.02) 25%,
+                rgba(200, 255, 0, 0.08) 50%,
+                rgba(200, 255, 0, 0.02) 75%,
+                transparent 100%
+            );
+        }
+        
+        /* ==================== */
+        /* 主要内容样式 */
+        /* ==================== */
+        .slide {
+            width: 100%;
+            max-width: 1200px;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* 调色板图标 */
+        .icon-wrapper {
+            margin-bottom: 32px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .palette-icon {
+            width: 64px;
+            height: 64px;
+            position: relative;
+        }
+        
+        .palette-icon svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(200, 255, 0, 0.4));
+        }
+        
+        /* 图标周围的光环 */
+        @keyframes icon-glow {
+            0%, 100% { 
+                box-shadow: 0 0 30px 10px rgba(200, 255, 0, 0.2);
+            }
+            50% { 
+                box-shadow: 0 0 50px 20px rgba(200, 255, 0, 0.35);
+            }
+        }
+        
+        .icon-glow {
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            animation: icon-glow 3s ease-in-out infinite;
+        }
+        
+        /* 标题 */
+        .title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 40px rgba(200, 255, 0, 0.2);
+        }
+        
+        /* 副标题 */
+        .subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+        
+        /* 标签按钮 */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border: 1px solid rgba(200, 255, 0, 0.5);
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #C8FF00;
+            letter-spacing: 2px;
+            background: rgba(200, 255, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 标签的shine效果 */
+        @keyframes tag-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+        
+        .tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(200, 255, 0, 0.2),
+                transparent
+            );
+            animation: tag-shine 4s ease-in-out infinite;
+        }
+        
+        .tag-dot {
+            width: 6px;
+            height: 6px;
+            background: #C8FF00;
+            border-radius: 50%;
+            animation: sparkle-pulse 2s ease-in-out infinite;
+        }
+        
+        /* 导航元素 */
+        .nav-back {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-back:hover {
+            border-color: rgba(200, 255, 0, 0.5);
+            color: #C8FF00;
+        }
+        
+        .nav-globe {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            width: 25%;
+            background: linear-gradient(90deg, #C8FF00, #9ACC00);
+            box-shadow: 0 0 20px rgba(200, 255, 0, 0.5);
+        }
+        
+        /* ==================== */
+        /* 额外的装饰粒子 */
+        /* ==================== */
+        @keyframes float-particle {
+            0%, 100% { 
+                transform: translateY(0) translateX(0); 
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-20px) translateX(10px); 
+                opacity: 0.7;
+            }
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #C8FF00;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float-particle 4s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { bottom: 20%; right: 15%; animation-delay: 0s; }
+        .particle:nth-child(2) { bottom: 25%; right: 10%; animation-delay: 0.5s; }
+        .particle:nth-child(3) { bottom: 15%; right: 20%; animation-delay: 1s; }
+        .particle:nth-child(4) { bottom: 30%; right: 8%; animation-delay: 1.5s; }
+        .particle:nth-child(5) { bottom: 18%; right: 25%; animation-delay: 2s; }
+    </style>
+</head>
+<body>
+    <!-- Sparkle 星光闪烁 -->
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle small"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle small"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle small"></div>
+    <div class="sparkle"></div>
+    
+    <!-- Shine 光线扫过 -->
+    <div class="shine-container">
+        <div class="shine-line"></div>
+        <div class="shine-line"></div>
+    </div>
+    
+    <!-- 浮动粒子 -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    
+    <!-- 主内容 -->
+    <div class="slide">
+        <!-- 图标 -->
+        <div class="icon-wrapper">
+            <div class="icon-glow"></div>
+            <div class="palette-icon">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 调色板主体 -->
+                    <path d="M32 8C18.745 8 8 18.745 8 32C8 45.255 18.745 56 32 56C32 56 56 56 56 32C56 18.745 45.255 8 32 8Z" 
+                          fill="#C8FF00"/>
+                    <!-- 调色板孔洞 -->
+                    <circle cx="22" cy="26" r="5" fill="#0a0a0a"/>
+                    <circle cx="34" cy="20" r="5" fill="#0a0a0a"/>
+                    <circle cx="44" cy="28" r="5" fill="#0a0a0a"/>
+                    <circle cx="40" cy="40" r="5" fill="#0a0a0a"/>
+                    <circle cx="26" cy="40" r="5" fill="#0a0a0a"/>
+                    <!-- 中心孔 -->
+                    <ellipse cx="18" cy="46" rx="6" ry="5" fill="#0a0a0a"/>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- 标题 -->
+        <h1 class="title">特定风格化资产量产</h1>
+        
+        <!-- 副标题 -->
+        <p class="subtitle">保持统一美术风格，批量生成游戏资产</p>
+        
+        <!-- 标签 -->
+        <div class="tag">
+            <span class="tag-dot"></span>
+            SOLUTION 03 · 风格一致性
+        </div>
+    </div>
+    
+    <!-- 导航 -->
+    <div class="nav-back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+    </div>
+    
+    <div class="nav-globe">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+    </div>
+    
+    <!-- 进度条 -->
+    <div class="progress-bar"></div>
+</body>
+</html>

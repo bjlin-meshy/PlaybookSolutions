@@ -1,0 +1,369 @@
+/**
+ * Industry Themes - Visual theme variables for each industry
+ * Each theme defines colors, gradients, and unique visual characteristics
+ */
+
+/* ============================================
+   BASE THEME (Default)
+   ============================================ */
+:root {
+  --theme-primary: #CCFF00;
+  --theme-secondary: #88CC00;
+  --theme-accent: #66AA00;
+  --theme-bg-1: #0a0a0f;
+  --theme-bg-2: #0f0f18;
+  --theme-bg-3: #141420;
+  --theme-glow: rgba(204, 255, 0, 0.3);
+  --theme-glow-strong: rgba(204, 255, 0, 0.5);
+}
+
+/* ============================================
+   GAMING THEME - Neon Cyberpunk
+   ============================================ */
+[data-theme="gaming"] {
+  --theme-primary: #ff00ff;
+  --theme-secondary: #00ffff;
+  --theme-accent: #ff0080;
+  --theme-bg-1: #0a0012;
+  --theme-bg-2: #120020;
+  --theme-bg-3: #1a0030;
+  --theme-glow: rgba(255, 0, 255, 0.3);
+  --theme-glow-strong: rgba(255, 0, 255, 0.5);
+}
+
+[data-theme="gaming"] .floating-blob-1 {
+  background: linear-gradient(135deg, #ff00ff, #ff0080);
+  opacity: 0.35;
+}
+
+[data-theme="gaming"] .floating-blob-2 {
+  background: linear-gradient(135deg, #00ffff, #0080ff);
+  opacity: 0.3;
+}
+
+[data-theme="gaming"] .floating-blob-3 {
+  background: linear-gradient(135deg, #ff0080, #ff8000);
+  opacity: 0.25;
+}
+
+[data-theme="gaming"] .glow-pulse {
+  background: var(--theme-primary);
+}
+
+/* Gaming-specific: RGB split effect */
+[data-theme="gaming"] .rgb-split {
+  position: relative;
+}
+
+[data-theme="gaming"] .rgb-split::before,
+[data-theme="gaming"] .rgb-split::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+[data-theme="gaming"] .rgb-split::before {
+  color: #ff0000;
+  animation: rgb-shift-r 0.1s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+[data-theme="gaming"] .rgb-split::after {
+  color: #00ffff;
+  animation: rgb-shift-b 0.1s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+@keyframes rgb-shift-r {
+  0%, 100% { transform: translate(-2px, 0); }
+  50% { transform: translate(2px, 0); }
+}
+
+@keyframes rgb-shift-b {
+  0%, 100% { transform: translate(2px, 0); }
+  50% { transform: translate(-2px, 0); }
+}
+
+/* Gaming grid overlay */
+[data-theme="gaming"] .grid-overlay {
+  background-image: 
+    linear-gradient(rgba(255, 0, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ============================================
+   FILM THEME - Cinematic Gold
+   ============================================ */
+[data-theme="film"] {
+  --theme-primary: #ffd700;
+  --theme-secondary: #c9a961;
+  --theme-accent: #8b7355;
+  --theme-bg-1: #0a0a0a;
+  --theme-bg-2: #0f0f0f;
+  --theme-bg-3: #1a1a1a;
+  --theme-glow: rgba(255, 215, 0, 0.3);
+  --theme-glow-strong: rgba(255, 215, 0, 0.5);
+}
+
+[data-theme="film"] .floating-blob-1 {
+  background: linear-gradient(135deg, #ffd700, #c9a961);
+  opacity: 0.3;
+}
+
+[data-theme="film"] .floating-blob-2 {
+  background: linear-gradient(135deg, #c9a961, #8b7355);
+  opacity: 0.25;
+}
+
+[data-theme="film"] .floating-blob-3 {
+  background: linear-gradient(135deg, #8b7355, #ffd700);
+  opacity: 0.2;
+}
+
+[data-theme="film"] .glow-pulse {
+  background: var(--theme-primary);
+}
+
+/* Film-specific: Spotlight effect */
+@keyframes spotlight-sway {
+  0%, 100% { transform: translateX(-20%) rotate(-5deg); }
+  50% { transform: translateX(20%) rotate(5deg); }
+}
+
+[data-theme="film"] .spotlight {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  width: 300px;
+  height: 600px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 215, 0, 0.1) 0%,
+    transparent 100%
+  );
+  transform-origin: top center;
+  animation: spotlight-sway 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Film strip border */
+[data-theme="film"] .film-strip {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 8px,
+    rgba(255, 215, 0, 0.3) 8px,
+    rgba(255, 215, 0, 0.3) 12px,
+    transparent 12px,
+    transparent 20px
+  );
+  width: 30px;
+}
+
+/* ============================================
+   3D PRINTING THEME - Technical Blue
+   ============================================ */
+[data-theme="3dprinting"] {
+  --theme-primary: #00d4ff;
+  --theme-secondary: #0099cc;
+  --theme-accent: #006699;
+  --theme-bg-1: #050810;
+  --theme-bg-2: #0a1020;
+  --theme-bg-3: #0f1830;
+  --theme-glow: rgba(0, 212, 255, 0.3);
+  --theme-glow-strong: rgba(0, 212, 255, 0.5);
+}
+
+[data-theme="3dprinting"] .floating-blob-1 {
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  opacity: 0.35;
+}
+
+[data-theme="3dprinting"] .floating-blob-2 {
+  background: linear-gradient(135deg, #0099cc, #006699);
+  opacity: 0.3;
+}
+
+[data-theme="3dprinting"] .floating-blob-3 {
+  background: linear-gradient(135deg, #006699, #00d4ff);
+  opacity: 0.25;
+}
+
+[data-theme="3dprinting"] .glow-pulse {
+  background: var(--theme-primary);
+}
+
+/* 3D Printing: Hex grid pattern */
+[data-theme="3dprinting"] .hex-grid {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300d4ff' fill-opacity='0.05'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Layer build animation */
+@keyframes layer-build {
+  0% { height: 0; opacity: 0; }
+  10% { opacity: 1; }
+  100% { height: 100%; opacity: 0.5; }
+}
+
+[data-theme="3dprinting"] .layer-build {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 212, 255, 0.2) 0%,
+    transparent 100%
+  );
+  animation: layer-build 4s ease-in-out infinite;
+}
+
+/* ============================================
+   INTERIOR THEME - Warm Elegant
+   ============================================ */
+[data-theme="interior"] {
+  --theme-primary: #d4a574;
+  --theme-secondary: #c9956c;
+  --theme-accent: #8b6914;
+  --theme-bg-1: #0f0a08;
+  --theme-bg-2: #1a1410;
+  --theme-bg-3: #251e18;
+  --theme-glow: rgba(212, 165, 116, 0.3);
+  --theme-glow-strong: rgba(212, 165, 116, 0.5);
+}
+
+[data-theme="interior"] .floating-blob-1 {
+  background: linear-gradient(135deg, #d4a574, #c9956c);
+  filter: blur(80px);
+  opacity: 0.3;
+}
+
+[data-theme="interior"] .floating-blob-2 {
+  background: linear-gradient(135deg, #c9956c, #8b6914);
+  filter: blur(80px);
+  opacity: 0.25;
+}
+
+[data-theme="interior"] .floating-blob-3 {
+  background: linear-gradient(135deg, #8b6914, #d4a574);
+  filter: blur(80px);
+  opacity: 0.2;
+}
+
+[data-theme="interior"] .glow-pulse {
+  background: var(--theme-primary);
+  filter: blur(80px);
+}
+
+/* Interior: Soft shadow layers */
+[data-theme="interior"] .soft-shadow {
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    0 0 80px rgba(212, 165, 116, 0.1);
+}
+
+/* Fabric texture overlay */
+[data-theme="interior"] .fabric-texture {
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4a574' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ============================================
+   MANUFACTURING THEME - Industrial Steel
+   ============================================ */
+[data-theme="manufacturing"] {
+  --theme-primary: #4a90d9;
+  --theme-secondary: #2d5a87;
+  --theme-accent: #1a3a5c;
+  --theme-bg-1: #080a0f;
+  --theme-bg-2: #0c1018;
+  --theme-bg-3: #101520;
+  --theme-glow: rgba(74, 144, 217, 0.3);
+  --theme-glow-strong: rgba(74, 144, 217, 0.5);
+}
+
+[data-theme="manufacturing"] .floating-blob-1 {
+  background: linear-gradient(135deg, #4a90d9, #2d5a87);
+  opacity: 0.35;
+}
+
+[data-theme="manufacturing"] .floating-blob-2 {
+  background: linear-gradient(135deg, #2d5a87, #1a3a5c);
+  opacity: 0.3;
+}
+
+[data-theme="manufacturing"] .floating-blob-3 {
+  background: linear-gradient(135deg, #1a3a5c, #4a90d9);
+  opacity: 0.25;
+}
+
+[data-theme="manufacturing"] .glow-pulse {
+  background: var(--theme-primary);
+}
+
+/* Manufacturing: Circuit pattern */
+[data-theme="manufacturing"] .circuit-pattern {
+  background-image: 
+    linear-gradient(90deg, rgba(74, 144, 217, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(74, 144, 217, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Gear rotation */
+@keyframes gear-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gear-spin-reverse {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+[data-theme="manufacturing"] .gear {
+  animation: gear-spin 20s linear infinite;
+}
+
+[data-theme="manufacturing"] .gear-reverse {
+  animation: gear-spin-reverse 15s linear infinite;
+}
+
+/* Precision lines */
+[data-theme="manufacturing"] .precision-line {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--theme-primary),
+    transparent
+  );
+  opacity: 0.3;
+}
+
+/* ============================================
+   THEME TRANSITION
+   ============================================ */
+[data-theme] {
+  transition: 
+    --theme-primary 0.5s ease,
+    --theme-secondary 0.5s ease,
+    background-color 0.5s ease;
+}
+
+/* ============================================
+   BACKGROUND CONTAINER (apply to pages)
+   ============================================ */
+.theme-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--theme-bg-1), var(--theme-bg-2), var(--theme-bg-3));
+}
+
+.theme-background.bg-gradient-flow {
+  background: linear-gradient(-45deg, var(--theme-bg-1), var(--theme-bg-2), var(--theme-bg-3), var(--theme-bg-2));
+}

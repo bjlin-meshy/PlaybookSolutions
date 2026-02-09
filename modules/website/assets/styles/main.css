@@ -1,0 +1,333 @@
+/**
+ * Main Styles
+ * Playbook Website - Meshy AI Solutions
+ */
+
+@import url('variables.css');
+@import url('animations.css');
+@import url('ambient.css');
+
+/* ============================================
+   基础重置
+   ============================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-core);
+    color: var(--text-main);
+    min-height: 100dvh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+body.lang-cn {
+    font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+}
+
+.cn { display: none; }
+body.lang-cn .en { display: none !important; }
+body.lang-cn .cn { display: inline; }
+
+/* ============================================
+   排版
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+h1 { font-size: var(--text-5xl); }
+h2 { font-size: var(--text-4xl); }
+h3 { font-size: var(--text-3xl); }
+h4 { font-size: var(--text-2xl); }
+
+p { font-size: var(--text-base); }
+
+a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+a:hover { opacity: 0.8; }
+
+/* ============================================
+   布局容器
+   ============================================ */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+.section {
+    padding: var(--space-2xl) 0;
+}
+
+/* ============================================
+   导航栏
+   ============================================ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: var(--space-md) var(--space-lg);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.logo-accent {
+    color: var(--accent-primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--space-lg);
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--text-sub);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-primary);
+    opacity: 1;
+}
+
+/* ============================================
+   Hero 区域
+   ============================================ */
+.hero {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-2xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-icon {
+    font-size: 80px;
+    color: var(--accent-primary);
+    margin-bottom: var(--space-lg);
+    filter: drop-shadow(0 0 40px rgba(204, 255, 0, 0.4));
+}
+
+.hero-title {
+    margin-bottom: var(--space-md);
+}
+
+.hero-subtitle {
+    font-size: var(--text-xl);
+    color: var(--text-sub);
+    max-width: 600px;
+    margin-bottom: var(--space-xl);
+}
+
+/* ============================================
+   行业导航网格
+   ============================================ */
+.industries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    padding: var(--space-xl) 0;
+}
+
+.industry-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: var(--space-xl);
+    text-align: center;
+    transition: all 0.3s var(--ease-smooth);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.industry-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--card-accent, var(--accent-primary));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.industry-card:hover::before {
+    transform: scaleX(1);
+}
+
+.industry-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--card-accent, var(--accent-primary));
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.industry-card[data-industry="gaming"] { --card-accent: var(--color-gaming); }
+.industry-card[data-industry="film"] { --card-accent: var(--color-film); }
+.industry-card[data-industry="manufacturing"] { --card-accent: var(--color-manufacturing); }
+.industry-card[data-industry="interior"] { --card-accent: var(--color-interior); }
+.industry-card[data-industry="3dprinting"] { --card-accent: var(--color-3dprinting); }
+
+.industry-icon {
+    font-size: 48px;
+    color: var(--card-accent, var(--accent-primary));
+    margin-bottom: var(--space-md);
+}
+
+.industry-title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-sm);
+}
+
+.industry-desc {
+    font-size: var(--text-sm);
+    color: var(--text-sub);
+}
+
+.industry-count {
+    display: inline-block;
+    margin-top: var(--space-md);
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(204, 255, 0, 0.1);
+    border-radius: 20px;
+    font-size: var(--text-xs);
+    color: var(--accent-primary);
+}
+
+/* ============================================
+   按钮
+   ============================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-base);
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: var(--accent-primary);
+    color: var(--bg-core);
+}
+
+.btn-primary:hover {
+    background: #E0FF4D;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-outline:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.btn-icon {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-icon:hover {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: var(--bg-core);
+}
+
+/* ============================================
+   页脚
+   ============================================ */
+.footer {
+    padding: var(--space-xl) 0;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.footer-text {
+    font-size: var(--text-sm);
+    color: var(--text-sub);
+}
+
+/* ============================================
+   工具类
+   ============================================ */
+.text-accent { color: var(--accent-primary); }
+.text-muted { color: var(--text-sub); }
+.text-center { text-align: center; }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+
+/* ============================================
+   响应式
+   ============================================ */
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    
+    .hero { padding: var(--space-xl) var(--space-md); }
+    
+    .industries-grid {
+        grid-template-columns: 1fr;
+    }
+}
