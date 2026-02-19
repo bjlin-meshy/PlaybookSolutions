@@ -55,7 +55,7 @@ PlaybookSolutions/
 | **hub** | HTML | ✅ 直接打开 Playbooks.htm | 仪表板风格，侧边栏 + 嵌入查看器 |
 | **presentation** | React/Vite | ⚠️ 需 `npm install && npm run dev` | 交互式幻灯片演示 |
 | **style-variants** | HTML | ✅ 直接打开任意 .html | 10 种不同的视觉风格方案 |
-| **case-3dprinting** | HTML | ✅ 直接打开 01-cover.html | 8 页 PPT 式案例展示 |
+| **case-3dprinting** | HTML | ✅ 直接打开 index.html | 8 页 PPT 式案例展示 |
 | **design-variants** | HTML/Node.js | ✅ 预览 / ⚠️ 导出需 Node | 设计方案对比预览 |
 
 ## 覆盖行业
