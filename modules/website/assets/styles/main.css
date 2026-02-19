@@ -3,6 +3,7 @@
  * Playbook Website - Meshy AI Solutions
  */
 
+@import url('../../../shared/css/design-system.css');
 @import url('variables.css');
 @import url('animations.css');
 @import url('ambient.css');

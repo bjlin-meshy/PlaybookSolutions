@@ -7,14 +7,16 @@
 /* ============================================ CSS CUSTOM PROPERTIES (Design Tokens) ============================================ */
 :root {
   /* ----- Core Colors ----- */
-  --bg-core: #000000;
+  --bg-core: #080808;
   --bg-slide: #080808;
   --bg-surface: #0a0a0f;
   --bg-elevated: #141420;
+  --bg-card: #111111;
+  --bg-card-hover: #1a1a1a;
   
   /* ----- Accent Colors ----- */
   --accent-primary: #CCFF00;
-  --accent-dim: #4ade80;
+  --accent-dim: rgba(204, 255, 0, 0.15);
   --accent-secondary: #88CC00;
   --accent-tertiary: #66AA00;
   --accent-red: #FF3333;
@@ -38,6 +40,9 @@
   --border: #222222;
   --border-subtle: #1a1a1a;
   --border-accent: rgba(204, 255, 0, 0.3);
+  
+  /* ----- Layout ----- */
+  --radius: 12px;
   
   /* ----- Animation Timing ----- */
   --transition-fast: 0.15s;
