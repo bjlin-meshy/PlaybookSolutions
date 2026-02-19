@@ -38,7 +38,7 @@ PlaybookSolutions/
 │   ├── html_to_ppt.py
 │   └── html_to_ppt_canva.py
 │
-├── resources/                  ← 共享资源（Markdown 内容）
+├── modules/shared/             ← 共享资源（CSS 设计系统）
 │
 ├── .cursor/rules/              ← AI 持续更新规则
 │   └── playbook-module.mdc     ← 模块开发规范

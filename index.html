@@ -169,47 +169,32 @@
             .modules-grid { grid-template-columns: 1fr; }
             .stats-row { gap: 24px; flex-wrap: wrap; }
         }
-    
 
-/* ===== Hero Animation Enhancements ===== */
-@keyframes hero-glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(204, 255, 0, 0.3); }
-    50% { box-shadow: 0 0 40px rgba(204, 255, 0, 0.6); }
-}
+        @keyframes pulse-lime {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
 
-@keyframes float-gentle {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
+        @keyframes grid-breathe {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
 
-@keyframes pulse-lime {
-    0%, 100% { opacity: 0.8; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
-}
+        .accent {
+            animation: pulse-lime 3s ease-in-out infinite;
+        }
 
-/* Apply subtle glow to accent elements */
-.accent {
-    animation: pulse-lime 3s ease-in-out infinite;
-}
+        .bg-grid {
+            animation: grid-breathe 8s ease-in-out infinite;
+        }
 
-/* Subtle grid animation — opacity-based to preserve the 60px grid pattern */
-.bg-grid {
-    animation: grid-breathe 8s ease-in-out infinite;
-}
-
-@keyframes grid-breathe {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-/* Prevent animation for users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .accent,
-    .bg-grid {
-        animation: none !important;
-    }
-}
-</style>
+        @media (prefers-reduced-motion: reduce) {
+            .accent,
+            .bg-grid {
+                animation: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="bg-grid"></div>

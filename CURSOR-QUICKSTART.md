@@ -15,7 +15,7 @@ PlaybookSolutions/                    ← 主项目目录
 │   ├── 📁 case-3dprinting/            ← 3D打印详细案例
 │   └── 📁 design-variants/            ← 设计变体预览
 ├── 📁 tools/                          ← 转换工具
-├── 📁 resources/                      ← 共享资源
+├── 📁 modules/shared/                 ← 共享资源（CSS 设计系统）
 ├── 📄 ARCHITECTURE.md                 ← 模块化架构文档
 └── 📄 index.html                      ← 统一入口门户
 ```
