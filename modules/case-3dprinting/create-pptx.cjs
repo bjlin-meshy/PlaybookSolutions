@@ -1,6 +1,6 @@
 const pptxgen = require('pptxgenjs');
 const path = require('path');
-const html2pptx = require('C:/Users/fong8/.agents/skills/pptx/scripts/html2pptx.js');
+const html2pptx = require(process.env.HTML2PPTX_PATH || path.join(__dirname, 'html2pptx.js'));
 
 async function createPresentation() {
     const pptx = new pptxgen();
@@ -19,7 +19,7 @@ async function createPresentation() {
         '08-final-result.html'
     ];
 
-    const baseDir = 'D:/2026/0127_PlaybookSolutions/3dprinting-miniature';
+    const baseDir = __dirname;
 
     for (const slideFile of slides) {
         const htmlPath = path.join(baseDir, slideFile);
@@ -32,7 +32,7 @@ async function createPresentation() {
         }
     }
 
-    const outputPath = path.join(baseDir, '3dprinting-miniature.pptx');
+    const outputPath = path.join(__dirname, '3dprinting-miniature.pptx');
     await pptx.writeFile({ fileName: outputPath });
     console.log(`\nPresentation saved: ${outputPath}`);
 }

@@ -1,157 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solution Playbooks | Meshy AI</title>
-    <meta name="description" content="Meshy AI 行业解决方案 - 游戏、影视、制造、室内设计、3D打印">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="assets/styles/main.css">
-</head>
-<body data-ambient="medium">
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="navbar-content">
-            <a href="index.html" class="logo">
-                <span class="logo-accent">Meshy</span>
-                <span>Solutions</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#industries"><span class="en">Industries</span><span class="cn">行业方案</span></a></li>
-                <li><a href="https://meshy.ai" target="_blank"><span class="en">Meshy.ai</span><span class="cn">官网</span></a></li>
-            </ul>
-            <button class="btn btn-icon" data-lang-toggle data-ripple>
-                <span>中</span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Hero 区域 -->
-    <section class="hero">
-        <div class="hero-icon" data-scroll-animate="zoom">
-            <i class="fas fa-cube"></i>
-        </div>
-        <h1 class="hero-title gradient-text" data-scroll-animate="fade-up">
-            <span class="en">Industry Solution Playbooks</span>
-            <span class="cn">行业解决方案手册</span>
-        </h1>
-        <p class="hero-subtitle" data-scroll-animate="fade-up" data-delay="1">
-            <span class="en">Transform your workflow with AI-powered 3D generation across Gaming, Film, Manufacturing, Interior Design, and 3D Printing.</span>
-            <span class="cn">用 AI 驱动的 3D 生成技术，革新游戏、影视、制造、室内设计和 3D 打印的工作流程。</span>
-        </p>
-        <div data-scroll-animate="fade-up" data-delay="2">
-            <a href="#industries" class="btn btn-primary" data-ripple>
-                <span class="en">Explore Solutions</span>
-                <span class="cn">探索解决方案</span>
-                <i class="fas fa-arrow-down"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- 行业导航 -->
-    <section id="industries" class="section">
-        <div class="container">
-            <h2 class="text-center mb-lg" data-scroll-animate="fade-up">
-                <span class="en">Choose Your Industry</span>
-                <span class="cn">选择您的行业</span>
-            </h2>
-            
-            <div class="industries-grid">
-                <!-- Gaming -->
-                <a href="industries/gaming.html" class="industry-card" data-industry="gaming" data-scroll-animate="fade-up" data-delay="1" data-tilt data-ripple>
-                    <i class="fas fa-gamepad industry-icon"></i>
-                    <h3 class="industry-title">
-                        <span class="en">Gaming</span>
-                        <span class="cn">游戏</span>
-                    </h3>
-                    <p class="industry-desc">
-                        <span class="en">Characters, Props, Environments for Games</span>
-                        <span class="cn">游戏角色、道具、场景</span>
-                    </p>
-                    <span class="industry-count">8+ <span class="en">Cases</span><span class="cn">案例</span></span>
-                </a>
-
-                <!-- Film & Animation -->
-                <a href="industries/film.html" class="industry-card" data-industry="film" data-scroll-animate="fade-up" data-delay="2" data-tilt data-ripple>
-                    <i class="fas fa-film industry-icon"></i>
-                    <h3 class="industry-title">
-                        <span class="en">Film & Animation</span>
-                        <span class="cn">影视动画</span>
-                    </h3>
-                    <p class="industry-desc">
-                        <span class="en">VFX, Pre-visualization, Animation Assets</span>
-                        <span class="cn">视效、预演、动画资产</span>
-                    </p>
-                    <span class="industry-count">6 <span class="en">Cases</span><span class="cn">案例</span></span>
-                </a>
-
-                <!-- Manufacturing -->
-                <a href="industries/manufacturing.html" class="industry-card" data-industry="manufacturing" data-scroll-animate="fade-up" data-delay="3" data-tilt data-ripple>
-                    <i class="fas fa-industry industry-icon"></i>
-                    <h3 class="industry-title">
-                        <span class="en">Manufacturing</span>
-                        <span class="cn">制造业</span>
-                    </h3>
-                    <p class="industry-desc">
-                        <span class="en">Product Design, Prototyping, Visualization</span>
-                        <span class="cn">产品设计、原型、可视化</span>
-                    </p>
-                    <span class="industry-count">4 <span class="en">Cases</span><span class="cn">案例</span></span>
-                </a>
-
-                <!-- Interior Design -->
-                <a href="industries/interior.html" class="industry-card" data-industry="interior" data-scroll-animate="fade-up" data-delay="4" data-tilt data-ripple>
-                    <i class="fas fa-couch industry-icon"></i>
-                    <h3 class="industry-title">
-                        <span class="en">Interior Design</span>
-                        <span class="cn">室内设计</span>
-                    </h3>
-                    <p class="industry-desc">
-                        <span class="en">Furniture, Decor, Space Visualization</span>
-                        <span class="cn">家具、装饰、空间可视化</span>
-                    </p>
-                    <span class="industry-count">4 <span class="en">Cases</span><span class="cn">案例</span></span>
-                </a>
-
-                <!-- 3D Printing -->
-                <a href="industries/3dprinting.html" class="industry-card" data-industry="3dprinting" data-scroll-animate="fade-up" data-delay="5" data-tilt data-ripple>
-                    <i class="fas fa-print industry-icon"></i>
-                    <h3 class="industry-title">
-                        <span class="en">3D Printing</span>
-                        <span class="cn">3D 打印</span>
-                    </h3>
-                    <p class="industry-desc">
-                        <span class="en">Printable Models, Customization, Collectibles</span>
-                        <span class="cn">可打印模型、定制、收藏品</span>
-                    </p>
-                    <span class="industry-count">6 <span class="en">Cases</span><span class="cn">案例</span></span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer class="footer">
-        <div class="container">
-            <p class="footer-text">
-                <span class="en">© 2026 Meshy AI. Powered by AI-driven 3D Generation.</span>
-                <span class="cn">© 2026 Meshy AI. AI 驱动的 3D 生成技术。</span>
-            </p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="assets/scripts/ambient.js"></script>
-    <script src="assets/scripts/main.js"></script>
-</body>
-</html>
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Solution Playbooks | Meshy AI</title> <meta name="description" content="Meshy AI 行业解决方案 - 游戏、影视、制造、室内设计、3D打印"> <!-- Fonts --> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"> <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"> <!-- Icons --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!-- Styles --> <link rel="stylesheet" href="assets/styles/main.css"> <style> /* 无障碍修复：跳过导航链接 */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #CCFF00;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-weight: 600;
+  z-index: 10000;
+  border-radius: 0 0 4px 0;
+  transition: top 0.3s;
+}
+.skip-link:focus {
+  top: 0;
+}
+/* 无障碍修复：焦点样式 */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #CCFF00;
+  outline-offset: 2px;
+}
+/* 无障碍修复：确保颜色对比度符合WCAG AA标准 */
+.industry-card:focus-visible {
+  outline: 2px solid #CCFF00;
+  outline-offset: 4px;
+}
+</style> </head> <body data-ambient="medium"> <a href="#main-content" class="skip-link">Skip to main content / 跳转到主内容</a> <!-- 导航栏 --> <nav class="navbar" role="navigation" aria-label="Main navigation"> <div class="navbar-content"> <a href="index.html" class="logo" aria-label="Meshy Solutions Home"> <span class="logo-accent">Meshy</span> <span>Solutions</span> </a> <ul class="nav-links" role="menubar"> <li role="none"><a href="#industries" role="menuitem"><span class="en">Industries</span><span class="cn">行业方案</span></a></li> <li role="none"><a href="https://meshy.ai" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="en">Meshy.ai</span><span class="cn">官网</span></a></li> </ul> <button class="btn btn-icon" data-lang-toggle data-ripple aria-label="Toggle language 切换语言" aria-pressed="false"> <span aria-hidden="true">中</span> </button> </div> </nav> <!-- Hero 区域 --> <section class="hero" aria-labelledby="hero-heading"> <div class="hero-icon" data-scroll-animate="zoom" aria-hidden="true"> <i class="fas fa-cube"></i> </div> <h1 id="hero-heading" class="hero-title gradient-text" data-scroll-animate="fade-up"> <span class="en">Industry Solution Playbooks</span> <span class="cn">行业解决方案手册</span> </h1> <p class="hero-subtitle" data-scroll-animate="fade-up" data-delay="1"> <span class="en">Transform your workflow with AI-powered 3D generation across Gaming, Film, Manufacturing, Interior Design, and 3D Printing.</span> <span class="cn">用 AI 驱动的 3D 生成技术，革新游戏、影视、制造、室内设计和 3D 打印的工作流程。</span> </p> <div data-scroll-animate="fade-up" data-delay="2"> <a href="#industries" class="btn btn-primary" data-ripple aria-label="Explore Solutions 探索解决方案"> <span class="en">Explore Solutions</span> <span class="cn">探索解决方案</span> <i class="fas fa-arrow-down" aria-hidden="true"></i> </a> </div> </section> <!-- 行业导航 --> <main id="main-content"> <section id="industries" class="section" aria-labelledby="industries-heading"> <div class="container"> <h2 id="industries-heading" class="text-center mb-lg" data-scroll-animate="fade-up"> <span class="en">Choose Your Industry</span> <span class="cn">选择您的行业</span> </h2> <div class="industries-grid"> <!-- Gaming --> <a href="industries/gaming.html" class="industry-card" data-industry="gaming" data-scroll-animate="fade-up" data-delay="1" data-tilt data-ripple aria-label="Gaming industry solutions 游戏行业方案"> <i class="fas fa-gamepad industry-icon" aria-hidden="true"></i> <h3 class="industry-title"> <span class="en">Gaming</span> <span class="cn">游戏</span> </h3> <p class="industry-desc"> <span class="en">Characters, Props, Environments for Games</span> <span class="cn">游戏角色、道具、场景</span> </p> <span class="industry-count">8+ <span class="en">Cases</span><span class="cn">案例</span></span> </a> <!-- Film & Animation --> <a href="industries/film.html" class="industry-card" data-industry="film" data-scroll-animate="fade-up" data-delay="2" data-tilt data-ripple aria-label="Film and Animation solutions 影视动画方案"> <i class="fas fa-film industry-icon" aria-hidden="true"></i> <h3 class="industry-title"> <span class="en">Film & Animation</span> <span class="cn">影视动画</span> </h3> <p class="industry-desc"> <span class="en">VFX, Pre-visualization, Animation Assets</span> <span class="cn">视效、预演、动画资产</span> </p> <span class="industry-count">6 <span class="en">Cases</span><span class="cn">案例</span></span> </a> <!-- Manufacturing --> <a href="industries/manufacturing.html" class="industry-card" data-industry="manufacturing" data-scroll-animate="fade-up" data-delay="3" data-tilt data-ripple aria-label="Manufacturing solutions 制造业方案"> <i class="fas fa-industry industry-icon" aria-hidden="true"></i> <h3 class="industry-title"> <span class="en">Manufacturing</span> <span class="cn">制造业</span> </h3> <p class="industry-desc"> <span class="en">Product Design, Prototyping, Visualization</span> <span class="cn">产品设计、原型、可视化</span> </p> <span class="industry-count">4 <span class="en">Cases</span><span class="cn">案例</span></span> </a> <!-- Interior Design --> <a href="industries/interior.html" class="industry-card" data-industry="interior" data-scroll-animate="fade-up" data-delay="4" data-tilt data-ripple aria-label="Interior Design solutions 室内设计方案"> <i class="fas fa-couch industry-icon" aria-hidden="true"></i> <h3 class="industry-title"> <span class="en">Interior Design</span> <span class="cn">室内设计</span> </h3> <p class="industry-desc"> <span class="en">Furniture, Decor, Space Visualization</span> <span class="cn">家具、装饰、空间可视化</span> </p> <span class="industry-count">4 <span class="en">Cases</span><span class="cn">案例</span></span> </a> <!-- 3D Printing --> <a href="industries/3dprinting.html" class="industry-card" data-industry="3dprinting" data-scroll-animate="fade-up" data-delay="5" data-tilt data-ripple aria-label="3D Printing solutions 3D打印方案"> <i class="fas fa-print industry-icon" aria-hidden="true"></i> <h3 class="industry-title"> <span class="en">3D Printing</span> <span class="cn">3D 打印</span> </h3> <p class="industry-desc"> <span class="en">Printable Models, Customization, Collectibles</span> <span class="cn">可打印模型、定制、收藏品</span> </p> <span class="industry-count">6 <span class="en">Cases</span><span class="cn">案例</span></span> </a> </div> </div> </section> </main> <!-- 页脚 --> <footer class="footer" role="contentinfo"> <div class="container"> <p class="footer-text"> <span class="en">© 2026 Meshy AI. Powered by AI-driven 3D Generation.</span> <span class="cn">© 2026 Meshy AI. AI 驱动的 3D 生成技术。</span> </p> </div> </footer> <!-- Scripts --> <script src="assets/scripts/ambient.js"></script> <script src="assets/scripts/main.js"></script> </body> </html>

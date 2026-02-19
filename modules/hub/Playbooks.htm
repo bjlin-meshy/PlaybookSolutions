@@ -13,7 +13,8 @@
             --section-header-bg: #1F2937;
             --text-main: #E5E7EB;
             --text-sub: #9CA3AF;
-            --accent-blue: #3B82F6;
+            --accent-lime: #CCFF00;
+  --accent-lime-dim: rgba(204, 255, 0, 0.15);
             --accent-green: #10B981;
             --accent-red: #EF4444;
             --border: #374151;
@@ -55,7 +56,7 @@
             align-items: center;
             gap: 10px;
         }
-        .brand span { color: var(--accent-blue); }
+        .brand span { color: var(--accent-lime); }
 
         .nav-item {
             padding: 15px 25px;
@@ -71,8 +72,8 @@
         .nav-item:hover { background-color: var(--nav-hover); color: white; }
         .nav-item.active {
             background-color: var(--active-item);
-            color: var(--accent-blue);
-            border-left: 3px solid var(--accent-blue);
+            color: var(--accent-lime);
+            border-left: 3px solid var(--accent-lime);
             font-weight: 600;
         }
 
@@ -133,7 +134,7 @@
             display: block;
             width: 4px;
             height: 20px;
-            background-color: var(--accent-blue);
+            background-color: var(--accent-lime);
             border-radius: 2px;
         }
         .tag {
@@ -143,7 +144,7 @@
             font-weight: 600;
             text-transform: uppercase;
         }
-        .tag-core { background: var(--accent-blue); color: white; }
+        .tag-core { background: var(--accent-lime); color: white; }
         .tag-unique { background: var(--accent-green); color: black; }
         .tag-reuse { background: #4B5563; color: white; }
 

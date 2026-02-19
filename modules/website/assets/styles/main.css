@@ -331,3 +331,31 @@ a:hover { opacity: 0.8; }
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================
+   移动端动画降级 (P0 Fix)
+   禁用 Touch 设备上的悬停效果以提升触控体验
+=========================================== */
+@media (hover: none) and (pointer: coarse) {
+    /* 禁用 Tilt 效果防止误触 */
+    [data-tilt] {
+        transform: none !important;
+        transition: all 0.2s ease !important;
+    }
+    [data-tilt]:hover {
+        transform: translateY(-4px) !important;
+    }
+    
+    /* 隐藏性能密集型的环境粒子效果 */
+    .ambient-effects,
+    .particle,
+    .sparkle,
+    .shine-container {
+        display: none !important;
+    }
+    
+    /* 减少不必要的动画 */
+    .hero-icon i {
+        animation: none !important;
+    }
+}

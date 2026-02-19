@@ -1,6 +1,6 @@
 const pptxgen = require('pptxgenjs');
 const path = require('path');
-const html2pptx = require('C:/Users/fong8/.agents/skills/pptx/scripts/html2pptx.js');
+const html2pptx = require(process.env.HTML2PPTX_PATH || path.join(__dirname, 'html2pptx.js'));
 
 async function createPresentation() {
     const pptx = new pptxgen();
@@ -21,7 +21,7 @@ async function createPresentation() {
         '10-neumorphism.html'
     ];
 
-    const baseDir = 'D:/2026/0127_PlaybookSolutions/10-styles';
+    const baseDir = __dirname;
 
     for (const slideFile of slides) {
         const htmlPath = path.join(baseDir, slideFile);
@@ -34,7 +34,7 @@ async function createPresentation() {
         }
     }
 
-    const outputPath = path.join(baseDir, '10-styles-presentation.pptx');
+    const outputPath = path.join(__dirname, '10-styles-presentation.pptx');
     await pptx.writeFile({ fileName: outputPath });
     console.log(`\nPresentation saved: ${outputPath}`);
 }
