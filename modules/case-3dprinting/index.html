@@ -6,32 +6,33 @@
     <title>3D Printing Case Study | Meshy AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/css/design-system.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { background: #080808; }
+        html { background: var(--bg-core); }
         body {
-            font-family: 'Inter', Arial, sans-serif;
-            background: #080808;
-            color: #f0f0f0;
+            font-family: var(--font-sans);
+            background: var(--bg-core);
+            color: var(--text-main);
             min-height: 100vh;
             padding: 40px 24px;
         }
         .container { max-width: 800px; margin: 0 auto; }
         .back-link {
             display: inline-block;
-            color: #888;
+            color: var(--text-sub);
             font-size: 12px;
             text-decoration: none;
             margin-bottom: 24px;
         }
-        .back-link:hover { color: #CCFF00; }
+        .back-link:hover { color: var(--accent-primary); }
         h1 {
             font-size: 28px;
             margin-bottom: 8px;
         }
-        .accent { color: #CCFF00; }
+        .accent { color: var(--accent-primary); }
         .subtitle {
-            color: #888;
+            color: var(--text-sub);
             font-size: 14px;
             margin-bottom: 32px;
         }
@@ -42,20 +43,20 @@
         }
         .slide-card {
             display: block;
-            background: #111;
-            border: 1px solid #222;
-            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
             padding: 16px;
             text-decoration: none;
             color: inherit;
-            transition: all 0.2s;
+            transition: all var(--transition-fast);
         }
         .slide-card:hover {
-            border-color: #CCFF00;
-            background: #1a1a1a;
+            border-color: var(--accent-primary);
+            background: var(--bg-card-hover);
         }
         .slide-num {
-            color: #CCFF00;
+            color: var(--accent-primary);
             font-size: 11px;
             font-weight: 600;
             letter-spacing: 1px;

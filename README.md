@@ -4,6 +4,11 @@
 
 ## 快速开始
 
+**方式一：双击根目录 `激活并打开.bat`**  
+会启动本地服务器并打开浏览器，访问 <http://localhost:5555>（端口 5555 避免本机权限限制）。
+
+**方式二：直接打开 HTML**
+
 ```bash
 # 打开统一入口（推荐）
 start index.html
@@ -65,6 +70,29 @@ PlaybookSolutions/
 - 🏭 **Manufacturing** — 快速创意、CMF 探索、盲盒设计
 - 🛋️ **Interior Design** — 虚拟样板间、定制家具、织物纹理
 - 🖨️ **3D Printing** — 微缩模型定制、多色打印、人像扫描
+
+## 文档导航
+
+| 文档 | 内容 |
+|------|------|
+| 本文件 (`README.md`) | 速览：项目介绍、模块列表、如何运行 |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | 深度：模块划分、设计原则、扩展规则 |
+| [CURSOR-QUICKSTART.md](./CURSOR-QUICKSTART.md) | 开发者：Cursor 中如何上手开发 |
+| `reviews/` | 历史审查报告（架构审查、优化建议） |
+| `visual-fixes-log.md` | 视觉修复记录 |
+
+## 同事克隆后如何运行
+
+```bash
+git clone <仓库地址>
+cd PlaybookSolutions
+```
+
+然后任选其一即可运行：
+- **推荐**：双击根目录 `激活并打开.bat`，浏览器会打开 http://localhost:5555
+- 或直接双击根目录 `index.html` 用浏览器打开
+
+无需安装依赖即可浏览所有 HTML 模块；仅 `modules/presentation` 需在该目录下执行 `npm install && npm run dev`。
 
 ## 如何新增模块
 

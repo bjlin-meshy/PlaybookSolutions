@@ -35,17 +35,16 @@
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   /* ============================================
-     品牌颜色 - 科技黑 + 霓虹绿
+     品牌颜色 - Website 模块级覆盖
+     基准定义见 modules/shared/css/design-system.css
+     以下仅覆盖 website 模块需要差异化的值
      ============================================ */
   --bg-core: #000000;
   --bg-slide: #050505;
   --bg-card: #0A0A0A;
   --bg-hover: #111111;
-  --accent-primary: #CCFF00;
   --accent-secondary: #00FFCC;
-  --accent-red: #FF3333;
   --text-main: #FFFFFF;
-  --text-sub: #888888;
   --text-muted: #555555;
   --border-color: #222222;
   --border-hover: #333333;

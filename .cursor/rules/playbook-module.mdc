@@ -13,16 +13,17 @@ alwaysApply: true
 
 - **入口**: `index.html`（统一门户，链接到所有模块）
 - **模块目录**: `modules/`（每个子模块独立运行）
+- **共享设计系统**: `modules/shared/css/design-system.css`（统一 CSS 变量与 token）
 - **工具目录**: `tools/`（转换脚本）
-- **资源目录**: `resources/`（共享 Markdown 内容）
+- **内容资源**: `modules/solution-playbook/resources/`（各行业 Markdown 内容）
 
 ## 核心规则
 
 ### 1. 新增模块必须遵循标准结构
 
-```
+```text
 modules/[module-name]/
-├── index.html          # 必须 - 模块入口
+├── index.html          # 必须 - 模块入口（例外：hub 使用 Playbooks.htm）
 ├── README.md           # 推荐 - 模块说明
 ├── assets/             # 可选 - 模块私有资源
 └── ...
@@ -31,7 +32,8 @@ modules/[module-name]/
 ### 2. 模块之间零耦合
 
 - 模块不能直接引用其他模块的文件
-- 共享资源放在 `resources/` 目录
+- 共享设计系统（CSS 变量）放在 `modules/shared/css/design-system.css`
+- 模块可选择通过 `<link>` 引入 design-system，但不强制依赖
 - 统一入口 `index.html` 是唯一的连接点
 
 ### 3. 视觉风格统一

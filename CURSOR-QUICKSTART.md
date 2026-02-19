@@ -4,7 +4,7 @@
 
 ## 项目结构
 
-```
+```text
 PlaybookSolutions/                    ← 主项目目录
 ├── 📁 modules/                        ← 7个独立模块
 │   ├── 📁 solution-playbook/          ← 完整行业案例库
@@ -29,15 +29,23 @@ cursor .
 ```
 
 ### 新增 Playbook 方法
+
 1. 在 `modules/` 下创建新目录
 2. 包含 `index.html` 作为入口
 3. 在根 `index.html` 添加模块卡片
 4. 更新 `README.md`
 
+### 关于案例占位符
+
+案例 HTML 中的 `IMG_PLACEHOLDER`、`Video Placeholder`、`placeholder-label` 等均为内容占位符，将在后续内容填充阶段由真实素材替换，开发时无需处理。
+
 ## Playbook Solutions 文档
 
-- **ARCHITECTURE.md** - 模块架构文档
-- **README.md** - 原始项目说明
+- **README.md** - 项目速览与模块列表
+- **ARCHITECTURE.md** - 模块架构与扩展规则
+- **reviews/** - 历史审查报告（架构审查、优化建议）
+- **visual-fixes-log.md** - 视觉修复记录
 
 ---
+
 *Reorganized: 2026-02-10 · Using Technical Co-Founder workflow*

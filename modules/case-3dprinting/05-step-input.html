@@ -1,1 +1,231 @@
-<!DOCTYPE html> <html> <head> <link rel='preconnect' href='https://fonts.googleapis.com'> <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'> <style> html { background: #080808; } body { width: 720pt; height: 405pt; margin: 0; padding: 0; background: #080808; font-family: 'Inter', Arial, sans-serif; } .content { padding: 15pt 30pt; display: flex; flex-direction: column; height: 100%; position: relative; } .glow-corner { position: absolute; top: -50pt; left: -50pt; width: 200pt; height: 200pt; background: #CCFF00; opacity: 0.08; border-radius: 50%; } .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6pt; } .header-left { display: flex; align-items: center; gap: 8pt; } .pulse-dot { width: 6pt; height: 6pt; background: #CCFF00; border-radius: 50%; } .section-tag { color: #CCFF00; font-size: 8pt; font-weight: 600; letter-spacing: 1pt; margin: 0; } .slide-num { color: #333333; font-size: 8pt; margin: 0; } h1 { color: #FFFFFF; font-size: 20pt; margin: 0 0 12pt 0; } .subtitle { color: #888888; font-size: 9pt; margin: 0 0 18pt 0; } .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20pt; flex: 1; } .input-card { background: #0D0D0D; border: 1pt solid #1A1A1A; padding: 15pt; display: flex; flex-direction: column; } .card-header { display: flex; align-items: center; gap: 8pt; margin-bottom: 12pt; } .step-badge { background: #CCFF00; color: #080808; font-size: 7pt; font-weight: 700; padding: 3pt 8pt; } .card-title { color: #FFFFFF; font-size: 10pt; margin: 0; font-weight: 600; } .placeholder-area { flex: 1; background: #111111; border: 1pt dashed #333333; display: flex; align-items: center; justify-content: center; position: relative; } .placeholder-text { color: #444444; font-size: 9pt; margin: 0; } .input-icon { width: 40pt; height: 40pt; background: #CCFF00; display: flex; align-items: center; justify-content: center; color: #080808; font-weight: 800; font-size: 12pt; } .input-types { margin-top: 12pt; } .type-row { display: flex; align-items: center; gap: 8pt; margin-bottom: 6pt; } .type-icon { width: 16pt; height: 16pt; background: rgba(204, 255, 0, 0.1); color: #CCFF00; display: flex; align-items: center; justify-content: center; font-size: 7pt; } .type-text { color: #AAAAAA; font-size: 8pt; margin: 0; } .footer { display: flex; justify-content: flex-end; margin-top: 12pt; } .footer-tag { color: #333333; font-size: 7pt; } </style> </head> <body> <div class="content"> <div class="glow-corner"></div> <div class="header-row"> <div class="header-left"> <div class="pulse-dot"></div> <p class="section-tag">WORKFLOW DEMO · STEP 01</p> </div> <p class="slide-num">05</p> </div> <h1>Customer Input</h1> <p class="subtitle">Text description, reference images, or 3D scan data — any format works</p> <div class="demo-grid"> <div class="input-card"> <div class="card-header"> <div class="step-badge">INPUT</div> <p class="card-title">Reference Sources</p> </div> <div class="placeholder-area"> <p class="placeholder-text">IMG_PLACEHOLDER · Photo Upload</p> </div> <div class="input-types"> <div class="type-row"> <div class="type-icon">📷</div> <p class="type-text">Product Photos</p> </div> <div class="type-row"> <div class="type-icon">🎨</div> <p class="type-text">Concept Art/Drawings</p> </div> <div class="type-row"> <div class="type-icon">📝</div> <p class="type-text">Text Description</p> </div> </div> </div> <div class="input-card"> <div class="card-header"> <div class="step-badge">3D SCAN</div> <p class="card-title">Digital Twin Input</p> </div> <div class="placeholder-area"> <p class="placeholder-text">IMG_PLACEHOLDER · Scan Data</p> </div> <div class="input-types"> <div class="type-row"> <div class="type-icon">📱</div> <p class="type-text">Phone LiDAR Scan</p> </div> <div class="type-row"> <div class="type-icon">🎭</div> <p class="type-text">Portrait Photos (5 angles)</p> </div> <div class="type-row"> <div class="type-icon">🐕</div> <p class="type-text">Pet Photo References</p> </div> </div> </div> </div> <div class="footer"> <p class="footer-tag">05 // STEP 1: CUSTOMER INPUT</p> </div> </div> </body> </html>
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+  <style>
+    html {
+      background: #080808;
+    }
+    body {
+      width: 720pt;
+      height: 405pt;
+      margin: 0;
+      padding: 0;
+      background: #080808;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .content {
+      padding: 15pt 30pt;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+    }
+    .glow-corner {
+      position: absolute;
+      top: -50pt;
+      left: -50pt;
+      width: 200pt;
+      height: 200pt;
+      background: #CCFF00;
+      opacity: 0.08;
+      border-radius: 50%;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6pt;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8pt;
+    }
+    .pulse-dot {
+      width: 6pt;
+      height: 6pt;
+      background: #CCFF00;
+      border-radius: 50%;
+    }
+    .section-tag {
+      color: #CCFF00;
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 1pt;
+      margin: 0;
+    }
+    .slide-num {
+      color: #333333;
+      font-size: 8pt;
+      margin: 0;
+    }
+    h1 {
+      color: #FFFFFF;
+      font-size: 20pt;
+      margin: 0 0 12pt 0;
+    }
+    .subtitle {
+      color: #888888;
+      font-size: 9pt;
+      margin: 0 0 18pt 0;
+    }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20pt;
+      flex: 1;
+    }
+    .input-card {
+      background: #0D0D0D;
+      border: 1pt solid #1A1A1A;
+      padding: 15pt;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 8pt;
+      margin-bottom: 12pt;
+    }
+    .step-badge {
+      background: #CCFF00;
+      color: #080808;
+      font-size: 7pt;
+      font-weight: 700;
+      padding: 3pt 8pt;
+    }
+    .card-title {
+      color: #FFFFFF;
+      font-size: 10pt;
+      margin: 0;
+      font-weight: 600;
+    }
+    .placeholder-area {
+      flex: 1;
+      background: #111111;
+      border: 1pt dashed #333333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .placeholder-text {
+      color: #444444;
+      font-size: 9pt;
+      margin: 0;
+    }
+    .input-icon {
+      width: 40pt;
+      height: 40pt;
+      background: #CCFF00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #080808;
+      font-weight: 800;
+      font-size: 12pt;
+    }
+    .input-types {
+      margin-top: 12pt;
+    }
+    .type-row {
+      display: flex;
+      align-items: center;
+      gap: 8pt;
+      margin-bottom: 6pt;
+    }
+    .type-icon {
+      width: 16pt;
+      height: 16pt;
+      background: rgba(204, 255, 0, 0.1);
+      color: #CCFF00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7pt;
+    }
+    .type-text {
+      color: #AAAAAA;
+      font-size: 8pt;
+      margin: 0;
+    }
+    .footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12pt;
+    }
+    .footer-tag {
+      color: #333333;
+      font-size: 7pt;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="glow-corner"></div>
+    <div class="header-row">
+      <div class="header-left">
+        <div class="pulse-dot"></div>
+        <p class="section-tag">WORKFLOW DEMO · STEP 01</p>
+      </div>
+      <p class="slide-num">05</p>
+    </div>
+    <h1>Customer Input</h1>
+    <p class="subtitle">Text description, reference images, or 3D scan data — any format works</p>
+    <div class="demo-grid">
+      <div class="input-card">
+        <div class="card-header">
+          <div class="step-badge">INPUT</div>
+          <p class="card-title">Reference Sources</p>
+        </div>
+        <div class="placeholder-area">
+          <p class="placeholder-text">IMG_PLACEHOLDER · Photo Upload</p>
+        </div>
+        <div class="input-types">
+          <div class="type-row">
+            <div class="type-icon">📷</div>
+            <p class="type-text">Product Photos</p>
+          </div>
+          <div class="type-row">
+            <div class="type-icon">🎨</div>
+            <p class="type-text">Concept Art/Drawings</p>
+          </div>
+          <div class="type-row">
+            <div class="type-icon">📝</div>
+            <p class="type-text">Text Description</p>
+          </div>
+        </div>
+      </div>
+      <div class="input-card">
+        <div class="card-header">
+          <div class="step-badge">3D SCAN</div>
+          <p class="card-title">Digital Twin Input</p>
+        </div>
+        <div class="placeholder-area">
+          <p class="placeholder-text">IMG_PLACEHOLDER · Scan Data</p>
+        </div>
+        <div class="input-types">
+          <div class="type-row">
+            <div class="type-icon">📱</div>
+            <p class="type-text">Phone LiDAR Scan</p>
+          </div>
+          <div class="type-row">
+            <div class="type-icon">🎭</div>
+            <p class="type-text">Portrait Photos (5 angles)</p>
+          </div>
+          <div class="type-row">
+            <div class="type-icon">🐕</div>
+            <p class="type-text">Pet Photo References</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p class="footer-tag">05 // STEP 1: CUSTOMER INPUT</p>
+    </div>
+  </div>
+</body>
+</html>

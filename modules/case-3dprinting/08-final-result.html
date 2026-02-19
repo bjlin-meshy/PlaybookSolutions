@@ -1,1 +1,296 @@
-<!DOCTYPE html> <html> <head> <link rel='preconnect' href='https://fonts.googleapis.com'> <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'> <style> html { background: #080808; } body { width: 720pt; height: 405pt; margin: 0; padding: 0; background: #080808; font-family: 'Inter', Arial, sans-serif; } .content { padding: 15pt 30pt; display: flex; flex-direction: column; height: 100%; position: relative; } .glow-corner { position: absolute; top: -50pt; left: -50pt; width: 200pt; height: 200pt; background: #CCFF00; opacity: 0.08; border-radius: 50%; } .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6pt; } .header-left { display: flex; align-items: center; gap: 8pt; } .pulse-dot { width: 6pt; height: 6pt; background: #CCFF00; border-radius: 50%; } .section-tag { color: #CCFF00; font-size: 8pt; font-weight: 600; letter-spacing: 1pt; margin: 0; } .slide-num { color: #333333; font-size: 8pt; margin: 0; } h1 { color: #FFFFFF; font-size: 20pt; margin: 0 0 12pt 0; } .subtitle { color: #888888; font-size: 9pt; margin: 0 0 18pt 0; } .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20pt; flex: 1; } .result-card { background: #0D0D0D; border: 1pt solid #1A1A1A; display: flex; flex-direction: column; } .card-section { padding: 15pt; border-bottom: 1pt solid #1A1A1A; } .card-section:last-child { border-bottom: none; flex: 1; } .section-title { color: #CCFF00; font-size: 8pt; margin: 0 0 8pt 0; font-weight: 600; letter-spacing: 1pt; } .placeholder-img { width: 100%; height: 120pt; background: #111111; border: 1pt dashed #333333; display: flex; align-items: center; justify-content: center; } .placeholder-label { color: #444444; font-size: 8pt; margin: 0; } .specs-row { display: flex; justify-content: space-between; padding: 6pt 0; border-bottom: 1pt solid #1A1A1A; } .specs-row:last-child { border-bottom: none; } .spec-label { color: #888888; font-size: 7pt; margin: 0; } .spec-value { color: #FFFFFF; font-size: 7pt; margin: 0; font-weight: 600; } .success-badge { background: rgba(204, 255, 0, 0.1); border: 1pt solid rgba(204, 255, 0, 0.3); padding: 6pt 10pt; display: inline-block; margin-bottom: 8pt; } .success-text { color: #CCFF00; font-size: 8pt; margin: 0; font-weight: 700; letter-spacing: 1pt; } .timeline-row { display: flex; align-items: center; gap: 10pt; margin-top: 10pt; } .timeline-bar { flex: 1; height: 3pt; background: #333333; position: relative; } .timeline-fill { position: absolute; top: 0; left: 0; height: 100%; background: #CCFF00; width: 100%; } .timeline-point { width: 20pt; height: 20pt; background: #CCFF00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #080808; font-size: 8pt; font-weight: 800; } .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12pt; } .footer-tag { color: #333333; font-size: 7pt; } .total-time { color: #CCFF00; font-size: 9pt; font-weight: 700; } </style> </head> <body> <div class="content"> <div class="glow-corner"></div> <div class="header-row"> <div class="header-left"> <div class="pulse-dot"></div> <p class="section-tag">WORKFLOW DEMO · FINAL RESULT</p> </div> <p class="slide-num">08</p> </div> <h1>Print-Ready 3D File</h1> <p class="subtitle">From customer request to physical figurine in under 30 minutes</p> <div class="result-grid"> <div class="result-card"> <div class="card-section"> <div class="success-badge"> <p class="success-text">✓ AM S READY</p> </div> <p class="section-title">OUTPUT FILE</p> <div class="specs-row"> <p class="spec-label">Format</p> <p class="spec-value">3MF (3D Manufacturing Format)</p> </div> <div class="specs-row"> <p class="spec-label">Color</p> <p class="spec-value">Full-Color Texture (Included)</p> </div> <div class="specs-row"> <p class="spec-label">Mesh</p> <p class="spec-value">Watertight, Manifold</p> </div> <div class="specs-row"> <p class="spec-label">Supports</p> <p class="spec-value">Pre-Generated from Slicer</p> </div> </div> <div class="card-section" style="display: flex; flex-direction: column; justify-content: center;"> <p class="section-title">3D FILE PREVIEW</p> <div class="placeholder-img"> <p class="placeholder-label">3MF PLACEHOLDER</p> </div> </div> </div> <div class="result-card"> <div class="card-section"> <p class="section-title">TIMELINE</p> <div class="timeline-row"> <div class="timeline-point">01</div> <div class="timeline-bar"><div class="timeline-fill" style="width: 100%;"></div></div> <span style="color: #888888; font-size: 7pt;">Input (2 min)</span> </div> <div class="timeline-row"> <div class="timeline-point">02</div> <div class="timeline-bar"><div class="timeline-fill" style="width: 100%;"></div></div> <span style="color: #888888; font-size: 7pt;">AI Gen (10 min)</span> </div> <div class="timeline-row"> <div class="timeline-point">03</div> <div class="timeline-bar"><div class="timeline-fill" style="width: 50%;"></div></div> <span style="color: #888888; font-size: 7pt;">Polish (5-15 min)</span> </div> <div class="timeline-row"> <div class="timeline-point" style="background: #CCFF00; color: #080808;">✓</div> <div class="timeline-bar"><div class="timeline-fill" style="width: 100%;"></div></div> <span style="color: #CCFF00; font-size: 7pt; font-weight: 600;">Print Ready!</span> </div> </div> <div class="card-section"> <p class="section-title">PRINTER COMPATIBILITY</p> <div class="specs-row"> <p class="spec-label">Bambu Lab</p> <p class="spec-value">X1-Carbon, P1S, A1 Mini</p> </div> <div class="specs-row"> <p class="spec-label">Prusa</p> <p class="spec-value">MK4, XL (MMU3)</p> </div> <div class="specs-row"> <p class="spec-label">Material</p> <p class="spec-value">PLA, PETG, ABS Multi-Color</p> </div> </div> </div> </div> <div class="footer"> <p class="footer-tag">08 // FINAL RESULT</p> <p class="total-time">TOTAL: 17-27 MIN → READY TO PRINT</p> </div> </div> </body> </html>
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' rel='stylesheet'>
+  <style>
+    html {
+      background: #080808;
+    }
+    body {
+      width: 720pt;
+      height: 405pt;
+      margin: 0;
+      padding: 0;
+      background: #080808;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .content {
+      padding: 15pt 30pt;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+    }
+    .glow-corner {
+      position: absolute;
+      top: -50pt;
+      left: -50pt;
+      width: 200pt;
+      height: 200pt;
+      background: #CCFF00;
+      opacity: 0.08;
+      border-radius: 50%;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6pt;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8pt;
+    }
+    .pulse-dot {
+      width: 6pt;
+      height: 6pt;
+      background: #CCFF00;
+      border-radius: 50%;
+    }
+    .section-tag {
+      color: #CCFF00;
+      font-size: 8pt;
+      font-weight: 600;
+      letter-spacing: 1pt;
+      margin: 0;
+    }
+    .slide-num {
+      color: #333333;
+      font-size: 8pt;
+      margin: 0;
+    }
+    h1 {
+      color: #FFFFFF;
+      font-size: 20pt;
+      margin: 0 0 12pt 0;
+    }
+    .subtitle {
+      color: #888888;
+      font-size: 9pt;
+      margin: 0 0 18pt 0;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20pt;
+      flex: 1;
+    }
+    .result-card {
+      background: #0D0D0D;
+      border: 1pt solid #1A1A1A;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-section {
+      padding: 15pt;
+      border-bottom: 1pt solid #1A1A1A;
+    }
+    .card-section:last-child {
+      border-bottom: none;
+      flex: 1;
+    }
+    .section-title {
+      color: #CCFF00;
+      font-size: 8pt;
+      margin: 0 0 8pt 0;
+      font-weight: 600;
+      letter-spacing: 1pt;
+    }
+    .placeholder-img {
+      width: 100%;
+      height: 120pt;
+      background: #111111;
+      border: 1pt dashed #333333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .placeholder-label {
+      color: #444444;
+      font-size: 8pt;
+      margin: 0;
+    }
+    .specs-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6pt 0;
+      border-bottom: 1pt solid #1A1A1A;
+    }
+    .specs-row:last-child {
+      border-bottom: none;
+    }
+    .spec-label {
+      color: #888888;
+      font-size: 7pt;
+      margin: 0;
+    }
+    .spec-value {
+      color: #FFFFFF;
+      font-size: 7pt;
+      margin: 0;
+      font-weight: 600;
+    }
+    .success-badge {
+      background: rgba(204, 255, 0, 0.1);
+      border: 1pt solid rgba(204, 255, 0, 0.3);
+      padding: 6pt 10pt;
+      display: inline-block;
+      margin-bottom: 8pt;
+    }
+    .success-text {
+      color: #CCFF00;
+      font-size: 8pt;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 1pt;
+    }
+    .timeline-row {
+      display: flex;
+      align-items: center;
+      gap: 10pt;
+      margin-top: 10pt;
+    }
+    .timeline-bar {
+      flex: 1;
+      height: 3pt;
+      background: #333333;
+      position: relative;
+    }
+    .timeline-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: #CCFF00;
+      width: 100%;
+    }
+    .timeline-point {
+      width: 20pt;
+      height: 20pt;
+      background: #CCFF00;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #080808;
+      font-size: 8pt;
+      font-weight: 800;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12pt;
+    }
+    .footer-tag {
+      color: #333333;
+      font-size: 7pt;
+    }
+    .total-time {
+      color: #CCFF00;
+      font-size: 9pt;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="glow-corner"></div>
+    <div class="header-row">
+      <div class="header-left">
+        <div class="pulse-dot"></div>
+        <p class="section-tag">WORKFLOW DEMO · FINAL RESULT</p>
+      </div>
+      <p class="slide-num">08</p>
+    </div>
+    <h1>Print-Ready 3D File</h1>
+    <p class="subtitle">From customer request to physical figurine in under 30 minutes</p>
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="card-section">
+          <div class="success-badge">
+            <p class="success-text">✓ AM S READY</p>
+          </div>
+          <p class="section-title">OUTPUT FILE</p>
+          <div class="specs-row">
+            <p class="spec-label">Format</p>
+            <p class="spec-value">3MF (3D Manufacturing Format)</p>
+          </div>
+          <div class="specs-row">
+            <p class="spec-label">Color</p>
+            <p class="spec-value">Full-Color Texture (Included)</p>
+          </div>
+          <div class="specs-row">
+            <p class="spec-label">Mesh</p>
+            <p class="spec-value">Watertight, Manifold</p>
+          </div>
+          <div class="specs-row">
+            <p class="spec-label">Supports</p>
+            <p class="spec-value">Pre-Generated from Slicer</p>
+          </div>
+        </div>
+        <div class="card-section" style="display: flex; flex-direction: column; justify-content: center;">
+          <p class="section-title">3D FILE PREVIEW</p>
+          <div class="placeholder-img">
+            <p class="placeholder-label">3MF PLACEHOLDER</p>
+          </div>
+        </div>
+      </div>
+      <div class="result-card">
+        <div class="card-section">
+          <p class="section-title">TIMELINE</p>
+          <div class="timeline-row">
+            <div class="timeline-point">01</div>
+            <div class="timeline-bar">
+              <div class="timeline-fill" style="width: 100%;"></div>
+            </div>
+            <span style="color: #888888; font-size: 7pt;">Input (2 min)</span>
+          </div>
+          <div class="timeline-row">
+            <div class="timeline-point">02</div>
+            <div class="timeline-bar">
+              <div class="timeline-fill" style="width: 100%;"></div>
+            </div>
+            <span style="color: #888888; font-size: 7pt;">AI Gen (10 min)</span>
+          </div>
+          <div class="timeline-row">
+            <div class="timeline-point">03</div>
+            <div class="timeline-bar">
+              <div class="timeline-fill" style="width: 50%;"></div>
+            </div>
+            <span style="color: #888888; font-size: 7pt;">Polish (5-15 min)</span>
+          </div>
+          <div class="timeline-row">
+            <div class="timeline-point" style="background: #CCFF00; color: #080808;">✓</div>
+            <div class="timeline-bar">
+              <div class="timeline-fill" style="width: 100%;"></div>
+            </div>
+            <span style="color: #CCFF00; font-size: 7pt; font-weight: 600;">Print Ready!</span>
+          </div>
+        </div>
+        <div class="card-section">
+          <p class="section-title">PRINTER COMPATIBILITY</p>
+          <div class="specs-row">
+            <p class="spec-label">Bambu Lab</p>
+            <p class="spec-value">X1-Carbon, P1S, A1 Mini</p>
+          </div>
+          <div class="specs-row">
+            <p class="spec-label">Prusa</p>
+            <p class="spec-value">MK4, XL (MMU3)</p>
+          </div>
+          <div class="specs-row">
+            <p class="spec-label">Material</p>
+            <p class="spec-value">PLA, PETG, ABS Multi-Color</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p class="footer-tag">08 // FINAL RESULT</p>
+      <p class="total-time">TOTAL: 17-27 MIN → READY TO PRINT</p>
+    </div>
+  </div>
+</body>
+</html>

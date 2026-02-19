@@ -22,6 +22,12 @@ modules/
 - 模块之间无直接依赖
 - 任何模块可独立删除/替换而不影响其他模块
 
+### 2.1 共享设计系统（Shared Design System）
+
+`modules/shared/css/design-system.css` 定义了统一的 CSS 变量（品牌色、背景色、文字色、间距、动画等）。模块可通过 `<link>` 引入以保持视觉一致性，但不强制依赖——各模块仍可独立运行并使用本地样式。
+
+已引入 design-system 的模块：根 `index.html`、`website`。
+
 ### 3. 技术无关性（Tech Agnostic）
 
 不限制模块使用的技术栈：
@@ -43,7 +49,7 @@ modules/
 | solution-playbook | 深度展示，单个案例详解 | HTML + 高级 CSS 动效 |
 | website | 快速浏览，行业导航入口 | HTML + Vanilla JS |
 | presentation | 会议演示，幻灯片放映 | React + Tailwind |
-| hub | 内部管理，仪表板概览 | HTML (单文件) |
+| hub | 内部管理，仪表板概览（入口: `Playbooks.htm`） | HTML (单文件) |
 
 ### 🎨 设计层（Design Layer）
 
@@ -163,4 +169,21 @@ AI:
 
 ---
 
-*Architecture v1.0 · Playbook Solutions*
+## 文档角色说明
+
+| 文档 | 角色 |
+|------|------|
+| `README.md` | 速览：项目介绍、模块列表、如何运行 |
+| `ARCHITECTURE.md` | 深度：模块划分、设计原则、扩展规则 |
+| `CURSOR-QUICKSTART.md` | 开发者：Cursor 中如何上手开发 |
+| `.cursor/rules/playbook-module.mdc` | AI 规范：模块创建与更新规则 |
+
+## 注意事项
+
+- `modules/website/` 内含独立 `.git` 仓库，该子模块可独立克隆与部署。
+- hub 模块入口为 `modules/hub/Playbooks.htm`（非 `index.html`），保留历史命名。
+- 案例 HTML 中的占位符（`IMG_PLACEHOLDER`、`Video Placeholder` 等）由后续内容填充阶段统一处理。
+
+---
+
+*Architecture v1.1 · Playbook Solutions*
