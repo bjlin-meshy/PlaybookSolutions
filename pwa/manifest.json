@@ -1,0 +1,71 @@
+{
+  "name": "Meshy AI Solutions",
+  "short_name": "Meshy",
+  "description": "AI驱动的3D行业解决方案统一平台 - AI-powered 3D industry solution playbooks",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#CCFF00",
+  "orientation": "any",
+  "lang": "en",
+  "scope": "/",
+  "categories": ["3D", "AI", "Design", "Productivity"],
+  "icons": [
+    {
+      "src": "pwa/icons/icon-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa/icons/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Gaming",
+      "short_name": "Gaming",
+      "description": "游戏行业3D解决方案",
+      "url": "/modules/website/industries/gaming.html",
+      "icons": [{ "src": "pwa/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "3D Printing",
+      "short_name": "Printing",
+      "description": "3D打印解决方案",
+      "url": "/modules/website/industries/3dprinting.html",
+      "icons": [{ "src": "pwa/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Solution Hub",
+      "short_name": "Hub",
+      "description": "总控控制台",
+      "url": "/modules/hub/Playbooks.htm",
+      "icons": [{ "src": "pwa/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://meshy.ai"
+    }
+  ]
+}

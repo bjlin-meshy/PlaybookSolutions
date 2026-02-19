@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Meshy AI Solutions</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      background: #080808;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+    
+    .offline-container {
+      max-width: 400px;
+    }
+    
+    .icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+    }
+    
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #CCFF00;
+    }
+    
+    p {
+      font-size: 16px;
+      color: #888;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #CCFF00;
+      color: #080808;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      min-height: 48px;
+      min-width: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .status {
+      margin-top: 24px;
+      padding: 12px 20px;
+      background: rgba(204, 255, 0, 0.1);
+      border-radius: 8px;
+      font-size: 13px;
+      color: #888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .status::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    
+    /* Safe area for notched devices */
+    @supports (padding-top: env(safe-area-inset-top)) {
+      body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      }
+    }
+    
+    @media (max-width: 768px) {
+      h1 { font-size: 24px; }
+      p { font-size: 15px; }
+      .btn {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="icon">📡</div>
+    <h1>You're Offline</h1>
+    <p>This page isn't available offline.<br>Check your connection and try again.</p>
+    <button class="btn" onclick="location.reload()">Retry Connection</button>
+    <div class="status">Waiting for network...</div>
+  </div>
+  
+  <script>
+    // Check connection and reload when back online
+    window.addEventListener('online', () => {
+      window.location.reload();
+    });
+    
+    // Monitor connection status
+    if (!navigator.onLine) {
+      console.log('Currently offline - waiting for connection');
+    }
+  </script>
+</body>
+</html>
