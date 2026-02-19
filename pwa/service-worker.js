@@ -18,9 +18,6 @@ const STATIC_ASSETS = [
   '/modules/website/assets/styles/main.css',
   '/modules/website/assets/scripts/main.js',
   '/modules/website/assets/scripts/ambient.js',
-  '/components/mobile-hamburger-nav.js',
-  '/components/mobile-bottom-nav.js',
-  '/components/mobile-tap-targets.css',
   OFFLINE_PAGE
 ];
 

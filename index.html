@@ -194,20 +194,19 @@
     50% { opacity: 1; transform: scale(1.05); }
 }
 
-@keyframes shimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
-}
-
 /* Apply subtle glow to accent elements */
 .accent {
     animation: pulse-lime 3s ease-in-out infinite;
 }
 
-/* Subtle grid animation */
+/* Subtle grid animation — opacity-based to preserve the 60px grid pattern */
 .bg-grid {
-    animation: shimmer 8s linear infinite;
-    background-size: 200% 100%;
+    animation: grid-breathe 8s ease-in-out infinite;
+}
+
+@keyframes grid-breathe {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 /* Prevent animation for users who prefer reduced motion */
